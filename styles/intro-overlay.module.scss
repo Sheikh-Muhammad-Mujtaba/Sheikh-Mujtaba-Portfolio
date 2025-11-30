@@ -1,4 +1,4 @@
-@import "./variables.module.scss";
+@use "./variables.module.scss" as *;
 
 .introOverlay {
   background: $white;
@@ -6,6 +6,7 @@
   min-height: 100dvh;
   width: 100%;
   z-index: 3;
+
   .ball {
     position: absolute;
     top: -50vh;
@@ -16,6 +17,7 @@
     height: 50px;
     background: $black;
     margin: 0 auto;
+
     @media (min-width: 768px) {
       width: 100px;
       height: 100px;

@@ -73,17 +73,34 @@ export default function Homepage() {
           <section id="aboutContainer" className={styles.aboutContainer}>
             <h2>About Me</h2>
             <p>
-              Hi there! My name is Mujtaba Javed, and I’m an IT expert and Full-Stack Developer
-              specializing in cybersecurity and web development. I
-              currently focus on building secure, scalable applications and
-              improving the safety of online environments. <br />
-              <br /> My technical skills range from programming in languages
-              like Python, JavaScript, and TypeScript to web development
-              frameworks such as Next.js. I also have experience in penetration
-              testing and cyber defense strategies. In addition to
-              cybersecurity, I enjoy exploring AI, networking, and creating
-              innovative solutions for digital problems.
+              I am a Software Engineer and Cybersecurity Researcher specializing in AI Agents, Full-Stack development, and secure system design. My expertise spans building scalable applications with Next.js, React, and Laravel, to engineering intelligent agents using Python, Node.js, and LLMs like Gemini and ChatGPT. As an ethical red teamer with Gray Swan, I conduct rigorous security research, malware analysis, and system hardening. I am passionate about bridging the gap between innovative AI engineering and robust cybersecurity to create resilient, automated digital solutions.
             </p>
+          </section>
+          <section id="experienceContainer" className={styles.experienceContainer}>
+            <h2>Experience</h2>
+            <ul>
+              <li>
+                <strong>Software Engineering:</strong> Engineered scalable full-stack applications using Next.js, React, and Laravel, optimizing performance and user experience.
+              </li>
+              <li>
+                <strong>Cybersecurity Research:</strong> Conducted advanced malware analysis, backdoor removal, and hosting hardening to secure critical digital infrastructure.
+              </li>
+              <li>
+                <strong>AI Agent Engineering:</strong> Developed intelligent CLI agents (NuraShell) and crypto analysis tools using Python, Node.js, and AI Agent SDKs.
+              </li>
+              <li>
+                <strong>Red Teaming & AI Exploit Research:</strong> Performed ethical red teaming engagements with Gray Swan, simulating advanced threats to identify and mitigate vulnerabilities.
+              </li>
+              <li>
+                <strong>System Security & Hardening:</strong> Implemented comprehensive security protocols for WordPress and client hosting environments, ensuring data integrity and uptime.
+              </li>
+              <li>
+                <strong>Laravel Development:</strong> Designed and developed custom modules (RatingCalculation) and modified POS systems to enhance business logic and functionality.
+              </li>
+              <li>
+                <strong>AI Automation:</strong> Built a diverse portfolio of AI automation solutions (44-Horizon) to streamline workflows and enhance operational efficiency.
+              </li>
+            </ul>
           </section>
           <section
             id="blogPreviewContainer"
