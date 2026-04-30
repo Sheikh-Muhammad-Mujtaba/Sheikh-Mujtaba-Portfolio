@@ -238,7 +238,7 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null); // Type overridden to any to resolve Vercel build TS error
   const activeRequestRef = useRef<AbortController | null>(null);
   const hasHydratedFromStorageRef = useRef(false);
 
