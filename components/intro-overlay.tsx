@@ -45,40 +45,21 @@ export default function IntroOverlay({
         filter: "blur(20px)",
         scale: 1.2,
         opacity: 0,
-        y: 0,
+        y: typeof window !== "undefined" ? -window.innerHeight : -800,
         x: 0,
       });
 
-      // Smooth Morph Reveal
+      // Drop down and bounce
       tl.to(ballRef.current, {
-        duration: 1.2,
+        duration: 1.8,
         filter: "blur(0px)",
         scale: 1,
         opacity: 1,
-        ease: "power3.out",
-      })
-      // Ball bounce animation - drops down then bounces
-      .to(ballRef.current, {
-        duration: 0.6,
-        y: 80,
-        ease: "power2.in",
-      }, "-=0.2")
-      .to(ballRef.current, {
-        duration: 0.4,
         y: 0,
-        ease: "elastic.out(1.2, 0.8)",
+        ease: "bounce.out",
       })
-      // Second smaller bounce
-      .to(ballRef.current, {
-        duration: 0.3,
-        y: 40,
-        ease: "power2.in",
-      }, "+=0.1")
-      .to(ballRef.current, {
-        duration: 0.3,
-        y: 0,
-        ease: "elastic.out(1, 0.6)",
-      })
+      // Slight pause for anticipation before moving to header
+      .to({}, { duration: 0.2 })
       // Move to header and dissolve
       .add(() => {
         // Show content while ball is moving to header
