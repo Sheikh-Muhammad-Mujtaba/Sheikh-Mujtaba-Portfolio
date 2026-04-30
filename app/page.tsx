@@ -54,6 +54,7 @@ export default function Homepage() {
   const footerTitleRef = useRef<HTMLHeadingElement | null>(null);
   const footerLinksRef = useRef<HTMLUListElement | null>(null);
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
   useScrollAnimation({
     pageRef,
@@ -62,7 +63,7 @@ export default function Homepage() {
   });
 
   useBallAnimation({
-    animationComplete,
+    animationComplete: showContent, // Trigger GSAP animations early when content starts appearing
     afterAnimationRef,
     titleRef,
     portraitContainerRef,
@@ -77,6 +78,7 @@ export default function Homepage() {
         ballRef={ballRef}
         enabled={!animationComplete}
         onComplete={() => setAnimationComplete(true)}
+        onContentAppear={() => setShowContent(true)}
         pageRef={pageRef}
         afterAnimationRef={afterAnimationRef}
         titleRef={titleRef}
@@ -88,14 +90,7 @@ export default function Homepage() {
         footerLinksRef={footerLinksRef}
         isComplete={animationComplete}
       />
-      <div 
-        ref={afterAnimationRef}
-        style={{
-          visibility: animationComplete ? "visible" : "hidden",
-          opacity: animationComplete ? 1 : 0,
-          transition: "opacity 0.3s ease-in-out",
-        }}
-      >
+      <div ref={afterAnimationRef} style={{ visibility: showContent ? "visible" : "hidden" }}>
         <Header logoLink="/" />
         <main>
           <section className={`${styles.hero} px-1`}>

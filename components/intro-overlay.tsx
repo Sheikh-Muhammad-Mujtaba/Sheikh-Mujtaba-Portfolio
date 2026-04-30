@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 import styles from "../styles/intro-overlay.module.scss";
@@ -29,8 +29,13 @@ export default function IntroOverlay({
   onComplete,
   onContentAppear,
 }: IntroOverlayProps) {
+  const animationStartedRef = useRef(false);
+
   useEffect(() => {
-    if (!enabled || !ballRef.current) return;
+    // Only run animation once, when enabled becomes true for the first time
+    if (!enabled || !ballRef.current || animationStartedRef.current) return;
+
+    animationStartedRef.current = true;
 
     let ctx = gsap.context(() => {
       const tl = gsap.timeline();
@@ -121,10 +126,12 @@ export default function IntroOverlay({
           }
         });
       }, "+=0.3");
-    });onContentAppear, 
+    });
 
-    return () => ctx.revert();
-  }, [enabled, onComplete, ballRef]);
+    return () => {
+      // ctx.revert(); // Don't revert, as we want the animation to finish even if parent re-renders
+    };
+  }, [enabled]);
 
   return (
     <div className={`overlayContainer ${styles.introOverlay}`}>
