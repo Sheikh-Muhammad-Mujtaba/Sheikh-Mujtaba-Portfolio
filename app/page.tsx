@@ -256,7 +256,7 @@ export default function Homepage() {
                 title="Go to Mujtaba's GitHub"
               >
                 GitHub
-                <GitHubIcon />
+                <GitHubIcon className={styles.socialIcon} width={20} height={20} />
               </a>
             </li>
             <li>
@@ -267,7 +267,7 @@ export default function Homepage() {
                 title="Connect with Mujtaba on LinkedIn"
               >
                 LinkedIn
-                <LinkedInIcon />
+                <LinkedInIcon className={styles.socialIcon} width={20} height={20} />
               </a>
             </li>
             <li>
@@ -278,7 +278,7 @@ export default function Homepage() {
                 title="Check out Mujtaba's Linktree"
               >
                 Linktree
-                <LinktreeIcon />
+                <LinktreeIcon className={styles.socialIcon} width={20} height={20} />
               </a>
             </li>
           </ul>
