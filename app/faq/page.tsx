@@ -34,9 +34,9 @@ export default function FAQPage() {
       <FAQJsonLd />
       <BreadcrumbSchema />
       <Header logoLink="/" />
-      <main className="min-h-screen text-white header-offset">
+      <main className="min-h-screen text-white header-offset overflow-x-hidden">
         {/* Hero Section */}
-        <section className="section-padding text-center relative overflow-hidden">
+        <section className="section-padding text-center relative overflow-hidden px-4">
           {/* Animated background elements */}
           <div className="absolute inset-0 bg-grid opacity-50" />
           <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse-slow" />
@@ -45,16 +45,16 @@ export default function FAQPage() {
           <div className="container-premium relative z-10">
             <div className="max-w-3xl mx-auto">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-in">
+              <div className="inline-flex max-w-full items-center gap-2 px-3 sm:px-4 py-2 rounded-full glass mb-6 sm:mb-8 animate-fade-in">
                 <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                <span className="text-sm text-slate-300">Last updated: April 2025</span>
+                <span className="text-xs sm:text-sm text-slate-300">Last updated: April 2025</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight animate-slide-up">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight animate-slide-up leading-tight">
                 Frequently Asked{" "}
                 <span className="text-gradient">Questions</span>
               </h1>
-              <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
                 Everything you need to know about Agentic AI, RAG pipelines, AI development services, and working with me.
               </p>
             </div>
@@ -62,9 +62,9 @@ export default function FAQPage() {
         </section>
 
         {/* FAQ Content */}
-        <section className="py-8 px-4 md:px-8 max-w-4xl mx-auto relative">
-          <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
-          <div className="absolute right-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
+        <section className="py-6 sm:py-8 px-3 sm:px-4 md:px-8 max-w-4xl mx-auto relative">
+          <div className="hidden md:block absolute left-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
+          <div className="hidden md:block absolute right-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
           <FAQSection />
         </section>
 
@@ -73,23 +73,25 @@ export default function FAQPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent" />
           <div className="container-premium relative z-10">
             <div className="max-w-2xl mx-auto text-center">
-              <div className="glass rounded-2xl p-8 md:p-12 glow-cyan-soft">
-                <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <div className="glass rounded-2xl p-5 sm:p-8 md:p-12 glow-cyan-soft">
+                <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight">
                   Still have <span className="text-gradient">questions?</span>
                 </h2>
-                <p className="text-slate-400 mb-8 leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-400 mb-6 sm:mb-8 leading-relaxed">
                   I&apos;m happy to discuss your specific AI development or security engineering needs.
                 </p>
-                <div className="flex gap-4 justify-center flex-wrap">
+                <div className="flex gap-4 justify-center flex-wrap sm:flex-nowrap">
                   <a
                     href="mailto:smujtabaja@gmail.com"
-                    className="btn-primary"
+                    className="btn-primary w-full sm:w-auto"
+                    aria-label="Email Sheikh Mujtaba"
                   >
                     Email Me
                   </a>
                   <a
                     href="/services"
-                    className="btn-secondary"
+                    className="btn-secondary w-full sm:w-auto"
+                    aria-label="View Services"
                   >
                     View Services
                   </a>

@@ -228,6 +228,18 @@
     border-color: var(--color-cyan-400);
   }
 
+  /* Small-screen adjustments for global buttons to improve tap targets */
+  @media (max-width: 420px) {
+    .btn-primary,
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      text-align: center;
+      font-size: 1rem;
+    }
+  }
+
   /* Header offset for fixed header */
   .header-offset {
     padding-top: 80px;

@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import SmoothScroll from "../components/smooth-scroll";
-import Chat from "../components/chat";
+import DeferredChat from "../components/deferred-chat";
 import { Inter, Outfit } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
@@ -46,10 +46,10 @@ export default function RootLayout({
       </head>
       <body className="antialiased font-sans">
         <SmoothScroll>{children}</SmoothScroll>
-        <Chat />
+        <DeferredChat />
+        <Analytics />
+        <SpeedInsights />
       </body>
-      <Analytics />
-      <SpeedInsights />
     </html>
   );
 }

@@ -51,7 +51,7 @@ export default function IntroOverlay({
 
       // Drop down and bounce
       tl.to(ballRef.current, {
-        duration: 1.8,
+        duration: 1,
         filter: "blur(0px)",
         scale: 1,
         opacity: 1,
@@ -59,7 +59,7 @@ export default function IntroOverlay({
         ease: "bounce.out",
       })
       // Slight pause for anticipation before moving to header
-      .to({}, { duration: 0.2 })
+      .to({}, { duration: 0.1 })
       // Move to header and dissolve
       .add(() => {
         // Show content while ball is moving to header
@@ -76,13 +76,13 @@ export default function IntroOverlay({
         }
 
         gsap.to(".overlayBackground", {
-          duration: 1.2,
+          duration: 0.7,
           opacity: 0,
           ease: "power2.inOut",
         });
 
         gsap.to(ballRef.current, {
-          duration: 1.5,
+          duration: 0.85,
           x: x,
           y: y,
           scale: scale,
@@ -91,9 +91,9 @@ export default function IntroOverlay({
         });
 
         gsap.to(".overlayContainer", {
-          duration: 0.8,
+          duration: 0.45,
           opacity: 0,
-          delay: 1,
+          delay: 0.55,
           onComplete: () => {
             // Hide the overlay completely and reduce z-index
             const overlayElement = document.querySelector('.overlayContainer');

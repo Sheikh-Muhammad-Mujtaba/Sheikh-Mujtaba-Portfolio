@@ -91,7 +91,7 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 sm:gap-4">
       {faqs.map((faq, index) => {
         const Icon = faqIcons[index % faqIcons.length];
         return (
@@ -105,11 +105,11 @@ export default function FAQSection() {
             <button
               type="button"
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full flex items-center gap-4 p-5 md:p-6 text-left group"
+              className="w-full flex items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 md:p-6 text-left group"
               aria-expanded={openIndex === index ? "true" : "false"}
             >
               {/* Number Badge */}
-              <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
+              <div className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
                 openIndex === index 
                   ? "bg-cyan-500/20 text-cyan-400" 
                   : "bg-slate-800 text-slate-500 group-hover:bg-slate-700"
@@ -118,7 +118,7 @@ export default function FAQSection() {
               </div>
               
               {/* Icon */}
-              <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
+              <div className={`hidden sm:flex flex-shrink-0 w-10 h-10 rounded-lg items-center justify-center transition-all duration-300 ${
                 openIndex === index 
                   ? "bg-cyan-500 text-white" 
                   : "bg-slate-800 text-slate-400 group-hover:text-cyan-400"
@@ -127,7 +127,7 @@ export default function FAQSection() {
               </div>
               
               {/* Question */}
-              <span className={`flex-1 font-semibold text-base md:text-lg pr-4 transition-colors duration-300 ${
+              <span className={`min-w-0 flex-1 font-semibold text-sm sm:text-base md:text-lg pr-1 sm:pr-4 leading-snug sm:leading-normal break-words transition-colors duration-300 ${
                 openIndex === index ? "text-cyan-400" : "text-slate-200 group-hover:text-white"
               }`}>
                 {faq.question}
@@ -135,7 +135,7 @@ export default function FAQSection() {
               
               {/* Chevron */}
               <FaChevronDown
-                className={`flex-shrink-0 w-5 h-5 text-slate-500 transition-all duration-300 ${
+                className={`mt-2 sm:mt-0 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 text-slate-500 transition-all duration-300 ${
                   openIndex === index ? "rotate-180 text-cyan-400" : "group-hover:text-slate-400"
                 }`}
               />
@@ -144,12 +144,12 @@ export default function FAQSection() {
             {/* Answer */}
             <div
               className={`overflow-hidden transition-all duration-500 ease-out ${
-                openIndex === index ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+                openIndex === index ? "max-h-[900px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[120px]">
+              <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 md:pb-6 pl-4 sm:pl-[64px] md:pl-[120px]">
                 <div className="h-px bg-gradient-to-r from-cyan-500/20 to-transparent mb-4" />
-                <p className="text-slate-400 leading-relaxed text-sm md:text-base">
+                <p className="text-slate-400 leading-relaxed text-sm md:text-base break-words">
                   {faq.answer}
                 </p>
               </div>

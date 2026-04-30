@@ -50,6 +50,11 @@
     align-items: center;
     gap: 1rem;
 
+    @media (max-width: 767px) {
+      /* Ensure desktop-style nav is hidden on small screens in case utility classes are not applied */
+      display: none;
+    }
+
     li {
       display: flex;
       justify-content: center;

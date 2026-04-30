@@ -2,14 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { SiLinktree } from "react-icons/si";
+import { useRef, useState } from "react";
+import { GitHubIcon, LinkedInIcon, LinktreeIcon } from "../components/social-icons";
 
 
 import styles from "../styles/home.module.scss";
-import commonStyles from "../styles/common.module.scss";
-import introOverlayStyles from "../styles/intro-overlay.module.scss";
 
 import Header from "../components/header";
 import IntroOverlay from "../components/intro-overlay";
@@ -90,7 +87,7 @@ export default function Homepage() {
         footerLinksRef={footerLinksRef}
         isComplete={animationComplete}
       />
-      <div ref={afterAnimationRef} style={{ visibility: showContent ? "visible" : "hidden" }}>
+      <div ref={afterAnimationRef}>
         <Header logoLink="/" />
         <main>
           <section className={`${styles.hero} px-1`}>
@@ -129,7 +126,7 @@ export default function Homepage() {
                   loading="eager"
                   quality={90}
                   placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHhoSITEmJkEgLS4wMHh4OjU9QUdCRU1TTE5QTU5PWW1hXVl9ZWRkYGBhZGFkZP/2wBDAR..."
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxMCAxMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cnIGN4PSc1MCUnIGN5PSc0MCUnIHI9JzcwJSc+PHN0b3Agc3RvcC1jb2xvcj0nIzA2YjZkNCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzAyMDYxNyc+PC9zdG9wPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPScxMCcgaGVpZ2h0PScxMCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=="
                   sizes="(max-width: 640px) 200px, (max-width: 1536px) 300px, 400px"
                 />
               </div>
@@ -249,8 +246,8 @@ export default function Homepage() {
           </section>
         </main>
         <footer>
-          <h2 ref={footerTitleRef}>Connect with Me</h2>
-          <ul ref={footerLinksRef} className={styles.footerLinks}>
+          <h2 ref={footerTitleRef} className={styles.footerTitle}>Connect with Me</h2>
+          <ul ref={footerLinksRef} className={`${styles.footerLinks} ${styles.mobileStack}`}>
             <li>
               <a
                 href="https://github.com/Sheikh-Muhammad-Mujtaba"
@@ -259,7 +256,7 @@ export default function Homepage() {
                 title="Go to Mujtaba's GitHub"
               >
                 GitHub
-                <FaGithub />
+                <GitHubIcon />
               </a>
             </li>
             <li>
@@ -270,7 +267,7 @@ export default function Homepage() {
                 title="Connect with Mujtaba on LinkedIn"
               >
                 LinkedIn
-                <FaLinkedin />
+                <LinkedInIcon />
               </a>
             </li>
             <li>
@@ -281,7 +278,7 @@ export default function Homepage() {
                 title="Check out Mujtaba's Linktree"
               >
                 Linktree
-                <SiLinktree />
+                <LinktreeIcon />
               </a>
             </li>
           </ul>

@@ -2,21 +2,22 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { FaGithub, FaLinkedin, FaUser, FaBriefcase, FaQuestionCircle, FaBars, FaTimes } from "react-icons/fa";
+import { Briefcase, CircleHelp, Menu, User, X } from "lucide-react";
+import { GitHubIcon, LinkedInIcon } from "./social-icons";
 
 type HeaderProps = {
   logoLink: string;
 };
 
 const navItems = [
-  { href: "/about", label: "About", icon: FaUser },
-  { href: "/services", label: "Services", icon: FaBriefcase },
-  { href: "/faq", label: "FAQ", icon: FaQuestionCircle },
+  { href: "/about", label: "About", icon: User },
+  { href: "/services", label: "Services", icon: Briefcase },
+  { href: "/faq", label: "FAQ", icon: CircleHelp },
 ];
 
 const socialLinks = [
-  { href: "https://github.com/Sheikh-Muhammad-Mujtaba", label: "GitHub", icon: FaGithub },
-  { href: "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/", label: "LinkedIn", icon: FaLinkedin },
+  { href: "https://github.com/Sheikh-Muhammad-Mujtaba", label: "GitHub", icon: GitHubIcon },
+  { href: "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/", label: "LinkedIn", icon: LinkedInIcon },
 ];
 
 export default function Header({ logoLink }: HeaderProps) {
@@ -90,7 +91,7 @@ export default function Header({ logoLink }: HeaderProps) {
             className="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMenuOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
