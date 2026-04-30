@@ -3,7 +3,7 @@
 ## Site Structure
 
 ```
-sheikh-mujtaba.vercel.app/
+sheikhmujtaba.me/
 ├── /                    # Homepage - Portfolio overview
 ├── /about               # About page - Bio, experience, skills
 ├── /services            # Services & Pricing page
@@ -210,7 +210,7 @@ sheikh-mujtaba.vercel.app/
 ## Metadata Configuration
 
 ### Global Metadata (`metadata.ts`)
-- `metadataBase`: https://sheikh-mujtaba.vercel.app
+- `metadataBase`: https://sheikhmujtaba.me
 - `title`: Dynamic template
 - `description`: 154 chars with keywords
 - `keywords`: 18 targeted terms
@@ -373,20 +373,20 @@ User-Agent: CCBot           # Common Crawl
 
 ```bash
 # Test machine-readable files
-curl https://sheikh-mujtaba.vercel.app/llms.txt
-curl https://sheikh-mujtaba.vercel.app/pricing.md
+curl https://sheikhmujtaba.me/llms.txt
+curl https://sheikhmujtaba.me/pricing.md
 
 # Validate structured data
-curl https://search.google.com/test/rich-results?url=https://sheikh-mujtaba.vercel.app/faq
+curl https://search.google.com/test/rich-results?url=https://sheikhmujtaba.me/faq
 
 # Check sitemap
-curl https://sheikh-mujtaba.vercel.app/sitemap.xml
+curl https://sheikhmujtaba.me/sitemap.xml
 
 # Test robots.txt
-curl https://sheikh-mujtaba.vercel.app/robots.txt
+curl https://sheikhmujtaba.me/robots.txt
 
 # PageSpeed Insights
-https://pagespeed.web.dev/?url=https://sheikh-mujtaba.vercel.app
+https://pagespeed.web.dev/?url=https://sheikhmujtaba.me
 ```
 
 ---

@@ -269,16 +269,16 @@ Test the implementation:
 
 ```bash
 # Check llms.txt is accessible
-curl https://sheikh-mujtaba.vercel.app/llms.txt
+curl https://sheikhmujtaba.me/llms.txt
 
 # Check pricing.md
-curl https://sheikh-mujtaba.vercel.app/pricing.md
+curl https://sheikhmujtaba.me/pricing.md
 
 # Validate structured data
-curl https://search.google.com/test/rich-results?url=https://sheikh-mujtaba.vercel.app
+curl https://search.google.com/test/rich-results?url=https://sheikhmujtaba.me
 
 # Check robots.txt
-curl https://sheikh-mujtaba.vercel.app/robots.txt
+curl https://sheikhmujtaba.me/robots.txt
 ```
 
 ---
