@@ -1,165 +1,119 @@
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+"use client";
 
-type UseBallAnimationProps = {
-  enabled: boolean;
-  onComplete: () => void;
+import { gsap } from "gsap";
+import { RefObject, useEffect } from "react";
+
+type UsePageRevealProps = {
+  animationComplete: boolean;
+  afterAnimationRef: RefObject<HTMLElement | null>;
+  titleRef: RefObject<HTMLElement | null>;
+  portraitContainerRef: RefObject<HTMLElement | null>;
+  jobTitleRef: RefObject<HTMLElement | null>;
+  aboutContainerRef: RefObject<HTMLElement | null>;
+  blogPreviewContainerRef: RefObject<HTMLElement | null>;
 };
 
 export const useBallAnimation = ({
-  enabled,
-  onComplete,
-}: UseBallAnimationProps) => {
-  useGSAP(() => {
+  animationComplete,
+  afterAnimationRef,
+  titleRef,
+  portraitContainerRef,
+  jobTitleRef,
+  aboutContainerRef,
+  blogPreviewContainerRef,
+}: UsePageRevealProps) => {
+  useEffect(() => {
+    if (typeof window === "undefined" || !animationComplete) {
+      return;
+    }
+
+    const afterAnimationElement = afterAnimationRef.current;
+    const titleElement = titleRef.current;
+    const portraitContainerElement = portraitContainerRef.current;
+    const jobTitleElement = jobTitleRef.current;
+    const aboutContainerElement = aboutContainerRef.current;
+    const blogPreviewContainerElement = blogPreviewContainerRef.current;
+
+    if (
+      !afterAnimationElement ||
+      !titleElement ||
+      !portraitContainerElement ||
+      !jobTitleElement ||
+      !aboutContainerElement ||
+      !blogPreviewContainerElement
+    ) {
+      return;
+    }
+
     const mm = gsap.matchMedia();
-    const breakPoint = 768;
-
-    mm.add(
-      {
-        isDesktop: `(min-width: ${breakPoint}px)`,
-        isMobile: `(max-width: ${breakPoint - 1}px)`,
-        reduceMotion: "(prefers-reduced-motion: reduce)",
-      },
-      (context) => {
-        if (context.conditions) {
-          const { isDesktop, reduceMotion } = context.conditions;
-
-          gsap.registerPlugin(ScrollTrigger);
-          const tl = gsap.timeline();
-          const projects: Element[] = gsap.utils.toArray(".project");
-
-          const homeAnimation = () => {
-            if (enabled) {
-              tl.to("#ball", {
-                duration: reduceMotion ? 0 : 2,
-                y: "100vh",
-                ease: "bounce.out",
-              })
-                .to("#ball", {
-                  duration: reduceMotion ? 0 : 1,
-                  delay: 0.2,
-                  scale: isDesktop ? 25 : 30,
-                  ease: "power3.out",
-                  onComplete: onComplete,
-                })
-                .from("#afterAnimation", {
-                  duration: reduceMotion ? 0 : 0.8,
-                  opacity: 0,
-                  ease: "power3.out",
-                })
-                .from("#title", {
-                  duration: reduceMotion ? 0 : 0.5,
-                  y: 100,
-                  delay: 0.2,
-                  opacity: 0,
-                  ease: "power3.out",
-                })
-                .from("#portraitContainer", {
-                  duration: reduceMotion ? 0 : 0.5,
-                  y: 100,
-                  opacity: 0,
-                  ease: "power3.out",
-                })
-                .from("#jobTitle", {
-                  duration: reduceMotion ? 0 : 0.5,
-                  y: 100,
-                  opacity: 0,
-                  ease: "power3.out",
-                })
-                .from("#aboutContainer", {
-                  duration: reduceMotion ? 0 : 0.5,
-                  y: 100,
-                  opacity: 0,
-                  ease: "power3.out",
-                })
-                .from("#blogPreviewContainer", {
-                  duration: reduceMotion ? 0 : 0.5,
-                  y: 100,
-                  opacity: 0,
-                  ease: "power3.out",
-                });
-            } else {
-              onComplete();
-            }
-
-            if (!reduceMotion) {
-              if (isDesktop) {
-                projects.forEach((project) => {
-                  const tlProject = gsap.timeline({
-                    scrollTrigger: {
-                      trigger: project,
-                      start: "top bottom",
-                      end: "center center",
-                      scrub: 1,
-                    },
-                  });
-                  const projectImage = project.querySelector("img");
-                  const projectInfo = project.querySelector("#projectInfo");
-
-                  tlProject
-                    .from(projectImage, {
-                      x: -300,
-                      opacity: 0,
-                    })
-                    .from(projectInfo, {
-                      x: 300,
-                      opacity: 0,
-                    });
-                });
-              } else {
-                projects.forEach((project) => {
-                  const tlProject = gsap.timeline({
-                    scrollTrigger: {
-                      trigger: project,
-                      start: "top center",
-                      end: "center center",
-                      scrub: 1,
-                    },
-                  });
-                  const projectImage = project.querySelector("img");
-                  const projectInfo = project.querySelector("#projectInfo");
-
-                  tlProject
-                    .from(projectImage, {
-                      y: 100,
-                      opacity: 0,
-                    })
-                    .from(projectInfo, {
-                      y: 100,
-                      opacity: 0,
-                    });
-                });
-              }
-
-              const tlFooter = gsap.timeline({
-                scrollTrigger: {
-                  trigger: "footer",
-                  start: "top center",
-                  end: "top top",
-                  scrub: 1,
-                },
-              });
-
-              tlFooter
-                .from("footer h2", {
-                  y: 100,
-                  opacity: 0,
-                  duration: 0.6,
-                })
-                .from("footer #footerLinks", {
-                  y: 100,
-                  opacity: 0,
-                  duration: 0.6,
-                });
-            }
-          };
-
-          homeAnimation();
-        }
-      }
-    );
+    
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const tl = gsap.timeline();
+      
+      const titleLines = gsap.utils.toArray('.titleLine', titleElement);
+      const heroButtons = afterAnimationElement.querySelector('.heroButtons');
+      
+      tl.from(afterAnimationElement, {
+        duration: 1.2,
+        opacity: 0,
+        ease: "power2.out",
+      })
+      .from(
+        titleLines,
+        {
+          duration: 1,
+          y: 80,
+          opacity: 0,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "-=0.8"
+      )
+      .from(
+        portraitContainerElement,
+        {
+          duration: 1.2,
+          scale: 0.8,
+          opacity: 0,
+          ease: "back.out(1.2)",
+        },
+        "-=0.6"
+      )
+      .to(
+        heroButtons,
+        {
+          duration: 0.8,
+          opacity: 1,
+          y: 0,
+          ease: "power3.out",
+        },
+        "-=0.8"
+      )
+      .from(
+        [
+          jobTitleElement,
+          aboutContainerElement,
+          blogPreviewContainerElement,
+        ],
+        {
+          duration: 1,
+          y: 20,
+          opacity: 0,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        "-=0.6"
+      );
+    });
 
     return () => mm.revert();
-  }, []);
+  }, [
+    animationComplete,
+    afterAnimationRef,
+    titleRef,
+    portraitContainerRef,
+    jobTitleRef,
+    aboutContainerRef,
+    blogPreviewContainerRef,
+  ]);
 };

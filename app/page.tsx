@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Suspense } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLinktree } from "react-icons/si";
 
@@ -13,7 +15,9 @@ import Header from "../components/header";
 import IntroOverlay from "../components/intro-overlay";
 import { projectsList } from "../utils/project-data";
 import ProjectListing from "../components/project-listing";
-import SheikhMujtaba from "../images/Sheikh-Mujtaba.png";
+import { useScrollAnimation } from "../utils/hooks/use-scroll-animation";
+import { useBallAnimation } from "../utils/hooks/use-ball-animation";
+
 
 const blogPosts: { title: string; date: string, link: string }[] = [
   {
@@ -39,86 +43,177 @@ const blogPosts: { title: string; date: string, link: string }[] = [
 ];
 
 export default function Homepage() {
+  const pageRef = useRef<HTMLDivElement | null>(null);
+  const ballRef = useRef<HTMLDivElement | null>(null);
+  const afterAnimationRef = useRef<HTMLDivElement | null>(null);
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const portraitContainerRef = useRef<HTMLDivElement | null>(null);
+  const jobTitleRef = useRef<HTMLParagraphElement | null>(null);
+  const aboutContainerRef = useRef<HTMLElement | null>(null);
+  const blogPreviewContainerRef = useRef<HTMLElement | null>(null);
+  const footerTitleRef = useRef<HTMLHeadingElement | null>(null);
+  const footerLinksRef = useRef<HTMLUListElement | null>(null);
+  const [animationComplete, setAnimationComplete] = useState(false);
+
+  useScrollAnimation({
+    pageRef,
+    footerTitleRef,
+    footerLinksRef,
+  });
+
+  useBallAnimation({
+    animationComplete,
+    afterAnimationRef,
+    titleRef,
+    portraitContainerRef,
+    jobTitleRef,
+    aboutContainerRef,
+    blogPreviewContainerRef,
+  });
+
   return (
-    <div className={styles.homeContainer}>
-      <Suspense
-        fallback={<div className={introOverlayStyles.introOverlay}></div>}
+    <div ref={pageRef} className={styles.homeContainer}>
+      <IntroOverlay
+        ballRef={ballRef}
+        enabled={!animationComplete}
+        onComplete={() => setAnimationComplete(true)}
+        pageRef={pageRef}
+        afterAnimationRef={afterAnimationRef}
+        titleRef={titleRef}
+        portraitContainerRef={portraitContainerRef}
+        jobTitleRef={jobTitleRef}
+        aboutContainerRef={aboutContainerRef}
+        blogPreviewContainerRef={blogPreviewContainerRef}
+        footerTitleRef={footerTitleRef}
+        footerLinksRef={footerLinksRef}
+        isComplete={animationComplete}
+      />
+      <div 
+        ref={afterAnimationRef}
+        style={{
+          visibility: animationComplete ? "visible" : "hidden",
+          opacity: animationComplete ? 1 : 0,
+          transition: "opacity 0.3s ease-in-out",
+        }}
       >
-        <IntroOverlay />
-      </Suspense>
-      <div id="afterAnimation">
         <Header logoLink="/" />
         <main>
-          <section className={styles.hero}>
+          <section className={`${styles.hero} px-1`}>
             <div className={styles.cta}>
-              <h1 className={commonStyles.hiddenText}>Sheikh Mujtaba Javed</h1>
-              <h2 id="title" className={styles.title}>
-                I create
-                <span className={commonStyles.playful}> playful </span>{" "}
-                experiences.
-              </h2>
-              <div id="portraitContainer" className={styles.portraitContainer}>
+              <div className="flex flex-col gap-1 w-full min-w-0">
+                <div ref={titleRef} className={`${styles.title} leading-[1.05] tracking-tight`}>
+                  <div className="overflow-hidden pb-2"><h1 className="titleLine">I build</h1></div>
+                  <div className="overflow-hidden pb-2"><span className={`titleLine ${styles.highlight} ${styles.animatedGradient}`}>secure AI</span></div>
+                  <div className="overflow-hidden pb-2"><span className="titleLine">systems.</span></div>
+                </div>
+
+                <p ref={jobTitleRef} className={`${styles.jobTitle} break-words`}>
+                  <strong className="text-white text-lg sm:text-xl md:text-2xl block mb-2 tracking-wide">Sheikh Mujtaba</strong>
+                  <span className="text-cyan-400 font-medium">AI Developer</span> 
+                  <span className="opacity-50 mx-3">&bull;</span> 
+                  <span className="text-emerald-400 font-medium">Security Engineer</span>
+                </p>
+
+                <div className="flex gap-3 sm:gap-4 mt-2 heroButtons opacity-0 translate-y-4 justify-center w-full md:justify-start flex-wrap md:flex-nowrap">
+                  <Link href="#projects" className={styles.primaryBtn}>View Projects</Link>
+                  <a href="mailto:smujtabaja@gmail.com" className={styles.secondaryBtn}>Contact Me</a>
+                </div>
+              </div>
+              <div
+                ref={portraitContainerRef}
+                className={`${styles.portraitContainer} rounded-3xl relative`}
+              >
+                <div className={styles.portraitGlow}></div>
                 <Image
-                  src={SheikhMujtaba}
-                  alt="Portrait of Alexander Grattan"
+                  src={"/images/ProfileImage.jpeg"}
+                  alt="Portrait of Sheikh Mujtaba - AI Developer and Security Engineer"
+                  width={400}
+                  height={400}
                   className={styles.portrait}
                   priority
+                  loading="eager"
+                  quality={90}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHhoSITEmJkEgLS4wMHh4OjU9QUdCRU1TTE5QTU5PWW1hXVl9ZWRkYGBhZGFkZP/2wBDAR..."
+                  sizes="(max-width: 640px) 200px, (max-width: 1536px) 300px, 400px"
                 />
               </div>
             </div>
-            <p id="jobTitle" className={styles.jobTitle}>
-              Sheikh Mujtaba / Full-Stack Developer | Cybersecurity Specialist
+          </section>
+          <section
+            ref={aboutContainerRef}
+            id="about"
+            className={styles.aboutContainer}
+          >
+            <h2>About Sheikh Mujtaba</h2>
+            <p className="mb-4">
+              <strong>Sheikh Mujtaba is an AI Developer and Security Engineer</strong> who builds production-grade Agentic AI systems for business automation. He specializes in architecting RAG (Retrieval Augmented Generation) pipelines, multi-agent orchestration, and secure AI infrastructure.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-3 text-cyan-400">What is Agentic AI?</h3>
+            <p className="mb-4">
+              Agentic AI refers to autonomous AI systems that can take actions, make decisions, and complete complex tasks without constant human intervention. Unlike traditional chatbots that respond to single prompts, agentic systems use tools, maintain context across interactions, and can orchestrate multi-step workflows. Sheikh Mujtaba builds these systems using OpenAI Agents SDK, Gemini SDK, and Claude API with human-in-the-loop controls for reliability.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-3 text-cyan-400">Core Expertise</h3>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li><strong>AI Development:</strong> RAG pipelines with Qdrant/PostgreSQL, multi-agent orchestration, LLM integration (GPT-4, Gemini, Claude)</li>
+              <li><strong>Security Engineering:</strong> Web app pentesting, AI red teaming, prompt injection testing, secure-by-design architecture</li>
+              <li><strong>Full-Stack Development:</strong> Next.js, FastAPI, TypeScript, Python, cloud deployment</li>
+            </ul>
+
+            <h3 className="text-xl font-semibold mt-6 mb-3 text-cyan-400">Why Context Grounding Matters</h3>
+            <p className="mb-4">
+              <strong>Context grounding</strong> is the practice of connecting AI responses to specific, verifiable data sources rather than relying on the model&apos;s training data. This approach reduces AI hallucination by 60-80% and ensures factual accuracy. Sheikh Mujtaba implements context grounding through vector databases (Qdrant, pgvector) and careful prompt engineering.
+            </p>
+
+            <p className="text-sm text-slate-400 mt-6">
+              <em>Last updated: April 2025 | Based in Pakistan | Available for remote work worldwide</em>
             </p>
           </section>
-          <section id="aboutContainer" className={styles.aboutContainer}>
-            <h2>About Me</h2>
-            <p>
-              I am a Software Engineer and Cybersecurity Researcher specializing in AI Agents, Full-Stack development, and secure system design. My expertise spans building scalable applications with Next.js, React, and Laravel, to engineering intelligent agents using Python, Node.js, and LLMs like Gemini and ChatGPT. As an ethical red teamer with Gray Swan, I conduct rigorous security research, malware analysis, and system hardening. I am passionate about bridging the gap between innovative AI engineering and robust cybersecurity to create resilient, automated digital solutions.
-            </p>
-          </section>
-          <section id="experienceContainer" className={styles.experienceContainer}>
+          <section
+            id="experienceContainer"
+            className={`${styles.experienceContainer} mt-12`}
+          >
             <h2>Experience</h2>
             <ul>
               <li>
-                <strong>Software Engineering:</strong> Engineered scalable full-stack applications using Next.js, React, and Laravel, optimizing performance and user experience.
+                <strong>Web Application Developer & IT Consultant (Jul 2025 - Present):</strong> Built internal web tools and streamlined maintenance workflows at Tech Accuracy, helping reduce potential downtime and improve operations.
               </li>
               <li>
-                <strong>Cybersecurity Research:</strong> Conducted advanced malware analysis, backdoor removal, and hosting hardening to secure critical digital infrastructure.
+                <strong>AI Developer for Remote Clients (Apr 2025 - Present):</strong> Architected and deployed RAG-based AI chatbots with FastAPI + Qdrant, and built autonomous AI agent systems for enterprise workflow automation.
               </li>
               <li>
-                <strong>AI Agent Engineering:</strong> Developed intelligent CLI agents (NuraShell) and crypto analysis tools using Python, Node.js, and AI Agent SDKs.
+                <strong>Freelance Web Developer (Jan 2024 - 2025):</strong> Delivered multiple full-stack client applications using Next.js and Tailwind CSS, integrating AI backends and improving SEO performance.
               </li>
               <li>
-                <strong>Red Teaming & AI Exploit Research:</strong> Performed ethical red teaming engagements with Gray Swan, simulating advanced threats to identify and mitigate vulnerabilities.
+                <strong>AI & LLM Engineering:</strong> Integrated GPT-4, Gemini, and Claude into secure backend APIs for production use cases with better grounding and lower hallucination rates.
               </li>
               <li>
-                <strong>System Security & Hardening:</strong> Implemented comprehensive security protocols for WordPress and client hosting environments, ensuring data integrity and uptime.
+                <strong>Security Engineering:</strong> Applied web app pentesting, AI red teaming, prompt injection testing, and security best practices across software and ERP workflows.
               </li>
               <li>
-                <strong>Laravel Development:</strong> Designed and developed custom modules (RatingCalculation) and modified POS systems to enhance business logic and functionality.
-              </li>
-              <li>
-                <strong>AI Automation:</strong> Built a diverse portfolio of AI automation solutions (44-Horizon) to streamline workflows and enhance operational efficiency.
+                <strong>Automation & Integrations:</strong> Designed n8n workflow pipelines and custom Python automation scripts for end-to-end business process optimization.
               </li>
             </ul>
           </section>
           <section
-            id="blogPreviewContainer"
-            className={styles.blogPreviewContainer}
+            ref={blogPreviewContainerRef}
+            className={`${styles.blogPreviewContainer} mt-12`}
           >
             <h2>My Blog</h2>
             <ul>
               {blogPosts.map((post, i) => (
                 <li key={i}>
-                  <Link href={post.link} target="_blank" rel="noopener noreferrer">
+                  <a href={post.link} target="_blank" rel="noopener noreferrer">
                     <h3>{post.title}</h3>
                     <p>{post.date}</p>
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </section>
-          <section className={styles.projectContainer} id="projects">
+          <section className={`${styles.projectContainer} pb-20`} id="projects">
             <div className={styles.projectTitleContainer}>
               <h2>My Projects</h2>
             </div>
@@ -129,10 +224,38 @@ export default function Homepage() {
               ))}
             </div>
           </section>
+
+          {/* Quick Links Section */}
+          <section className="py-16 px-4 text-center bg-slate-900/30 rounded-xl my-8">
+            <h2 className="text-2xl font-bold mb-4">Want to Learn More?</h2>
+            <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+              Explore detailed information about my services, background, or find answers to common questions.
+            </p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <a
+                href="/services"
+                className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-medium transition-colors"
+              >
+                View Services & Pricing
+              </a>
+              <a
+                href="/about"
+                className="px-6 py-3 border border-slate-600 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
+              >
+                About Me
+              </a>
+              <a
+                href="/faq"
+                className="px-6 py-3 border border-slate-600 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
+              >
+                Read FAQ
+              </a>
+            </div>
+          </section>
         </main>
         <footer>
-          <h2>Connect with Me</h2>
-          <ul id="footerLinks" className={styles.footerLinks}>
+          <h2 ref={footerTitleRef}>Connect with Me</h2>
+          <ul ref={footerLinksRef} className={styles.footerLinks}>
             <li>
               <a
                 href="https://github.com/Sheikh-Muhammad-Mujtaba"

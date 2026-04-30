@@ -1,0 +1,487 @@
+@use "./variables.module.scss" as *;
+
+.aboutPage {
+  min-height: 100vh;
+  background: linear-gradient(180deg, $black 0%, #0f172a 100%);
+  padding-top: 5rem;
+}
+
+.hero {
+  padding: 4rem 1rem;
+
+  .container {
+    max-width: 72rem;
+    margin: 0 auto;
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+}
+
+.imageWrapper {
+  position: relative;
+
+  .imageContainer {
+    aspect-ratio: 1;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba($white, 0.1);
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1rem;
+    right: -1rem;
+    width: 6rem;
+    height: 6rem;
+    background: rgba($cyan, 0.2);
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: -1;
+  }
+}
+
+.bio {
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: $font-heading;
+
+    span {
+      color: $cyan;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 3rem;
+    }
+  }
+
+  .title {
+    font-size: 1.25rem;
+    color: rgba($white, 0.7);
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    color: rgba($white, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+.socialLinks {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba($white, 0.05);
+    border-radius: 0.5rem;
+    color: rgba($white, 0.9);
+    text-decoration: none;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: rgba($white, 0.1);
+    }
+
+    &.primary {
+      background: $cyan;
+      color: white;
+
+      &:hover {
+        background: darken($cyan, 10%);
+      }
+    }
+  }
+}
+
+.whatIsSection {
+  padding: 4rem 1rem;
+  background: rgba(15, 23, 42, 0.3);
+
+  .container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    span {
+      color: $cyan;
+    }
+  }
+
+  p {
+    color: rgba($white, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 1.5rem 0;
+
+    li {
+      color: rgba($white, 0.8);
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      position: relative;
+
+      &::before {
+        content: "•";
+        color: $cyan;
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+}
+
+.skillsSection {
+  padding: 4rem 1rem;
+
+  .container {
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    span {
+      color: $cyan;
+    }
+  }
+}
+
+.skillsGrid {
+  display: grid;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.skillCard {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba($white, 0.1);
+  background: rgba(15, 23, 42, 0.5);
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  &.ai h3 {
+    color: $cyan;
+  }
+
+  &.security h3 {
+    color: $emerald;
+  }
+
+  &.dev h3 {
+    color: #a855f7; // purple
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba($white, 0.8);
+      margin-bottom: 0.5rem;
+      font-size: 0.9375rem;
+
+      &::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+    }
+  }
+}
+
+.experienceSection {
+  padding: 4rem 1rem;
+  background: rgba(15, 23, 42, 0.3);
+
+  .container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    span {
+      color: $cyan;
+    }
+  }
+}
+
+.experienceList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.experienceCard {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba($white, 0.1);
+  background: rgba(15, 23, 42, 0.5);
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .company {
+      color: $cyan;
+      font-size: 1rem;
+    }
+  }
+
+  .period {
+    font-size: 0.875rem;
+    color: rgba($white, 0.5);
+    background: rgba($white, 0.05);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  p {
+    color: rgba($white, 0.8);
+    margin-bottom: 1rem;
+  }
+
+  .highlights {
+    list-style: none;
+
+    li {
+      font-size: 0.875rem;
+      color: rgba($white, 0.6);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+
+      &::before {
+        content: "▸";
+        color: $emerald;
+      }
+    }
+  }
+}
+
+.publicationsSection {
+  padding: 4rem 1rem;
+
+  .container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    span {
+      color: $cyan;
+    }
+  }
+}
+
+.publicationsGrid {
+  display: grid;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.publicationCard {
+  display: block;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba($white, 0.1);
+  background: rgba(15, 23, 42, 0.5);
+  text-decoration: none;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: $cyan;
+
+    h3 {
+      color: $cyan;
+    }
+  }
+
+  .meta {
+    font-size: 0.75rem;
+    color: rgba($white, 0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+}
+
+.whySection {
+  padding: 4rem 1rem;
+  background: rgba(15, 23, 42, 0.3);
+
+  .container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    span {
+      color: $cyan;
+    }
+  }
+}
+
+.whyGrid {
+  display: grid;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.whyCard {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.5);
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: $cyan;
+  }
+
+  p {
+    color: rgba($white, 0.7);
+    font-size: 0.9375rem;
+  }
+}
+
+.ctaSection {
+  padding: 4rem 1rem;
+  text-align: center;
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: rgba($white, 0.7);
+    margin-bottom: 2rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &.primary {
+    background: $cyan;
+    color: white;
+
+    &:hover {
+      background: darken($cyan, 10%);
+    }
+  }
+
+  &.secondary {
+    border: 1px solid rgba($white, 0.3);
+    color: rgba($white, 0.9);
+
+    &:hover {
+      border-color: $cyan;
+      color: $cyan;
+    }
+  }
+}
+
+.footerNote {
+  font-size: 0.875rem;
+  color: rgba($white, 0.5);
+  margin-top: 1.5rem;
+}

@@ -10,28 +10,67 @@ type ProjectListingProps = {
 };
 
 export default function ProjectListing({ project }: ProjectListingProps) {
-  const { slug, image, mobileImage, name, description, link, code, type } =
-    project;
+  const {
+    slug,
+    image,
+    mobileImage,
+    name,
+    description,
+    link,
+    code,
+    type,
+    videoEmbedUrl,
+  } = project;
+  const isYouTubeLink = !!link && /youtube\.com|youtu\.be/i.test(link);
+  const primaryCtaLabel = isYouTubeLink ? "Watch Demo" : "Open Site";
 
   return (
-    <div className={`project ${styles.projectListing}`} id={slug}>
+    <div
+      className={`project ${styles.projectListing}`}
+      id={slug}
+      data-project-card="true"
+    >
       <div className={styles.projectItemContainer}>
-        <a
-          href={link ?? code}
-          title={link ? `Open site of ${name}` : `View Code for ${name}`}
-        >
-          <Image
-            src={image}
-            alt={name}
-            className={styles.projectImage}
-            placeholder="blur"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </a>
-        <div id="projectInfo" className={styles.projectInfo}>
+        {videoEmbedUrl ? (
+          <div className={styles.projectVideoWrapper} data-project-image="true">
+            <iframe
+              src={videoEmbedUrl}
+              title={`${name} video demo`}
+              className={styles.projectVideo}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            />
+          </div>
+        ) : (
           <a
             href={link ?? code}
             title={link ? `Open site of ${name}` : `View Code for ${name}`}
+            data-project-image="true"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={image}
+              alt={name}
+              className={styles.projectImage}
+              placeholder="blur"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={100}
+            />
+          </a>
+        )}
+        <div
+          id="projectInfo"
+          className={styles.projectInfo}
+          data-project-info="true"
+        >
+          <a
+            href={link ?? code}
+            title={link ? `Open site of ${name}` : `View Code for ${name}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <h2 className={commonStyles.playfulHover}>{name}</h2>
           </a>
@@ -43,10 +82,16 @@ export default function ProjectListing({ project }: ProjectListingProps) {
             {link && (
               <a
                 href={link}
-                title={`Open site of ${name}`}
+                title={
+                  isYouTubeLink
+                    ? `Watch video demo for ${name}`
+                    : `Open site of ${name}`
+                }
                 className={styles.projectBtn}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Open Site
+                {primaryCtaLabel}
               </a>
             )}
             {code && (
@@ -54,6 +99,8 @@ export default function ProjectListing({ project }: ProjectListingProps) {
                 href={code}
                 title={`View Code for ${name}`}
                 className={styles.projectBtn}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 View Code
               </a>

@@ -1,1 +1,39 @@
 User-Agent: *
+Allow: /
+Disallow: /_next/
+Disallow: /api/
+
+# AI Bot Access — Allow major AI search and citation systems
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+# Block common training crawlers (optional - allows citation but blocks training)
+User-Agent: CCBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://sheikhmujtaba.me/sitemap.xml
+
+# LLMs.txt for AI context
+# See: https://sheikhmujtaba.me/llms.txt
+
+# Crawl delay for rate limiting
+Crawl-delay: 1

@@ -1,0 +1,210 @@
+{
+  "personal": {
+    "name": "Sheikh Mujtaba",
+    "title": "AI Developer & Security Engineer",
+    "location": "Pakistan",
+    "available": "Available for remote work worldwide",
+    "email": "smujtabaja@gmail.com",
+    "summary": "AI Developer and Security Engineer who builds production-grade Agentic AI systems for business automation. Specializes in architecting RAG (Retrieval Augmented Generation) pipelines, multi-agent orchestration, and secure AI infrastructure."
+  },
+  "expertise": {
+    "agenticAI": {
+      "description": "Agentic AI refers to autonomous AI systems that can take actions, make decisions, and complete complex tasks without constant human intervention. Unlike traditional chatbots that respond to single prompts, agentic systems use tools, maintain context across interactions, and can orchestrate multi-step workflows.",
+      "technologies": ["OpenAI Agents SDK", "Gemini SDK", "Claude API"],
+      "features": ["Human-in-the-loop controls", "Multi-agent orchestration", "Tool usage", "Context maintenance"]
+    },
+    "contextGrounding": {
+      "description": "Context grounding is the practice of connecting AI responses to specific, verifiable data sources rather than relying on the model's training data. This approach reduces AI hallucination by 60-80% and ensures factual accuracy.",
+      "technologies": ["Qdrant", "pgvector", "Vector databases"],
+      "benefits": ["Reduces hallucination by 60-80%", "Ensures factual accuracy"]
+    }
+  },
+  "skills": {
+    "aiDevelopment": [
+      "RAG pipelines with Qdrant/PostgreSQL",
+      "Multi-agent orchestration",
+      "LLM integration (GPT-4, Gemini, Claude)",
+      "Context grounding",
+      "Vector databases"
+    ],
+    "securityEngineering": [
+      "Web app pentesting",
+      "AI red teaming",
+      "Prompt injection testing",
+      "Secure-by-design architecture"
+    ],
+    "fullStack": [
+      "Next.js",
+      "FastAPI",
+      "TypeScript",
+      "Python",
+      "Cloud deployment",
+      "Tailwind CSS"
+    ],
+    "automation": [
+      "n8n workflow pipelines",
+      "Custom Python automation scripts",
+      "Business process optimization"
+    ]
+  },
+  "experience": [
+    {
+      "role": "Web Application Developer & IT Consultant",
+      "company": "Tech Accuracy",
+      "period": "Jul 2025 - Present",
+      "description": "Built internal web tools and streamlined maintenance workflows, helping reduce potential downtime and improve operations."
+    },
+    {
+      "role": "AI Developer for Remote Clients",
+      "company": "Freelance",
+      "period": "Apr 2025 - Present",
+      "description": "Architected and deployed RAG-based AI chatbots with FastAPI + Qdrant, and built autonomous AI agent systems for enterprise workflow automation."
+    },
+    {
+      "role": "Freelance Web Developer",
+      "company": "Self-employed",
+      "period": "Jan 2024 - 2025",
+      "description": "Delivered multiple full-stack client applications using Next.js and Tailwind CSS, integrating AI backends and improving SEO performance."
+    },
+    {
+      "role": "AI & LLM Engineering",
+      "type": "Specialization",
+      "description": "Integrated GPT-4, Gemini, and Claude into secure backend APIs for production use cases with better grounding and lower hallucination rates."
+    },
+    {
+      "role": "Security Engineering",
+      "type": "Specialization",
+      "description": "Applied web app pentesting, AI red teaming, prompt injection testing, and security best practices across software and ERP workflows."
+    },
+    {
+      "role": "Automation & Integrations",
+      "type": "Specialization",
+      "description": "Designed n8n workflow pipelines and custom Python automation scripts for end-to-end business process optimization."
+    }
+  ],
+  "projects": [
+    {
+      "name": "CRM Digital FTE - AI Customer Success Platform",
+      "type": "AI Platform",
+      "description": "Developed an autonomous multi-channel customer success platform with Gemini and OpenAI Agents SDK, including semantic search, ticketing workflows, and a Next.js operations dashboard.",
+      "technologies": ["Gemini", "OpenAI Agents SDK", "Next.js", "Semantic Search"],
+      "code": "https://github.com/Sheikh-Muhammad-Mujtaba/CRM-Digital-FTE",
+      "video": "https://www.youtube.com/embed/i7CtntGqcAM?si=jnej7jb1I14o2UVX"
+    },
+    {
+      "name": "AI Employee Digital FTE - Business Autopilot",
+      "type": "AI Agent",
+      "description": "Architected a cloud + local autonomous AI employee with 9 orchestrated services, human-in-the-loop approvals, and a secure Next.js/FastAPI dashboard for business operations.",
+      "technologies": ["FastAPI", "Next.js", "9 orchestrated services", "Human-in-the-loop"],
+      "code": "https://github.com/Sheikh-Muhammad-Mujtaba/AI-Employee-Digital-FTE"
+    },
+    {
+      "name": "Learning Management System (LMS)",
+      "type": "Full-Stack",
+      "description": "Built a full-stack LMS with enrollment, role-based dashboards, secure authentication, and progress tracking using Next.js, PostgreSQL, Python and Tailwind CSS.",
+      "technologies": ["Next.js", "PostgreSQL", "Python", "Tailwind CSS"]
+    },
+    {
+      "name": "AI Spec-Driven Documentation Platform",
+      "type": "AI + Documentation",
+      "description": "Created a specification-first technical documentation platform with a FastAPI backend, Qdrant-powered RAG chatbot, and strict context-grounded query responses.",
+      "technologies": ["FastAPI", "Qdrant", "RAG chatbot", "Context grounding"],
+      "code": "https://github.com/Sheikh-Muhammad-Mujtaba/Physical-AI-Humanoid-Robotics-Textbook",
+      "link": "https://ai-spec-driven.vercel.app/",
+      "video": "https://www.youtube.com/embed/Uft6itQavs0?si=cMZWQfP_CyDROxfo"
+    },
+    {
+      "name": "SHOP.CO E-Commerce",
+      "type": "Full-Stack",
+      "description": "A modern e-commerce platform built with Next.js, Tailwind CSS, and Stripe integration for seamless payments.",
+      "technologies": ["Next.js", "Tailwind CSS", "Stripe"],
+      "link": "https://dynamicblogs-brown.vercel.app/",
+      "code": "https://github.com/Sheikh-Muhammad-Mujtaba/Dec_Hackathon"
+    },
+    {
+      "name": "CryptoDataAgent",
+      "type": "AI Agent",
+      "description": "An intelligent agent for crypto data analysis built with Node.js and the OpenAI Agent SDK.",
+      "technologies": ["Node.js", "OpenAI Agent SDK"]
+    },
+    {
+      "name": "NuraShell",
+      "type": "AI Agent",
+      "description": "A Python-based CLI agent integrating Gemini and ChatGPT for advanced shell automation and assistance.",
+      "technologies": ["Python", "Gemini", "ChatGPT", "CLI"],
+      "link": "https://pypi.org/project/nuralshell/"
+    },
+    {
+      "name": "Gray Swan Ethical Red Teaming",
+      "type": "AI Red Team",
+      "description": "Ethical red teaming engagements simulating advanced threats to test and improve security posture.",
+      "technologies": ["AI Red Teaming", "Security Testing"]
+    },
+    {
+      "name": "CTF Challenges",
+      "type": "Cybersecurity",
+      "description": "A collection of Capture The Flag challenges solving and write-ups demonstrating security skills."
+    },
+    {
+      "name": "Cybersecurity Lab Setup",
+      "type": "Cybersecurity",
+      "description": "Documentation and setup of a comprehensive cybersecurity lab for testing and research purposes."
+    },
+    {
+      "name": "Obfuscated PHP Malware Analysis",
+      "type": "Cybersecurity",
+      "description": "In-depth analysis and deobfuscation of PHP malware to understand attack vectors and payloads."
+    },
+    {
+      "name": "Sidebar Fuzzing & WAF Bypass Research",
+      "type": "Cybersecurity",
+      "description": "Research project exploring fuzzing techniques and methods to bypass Web Application Firewalls."
+    }
+  ],
+  "blogPosts": [
+    {
+      "title": "Difference between Generative AI and LLM — In simple and easy language",
+      "date": "May 14 2025",
+      "link": "https://medium.com/@smujtabaja/difference-between-generative-ai-and-llm-in-simple-and-easy-language-af9fc34ccbd1"
+    },
+    {
+      "title": "The Strongest Encryption Algorithms in 2025: A Complete Guide to Modern Security",
+      "date": "March 17 2025",
+      "link": "https://medium.com/@smujtabaja/the-strongest-encryption-algorithms-in-2025-a-complete-guide-to-modern-security-129fa8a80687"
+    },
+    {
+      "title": "Some Hashing Algorithms & Their Strength Ratings",
+      "date": "March 17 2025",
+      "link": "https://medium.com/@smujtabaja/some-hashing-algorithms-their-strength-ratings-426e35c8ef18"
+    },
+    {
+      "title": "Introduction to Machine Learning: A Beginner's Guide",
+      "date": "March 3 2025",
+      "link": "https://medium.com/@smujtabaja/introduction-to-machine-learning-73c88b87fa2b"
+    }
+  ],
+  "social": {
+    "github": "https://github.com/Sheikh-Muhammad-Mujtaba",
+    "linkedin": "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
+    "linktree": "https://linktr.ee/s.m.mujtabajaved",
+    "medium": "https://medium.com/@smujtabaja"
+  },
+  "services": [
+    {
+      "name": "AI Development",
+      "description": "Custom AI solutions including RAG pipelines, chatbots, and agentic systems"
+    },
+    {
+      "name": "Security Engineering",
+      "description": "Web application security testing, AI red teaming, and secure architecture design"
+    },
+    {
+      "name": "Full-Stack Development",
+      "description": "End-to-end web application development with Next.js, FastAPI, and cloud deployment"
+    },
+    {
+      "name": "Automation",
+      "description": "Business process automation using n8n, Python scripts, and AI agents"
+    }
+  ]
+}

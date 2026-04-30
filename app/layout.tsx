@@ -1,20 +1,36 @@
+import "./tailwind.css";
 import "../styles/global.scss";
 import { Analytics } from "@vercel/analytics/next";
-import { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata, Viewport } from "next";
 import SmoothScroll from "../components/smooth-scroll";
+import Chat from "../components/chat";
+import { Inter, Outfit } from "next/font/google";
+import { siteMetadata } from "./metadata";
+import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
 
-export const metadata: Metadata = {
-  title: "Sheikh Mujtaba",
-  description:
-    "Mujtaba's blog and portfolio, following his journeys as a software developer and Cybersecurity enthusiast.",
-};
-
-const raleway = Raleway({
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
-  variable: "--font-raleway",
+  preload: true,
 });
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+  preload: true,
+});
+
+export const metadata: Metadata = siteMetadata;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+  colorScheme: "dark",
+};
 
 export default function RootLayout({
   children,
@@ -22,11 +38,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={raleway.variable}>
+    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+      <head>
+        <PersonJsonLd />
+        <WebSiteJsonLd />
+        <ProfessionalServiceJsonLd />
+      </head>
+      <body className="antialiased font-sans">
         <SmoothScroll>{children}</SmoothScroll>
+        <Chat />
       </body>
       <Analytics />
+      <SpeedInsights />
     </html>
   );
 }

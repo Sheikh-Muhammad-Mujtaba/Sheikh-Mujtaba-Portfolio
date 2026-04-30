@@ -21,12 +21,17 @@ import PhpMalware from "../public/images/phpmalwareanalysis.png";
 import DnsAnalysis from "../public/images/dnsanalysis.png";
 import Fuzzing from "../public/images/fuzzingresearch.png";
 import GraySwan from "../public/images/grayswan.png";
+import Lms from "../public/images/Lms.png";
+import CrmFte from "../public/images/44horizon.png";
+import AiEmployeeFte from "../public/images/AiEmployeeFte.png";
+import SpecDrivenDocs from "../public/images/BlogSite.png";
 
 export type ProjectType = {
   name: string;
   description: string;
   longDescription?: string;
   image: string | StaticImageData;
+  videoEmbedUrl?: string;
   mobileImage?: string | StaticImageData;
   figma?: string | StaticImageData;
   old?: string | StaticImageData;
@@ -37,6 +42,45 @@ export type ProjectType = {
 };
 
 export const projectsList: ProjectType[] = [
+  {
+    name: "CRM Digital FTE - AI Customer Success Platform",
+    description:
+      "Developed an autonomous multi-channel customer success platform with Gemini and OpenAI Agents SDK, including semantic search, ticketing workflows, and a Next.js operations dashboard.",
+    image: CrmFte,
+    videoEmbedUrl: "https://www.youtube.com/embed/i7CtntGqcAM?si=jnej7jb1I14o2UVX",
+    code: "https://github.com/Sheikh-Muhammad-Mujtaba/CRM-Digital-FTE",
+    slug: "crm-digital-fte-ai-customer-success-platform",
+    type: "AI Platform",
+  },
+  {
+    name: "AI Employee Digital FTE - Business Autopilot",
+    description:
+      "Architected a cloud + local autonomous AI employee with 9 orchestrated services, human-in-the-loop approvals, and a secure Next.js/FastAPI dashboard for business operations.",
+    image: AiEmployeeFte,
+    code: "https://github.com/Sheikh-Muhammad-Mujtaba/AI-Employee-Digital-FTE",
+    slug: "ai-employee-digital-fte-business-autopilot",
+    type: "AI Agent",
+  },
+  {
+    name: "Learning Management System (LMS)",
+    description:
+      "Built a full-stack LMS with enrollment, role-based dashboards, secure authentication, and progress tracking using Next.js, PostgreSQL, Python and Tailwind CSS.",
+    image: Lms,
+    slug: "learning-management-system-lms",
+    type: "Full-Stack",
+  },
+  {
+    name: "AI Spec-Driven Documentation Platform",
+    description:
+      "Created a specification-first technical documentation platform with a FastAPI backend, Qdrant-powered RAG chatbot, and strict context-grounded query responses.",
+    image: SpecDrivenDocs,
+    videoEmbedUrl:
+      "https://www.youtube.com/embed/Uft6itQavs0?si=cMZWQfP_CyDROxfo",
+    code: "https://github.com/Sheikh-Muhammad-Mujtaba/Physical-AI-Humanoid-Robotics-Textbook",
+    link: "https://ai-spec-driven.vercel.app/",
+    slug: "ai-spec-driven-documentation-platform",
+    type: "AI + Documentation",
+  },
   {
     name: "SHOP.CO E-Commerce",
     description: "A modern e-commerce platform built with Next.js, Tailwind CSS, and Stripe integration for seamless payments.",
@@ -108,6 +152,7 @@ export const projectsList: ProjectType[] = [
     name: "44-Horizon AI Automation Portfolio",
     description: "A professional portfolio for AI automation services, built with React, Vite, and Tailwind CSS.",
     image: Horizon,
+    link: "https://44horizon.com/",
     slug: "44-horizon-ai-automation-portfolio",
     type: "Frontend",
   },
@@ -115,6 +160,7 @@ export const projectsList: ProjectType[] = [
     name: "WordPress Booking Site (Booker)",
     description: "A fully functional booking management site built on WordPress for scheduling and reservations.",
     image: Booker,
+    link: "https://booker.bet",
     slug: "wordpress-booking-site-booker",
     type: "Frontend",
   },
@@ -129,6 +175,7 @@ export const projectsList: ProjectType[] = [
     name: "NuraShell",
     description: "A Python-based CLI agent integrating Gemini and ChatGPT for advanced shell automation and assistance.",
     image: NuraShell,
+    link: "https://pypi.org/project/nuralshell/",
     slug: "nurashell",
     type: "AI Agent",
   },

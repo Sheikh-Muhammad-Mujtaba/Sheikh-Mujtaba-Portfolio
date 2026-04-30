@@ -16,35 +16,23 @@
 }
 
 .playful {
-  transition: all 0.4s cubic-bezier(0.15, 0.75, 0.45, 0.95) 0s;
-  animation: 10s ease 0s infinite alternate none running rainbow;
+  background: linear-gradient(135deg, #0ea5e9, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.4));
 }
 
 .playfulHover {
-  transition: all 0.4s cubic-bezier(0.15, 0.75, 0.45, 0.95) 0s;
+  transition: all 0.4s ease;
   &:hover {
-    animation: 10s ease 0s infinite alternate none running rainbow;
-  }
-  &:focus {
-    animation: 10s ease 0s infinite alternate none running rainbow;
-  }
-}
-
-// Rainbow text
-@keyframes rainbow {
-  0% {
-    color: rgb(240, 77, 255);
-  }
-  25% {
-    color: rgb(255, 77, 77);
-  }
-  50% {
-    color: rgb(255, 197, 77);
-  }
-  75% {
-    color: rgb(106, 237, 118);
-  }
-  100% {
-    color: rgb(0, 153, 255);
+    color: #0ea5e9;
+    filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.4));
+    text-decoration: underline;
+    text-decoration-color: #10b981;
+    text-underline-offset: 0.35rem;
   }
 }
