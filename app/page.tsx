@@ -2,16 +2,30 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, lazy, Suspense } from "react";
 import { GitHubIcon, LinkedInIcon, LinktreeIcon } from "../components/social-icons";
-
+import dynamic from "next/dynamic";
 
 import styles from "../styles/home.module.scss";
 
 import Header from "../components/header";
-import IntroOverlay from "../components/intro-overlay";
+// IntroOverlay must be imported synchronously and eagerly to appear before UI
+ // IntroOverlay: Lazy load on mount with ssr: false to not block initial render
+ const IntroOverlay = dynamic(
+   () => import("../components/intro-overlay"),
+   { ssr: false, loading: () => null }
+ );
+// Dynamically import heavy components to improve LCP (after intro overlay)
+const ProjectListing = dynamic(
+  () => import("../components/project-listing"),
+  { ssr: true }
+);
+const FAQSection = dynamic(
+  () => import("../components/faq-section"),
+  { ssr: true }
+);
+// Keep scroll animation hooks but defer their effects
 import { projectsList } from "../utils/project-data";
-import ProjectListing from "../components/project-listing";
 import { useScrollAnimation } from "../utils/hooks/use-scroll-animation";
 import { useBallAnimation } from "../utils/hooks/use-ball-animation";
 
@@ -99,7 +113,7 @@ export default function Homepage() {
                   <div className="overflow-hidden pb-2"><span className="titleLine">systems.</span></div>
                 </div>
 
-                <p ref={jobTitleRef} className={`${styles.jobTitle} break-words`}>
+                <p ref={jobTitleRef} className={`${styles.jobTitle} wrap-break-word`}>
                   <strong className="text-white text-lg sm:text-xl md:text-2xl block mb-2 tracking-wide">Sheikh Mujtaba</strong>
                   <span className="text-cyan-400 font-medium">AI Developer</span> 
                   <span className="opacity-50 mx-3">&bull;</span> 

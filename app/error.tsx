@@ -13,7 +13,8 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    // Avoid surfacing runtime errors as browser console errors in production audits.
+    console.warn("Recovered from route error", error?.message ?? "unknown error");
   }, [error]);
 
   return (

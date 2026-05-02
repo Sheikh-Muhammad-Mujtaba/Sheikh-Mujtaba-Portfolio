@@ -123,6 +123,7 @@
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
+        will-change: background-position;
       }
 
       .portraitContainer {
@@ -136,6 +137,9 @@
         perspective: 1000px;
         animation: float 6s ease-in-out infinite;
         order: -1;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
 
         @media (min-width: 768px) {
           max-width: 200px;

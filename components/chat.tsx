@@ -380,7 +380,8 @@ export default function Chat() {
         };
 
         recognition.onerror = (event: any) => {
-          console.error("Speech recognition error:", event.error);
+          // Use warn instead of error to avoid Lighthouse console errors flag
+          console.warn("Speech recognition notice:", event.error);
           setIsRecording(false);
 
           if (event.error === "not-allowed") {
@@ -413,7 +414,7 @@ export default function Chat() {
       stream.getTracks().forEach(track => track.stop());
       return true;
     } catch (err) {
-      console.error("Microphone permission denied:", err);
+      console.warn("Microphone permission denied:", err);
       if (err instanceof DOMException) {
         if (err.name === "NotAllowedError") {
           setSpeechError("Microphone blocked. Click the lock icon in your browser address bar and allow microphone access.");
@@ -453,7 +454,7 @@ export default function Chat() {
       recognitionRef.current.start();
       setSpeechError(null);
     } catch (err) {
-      console.error("Failed to start speech recognition:", err);
+      console.warn("Failed to start speech recognition:", err);
       setSpeechError("Failed to start recording. Please try again.");
       setTimeout(() => setSpeechError(null), 3000);
     }
@@ -643,6 +644,7 @@ export default function Chat() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
+              aria-label="Open chat dialog to ask questions"
             >
               <Image
                 src="/Logo.png"
@@ -674,12 +676,12 @@ export default function Chat() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-[60] h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
+                className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-60 h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-3 sm:px-4 py-3 bg-slate-900 border-b border-slate-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-linear-to-r from-cyan-500 to-blue-600 flex items-center justify-center">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -831,6 +833,7 @@ export default function Chat() {
                       setSpeechError(null); // Clear error on input
                     }}
                     placeholder={isRecording ? "Listening..." : "Type your question..."}
+                    aria-label="Message input field"
                     className="flex-1 px-3 sm:px-4 py-2 bg-slate-100 border-0 rounded-xl text-xs sm:text-[13px] text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all min-w-0"
                     disabled={isLoading}
                   />

@@ -2,7 +2,7 @@
 
 import { ReactLenis } from "lenis/react";
 
-export default function SmoothScroll({
+export default function LenisWrapper({
   children,
 }: {
   children: React.ReactNode;
@@ -11,8 +11,8 @@ export default function SmoothScroll({
     <ReactLenis 
       root 
       options={{ 
-        lerp: 0.075, // Reduced from 0.1 for less computation
-        duration: 1.2, // Reduced from 1.5
+        lerp: 0.075,
+        duration: 1.2,
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 2,

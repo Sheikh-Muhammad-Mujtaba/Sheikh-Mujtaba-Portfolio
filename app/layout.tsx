@@ -3,7 +3,7 @@ import "../styles/global.scss";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import SmoothScroll from "../components/smooth-scroll";
+import SmoothScroll from "../components/smooth-scroll-optimized";
 import DeferredChat from "../components/deferred-chat";
 import { Inter, Outfit } from "next/font/google";
 import { siteMetadata } from "./metadata";
@@ -40,6 +40,26 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
+        {/* Preload GSAP for intro animation to load immediately */}
+        {/* Preload critical fonts */}
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap"
+          as="style"
+        />
+        {/* Preload critical images */}
+        <link
+          rel="preload"
+          href="/images/ProfileImage.jpeg"
+          as="image"
+          type="image/jpeg"
+        />
+        {/* DNS prefetch for external services */}
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        {/* Preconnect to API endpoints */}
+        <link rel="preconnect" href="https://api.github.com" crossOrigin="anonymous" />
         <PersonJsonLd />
         <WebSiteJsonLd />
         <ProfessionalServiceJsonLd />
