@@ -131,14 +131,13 @@ export default function Homepage() {
               >
                 <div className={styles.portraitGlow}></div>
                 <Image
-                  src={"/images/ProfileImage.jpeg"}
+                  src={"/images/ProfileImage.avif"}
                   alt="Portrait of Sheikh Mujtaba - AI Developer and Security Engineer"
                   width={400}
                   height={400}
                   className={styles.portrait}
                   priority
-                  loading="eager"
-                  quality={90}
+                  quality={75}
                   placeholder="blur"
                   blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxMCAxMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cnIGN4PSc1MCUnIGN5PSc0MCUnIHI9JzcwJSc+PHN0b3Agc3RvcC1jb2xvcj0nIzA2YjZkNCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzAyMDYxNyc+PC9zdG9wPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPScxMCcgaGVpZ2h0PScxMCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=="
                   sizes="(max-width: 640px) 200px, (max-width: 1536px) 300px, 400px"
