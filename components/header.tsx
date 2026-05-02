@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Briefcase, CircleHelp, Menu, User, X } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "./social-icons";
@@ -30,17 +31,17 @@ export default function Header({ logoLink }: HeaderProps) {
           {/* Logo */}
           <Link
             href={logoLink}
-            className="flex items-center gap-2 group flex-shrink-0"
+            className="flex items-center gap-2 group shrink-0"
             rel="home"
             data-header-logo="true"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/Logo.avif"
               alt="Mujtaba logo"
-              width={42}
-              height={42}
-              className="w-[42px] h-[42px] rounded-full border border-white/40 shadow-lg object-cover group-hover:scale-105 transition-transform duration-200"
+              width={70}
+              height={70}
+              priority
+              className="w-10.5 h-10.5 rounded-full border border-white/40 shadow-lg object-cover group-hover:scale-105 transition-transform duration-200"
             />
           </Link>
 
