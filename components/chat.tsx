@@ -224,8 +224,12 @@ function formatMessage(content: string): JSX.Element {
   return <>{elements}</>;
 }
 
-export default function Chat() {
-  const [isOpen, setIsOpen] = useState(false);
+type ChatProps = {
+  initialOpen?: boolean;
+};
+
+export default function Chat({ initialOpen = false }: ChatProps) {
+  const [isOpen, setIsOpen] = useState(initialOpen);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [askedQuestions, setAskedQuestions] = useState<Set<string>>(new Set());
   const [input, setInput] = useState("");
@@ -613,7 +617,7 @@ export default function Chat() {
       {/* Floating Action Button */}
       <AnimatePresence>
         {!isOpen && (
-            <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-end gap-2 [body:has(.overlayContainer:not(.complete))_&]:opacity-0 [body:has(.overlayContainer:not(.complete))_&]:pointer-events-none transition-opacity duration-300">
+            <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-end gap-2 transition-opacity duration-300">
             {/* Popup Bubble */}
             <AnimatePresence>
               {showBubble && (

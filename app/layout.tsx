@@ -3,12 +3,10 @@ import "../styles/global.scss";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import SmoothScroll from "../components/smooth-scroll-optimized";
 import DeferredChat from "../components/deferred-chat";
 import { Inter, Outfit } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
-import ClientWrapper from "../components/client-wrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,22 +39,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
-        {/* Preload GSAP for intro animation to load immediately */}
-        {/* Preload critical images */}
-        <link
-          rel="preload"
-          href="/images/ProfileImage.jpeg"
-          as="image"
-          fetchPriority="high"
-        />
-        {/* DNS prefetch for external services */}
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         <PersonJsonLd />
         <WebSiteJsonLd />
         <ProfessionalServiceJsonLd />
       </head>
       <body className="antialiased font-sans">
-        <ClientWrapper>{children}</ClientWrapper>
+        {children}
+        <DeferredChat />
         <Analytics />
         <SpeedInsights />
       </body>

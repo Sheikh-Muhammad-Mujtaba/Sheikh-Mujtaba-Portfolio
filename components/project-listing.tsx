@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "../styles/project-listing.module.scss";
 import commonStyles from "../styles/common.module.scss";
 
-import { ProjectType } from "../utils/project-data";
+import type { ProjectType } from "../utils/project-data";
 import YouTubeHoverPlayer from "./youtube-hover-player";
 
 type ProjectListingProps = {

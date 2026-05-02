@@ -1,33 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useState, lazy, Suspense } from "react";
 import { GitHubIcon, LinkedInIcon, LinktreeIcon } from "../components/social-icons";
-import dynamic from "next/dynamic";
 
 import styles from "../styles/home.module.scss";
 
 import Header from "../components/header";
-// IntroOverlay must be imported synchronously and eagerly to appear before UI
- // IntroOverlay: Lazy load on mount with ssr: false to not block initial render
- const IntroOverlay = dynamic(
-   () => import("../components/intro-overlay"),
-   { ssr: false, loading: () => null }
- );
-// Dynamically import heavy components to improve LCP (after intro overlay)
-const ProjectListing = dynamic(
-  () => import("../components/project-listing"),
-  { ssr: true }
-);
-const FAQSection = dynamic(
-  () => import("../components/faq-section"),
-  { ssr: true }
-);
-// Keep scroll animation hooks but defer their effects
+import IntroOverlay from "../components/intro-overlay";
+import ProjectListing from "../components/project-listing";
 import { projectsList } from "../utils/project-data";
-import { useScrollAnimation } from "../utils/hooks/use-scroll-animation";
-import { useBallAnimation } from "../utils/hooks/use-ball-animation";
 
 
 const blogPosts: { title: string; date: string, link: string }[] = [
@@ -54,79 +34,34 @@ const blogPosts: { title: string; date: string, link: string }[] = [
 ];
 
 export default function Homepage() {
-  const pageRef = useRef<HTMLDivElement | null>(null);
-  const ballRef = useRef<HTMLDivElement | null>(null);
-  const afterAnimationRef = useRef<HTMLDivElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const portraitContainerRef = useRef<HTMLDivElement | null>(null);
-  const jobTitleRef = useRef<HTMLParagraphElement | null>(null);
-  const aboutContainerRef = useRef<HTMLElement | null>(null);
-  const blogPreviewContainerRef = useRef<HTMLElement | null>(null);
-  const footerTitleRef = useRef<HTMLHeadingElement | null>(null);
-  const footerLinksRef = useRef<HTMLUListElement | null>(null);
-  const [animationComplete, setAnimationComplete] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-
-  useScrollAnimation({
-    pageRef,
-    footerTitleRef,
-    footerLinksRef,
-  });
-
-  useBallAnimation({
-    animationComplete: showContent, // Trigger GSAP animations early when content starts appearing
-    afterAnimationRef,
-    titleRef,
-    portraitContainerRef,
-    jobTitleRef,
-    aboutContainerRef,
-    blogPreviewContainerRef,
-  });
-
   return (
-    <div ref={pageRef} className={styles.homeContainer}>
-      <IntroOverlay
-        ballRef={ballRef}
-        enabled={!animationComplete}
-        onComplete={() => setAnimationComplete(true)}
-        onContentAppear={() => setShowContent(true)}
-        pageRef={pageRef}
-        afterAnimationRef={afterAnimationRef}
-        titleRef={titleRef}
-        portraitContainerRef={portraitContainerRef}
-        jobTitleRef={jobTitleRef}
-        aboutContainerRef={aboutContainerRef}
-        blogPreviewContainerRef={blogPreviewContainerRef}
-        footerTitleRef={footerTitleRef}
-        footerLinksRef={footerLinksRef}
-        isComplete={animationComplete}
-      />
-      <div ref={afterAnimationRef}>
+    <div className={styles.homeContainer}>
+      <IntroOverlay />
+      <div>
         <Header logoLink="/" />
         <main>
           <section className={`${styles.hero} px-1`}>
             <div className={styles.cta}>
               <div className="flex flex-col gap-1 w-full min-w-0">
-                <div ref={titleRef} className={`${styles.title} leading-[1.05] tracking-tight`}>
+                <div className={`${styles.title} leading-[1.05] tracking-tight`}>
                   <div className="overflow-hidden pb-2"><h1 className="titleLine">I build</h1></div>
                   <div className="overflow-hidden pb-2"><span className={`titleLine ${styles.highlight} ${styles.animatedGradient}`}>secure AI</span></div>
                   <div className="overflow-hidden pb-2"><span className="titleLine">systems.</span></div>
                 </div>
 
-                <p ref={jobTitleRef} className={`${styles.jobTitle} wrap-break-word`}>
+                <p className={`${styles.jobTitle} wrap-break-word`}>
                   <strong className="text-white text-lg sm:text-xl md:text-2xl block mb-2 tracking-wide">Sheikh Mujtaba</strong>
                   <span className="text-cyan-400 font-medium">AI Developer</span> 
                   <span className="opacity-50 mx-3">&bull;</span> 
                   <span className="text-emerald-400 font-medium">Security Engineer</span>
                 </p>
 
-                <div className="flex gap-3 sm:gap-4 mt-2 heroButtons opacity-0 translate-y-4 justify-center w-full md:justify-start flex-wrap md:flex-nowrap">
+                <div className="flex gap-3 sm:gap-4 mt-2 heroButtons justify-center w-full md:justify-start flex-wrap md:flex-nowrap">
                   <Link href="#projects" className={styles.primaryBtn}>View Projects</Link>
                   <a href="mailto:smujtabaja@gmail.com" className={styles.secondaryBtn}>Contact Me</a>
                 </div>
               </div>
               <div
-                ref={portraitContainerRef}
                 className={`${styles.portraitContainer} rounded-3xl relative`}
               >
                 <div className={styles.portraitGlow}></div>
@@ -147,7 +82,6 @@ export default function Homepage() {
             </div>
           </section>
           <section
-            ref={aboutContainerRef}
             id="about"
             className={styles.aboutContainer}
           >
@@ -204,7 +138,6 @@ export default function Homepage() {
             </ul>
           </section>
           <section
-            ref={blogPreviewContainerRef}
             className={`${styles.blogPreviewContainer} mt-12`}
           >
             <h2>My Blog</h2>
@@ -257,8 +190,8 @@ export default function Homepage() {
           </section>
         </main>
         <footer>
-          <h2 ref={footerTitleRef} className={styles.footerTitle}>Connect with Me</h2>
-          <ul ref={footerLinksRef} className={`${styles.footerLinks} ${styles.mobileStack}`}>
+          <h2 className={styles.footerTitle}>Connect with Me</h2>
+          <ul className={`${styles.footerLinks} ${styles.mobileStack}`}>
             <li>
               <a
                 href="https://github.com/Sheikh-Muhammad-Mujtaba"

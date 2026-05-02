@@ -11,7 +11,7 @@ const nextConfig = {
 
   // Image optimization for SEO and Core Web Vitals
   images: {
-    qualities: [75, 90, 100],
+    qualities: [75, 85, 90, 100],
     formats: ["image/webp", "image/avif"],
     remotePatterns: [
       {
@@ -79,20 +79,7 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `
-            default-src 'self';
-            script-src 'self' https://cdn.jsdelivr.net https://va.vercel-scripts.com;
-            style-src 'self' 'unsafe-inline';
-            img-src 'self' data: https:;
-            font-src 'self' data:;
-            connect-src 'self' https:;
-            frame-src https://www.youtube.com https://www.youtube-nocookie.com;
-            object-src 'none';
-            base-uri 'self';
-            form-action 'self';
-            frame-ancestors 'none';
-            upgrade-insecure-requests;
-            `,
+            value: `default-src 'self';script-src 'self' https://va.vercel-scripts.com;style-src 'self' 'unsafe-inline';img-src 'self' data: https:;font-src 'self' data:;connect-src 'self' https:;frame-src https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self';form-action 'self';frame-ancestors 'none';upgrade-insecure-requests;`,
           },
         ],
       },

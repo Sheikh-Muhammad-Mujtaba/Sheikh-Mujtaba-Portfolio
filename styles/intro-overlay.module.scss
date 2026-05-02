@@ -1,31 +1,26 @@
 @use "./variables.module.scss" as *;
 
 .introOverlay {
-  position: fixed;
-  min-height: 100dvh;
-  width: 100%;
-  z-index: 100;
+  --intro-logo-x: calc(-50vw + 52px);
+  --intro-logo-y: calc(-50vh + 46px);
+  --intro-logo-scale: 0.42;
 
+  position: fixed;
+  inset: 0;
+  z-index: 100;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  transition: pointer-events 0.3s ease-in-out;
-
-  &.complete {
-    pointer-events: none;
-    z-index: -1;
-  }
+  pointer-events: none;
+  overflow: hidden;
+  animation: overlayExit 0.7s ease 2.45s forwards;
 
   .overlayBackground {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, #0a1120, $black);
+    inset: 0;
     z-index: -1;
+    background: radial-gradient(circle at center, #0a1120 0%, $black 68%);
+    animation: backgroundExit 0.7s ease 2.18s forwards;
   }
 
   .premiumLogoWrapper {
@@ -35,24 +30,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    will-change: transform, opacity;
-    border-radius: 50%;
     overflow: hidden;
+    border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
-    box-shadow: 
+    box-shadow:
       inset -2px -2px 8px rgba(0, 0, 0, 0.4),
       inset 2px 2px 8px rgba(255, 255, 255, 0.05),
       0 20px 40px rgba(14, 165, 233, 0.2);
-    
-    // Subtle glow behind the logo
+    will-change: transform, opacity, filter;
+    transform-origin: center center;
+    animation: logoTravel 2.72s cubic-bezier(0.2, 0.82, 0.2, 1) forwards;
+
     &::before {
       content: "";
       position: absolute;
       width: 150%;
       height: 150%;
+      border-radius: 50%;
       background: radial-gradient(circle at center, rgba(14, 165, 233, 0.25), transparent 70%);
       z-index: 0;
-      border-radius: 50%;
     }
 
     @media (min-width: 768px) {
@@ -61,11 +57,74 @@
     }
 
     .premiumLogo {
-      object-fit: contain;
       z-index: 1;
-      filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
       width: 100%;
       height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
     }
+  }
+}
+
+@keyframes logoTravel {
+  0% {
+    opacity: 0;
+    filter: blur(18px);
+    transform: translate3d(0, -108vh, 0) scale(1.12);
+  }
+  28% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 22px, 0) scale(1.02, 0.94);
+  }
+  36% {
+    opacity: 1;
+    transform: translate3d(0, -34px, 0) scale(0.96, 1.05);
+  }
+  45% {
+    opacity: 1;
+    transform: translate3d(0, 12px, 0) scale(1.01, 0.97);
+  }
+  53% {
+    opacity: 1;
+    transform: translate3d(0, -12px, 0) scale(0.98, 1.02);
+  }
+  61% {
+    opacity: 1;
+    transform: translate3d(0, 4px, 0) scale(1);
+  }
+  68% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(var(--intro-logo-x), var(--intro-logo-y), 0) scale(var(--intro-logo-scale));
+  }
+}
+
+@keyframes backgroundExit {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes overlayExit {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .introOverlay {
+    display: none;
   }
 }

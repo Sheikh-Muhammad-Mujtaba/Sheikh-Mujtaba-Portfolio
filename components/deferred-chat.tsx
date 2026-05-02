@@ -1,26 +1,36 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 
 const Chat = dynamic(() => import("./chat"), {
   ssr: false,
+  loading: () => null,
 });
 
 export default function DeferredChat() {
-  const [canLoadChat, setCanLoadChat] = useState(false);
+  const [shouldLoadChat, setShouldLoadChat] = useState(false);
 
-  useEffect(() => {
-    const load = () => setCanLoadChat(true);
+  if (shouldLoadChat) {
+    return <Chat initialOpen />;
+  }
 
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(load, { timeout: 2500 });
-      return () => window.cancelIdleCallback(idleId);
-    }
-
-    const timeoutId = globalThis.setTimeout(load, 1600);
-    return () => globalThis.clearTimeout(timeoutId);
-  }, []);
-
-  return canLoadChat ? <Chat /> : null;
+  return (
+    <button
+      type="button"
+      onClick={() => setShouldLoadChat(true)}
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-900/80 shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-400 sm:h-12 sm:w-12"
+      aria-label="Open chat dialog to ask questions"
+      title="Open chat"
+    >
+      <Image
+        src="/Logo.avif"
+        alt="Logo"
+        width={50}
+        height={50}
+        className="h-10 w-10 rounded-full object-fill"
+      />
+    </button>
+  );
 }
