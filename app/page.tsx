@@ -136,6 +136,7 @@ export default function Homepage() {
                   width={400}
                   height={400}
                   className={styles.portrait}
+                  fetchPriority="high"
                   priority
                   quality={75}
                   placeholder="blur"
