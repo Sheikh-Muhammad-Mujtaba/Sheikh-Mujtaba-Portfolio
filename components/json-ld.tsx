@@ -269,7 +269,7 @@ export function ProjectJsonLd({
     name: name,
     description: description,
     url: `https://sheikhmujtaba.me/#${slug}`,
-    image: `https://sheikhmujtaba.me/images/${slug}.png`,
+    image: `https://sheikhmujtaba.me/images/${slug}.avif`,
     creator: {
       "@type": "Person",
       name: "Sheikh Mujtaba",

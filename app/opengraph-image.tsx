@@ -20,7 +20,14 @@ export default async function Image() {
     const logoData = fs.readFileSync(logoPath);
     logoBase64 = logoData.toString("base64");
   } catch (error) {
-    console.error("Failed to load logo:", error);
+    console.warn("Failed to load Logo.png, attempting Logo.avif:", error);
+    try {
+      const logoPath = path.join(process.cwd(), "public", "Logo.avif");
+      const logoData = fs.readFileSync(logoPath);
+      logoBase64 = logoData.toString("base64");
+    } catch (err) {
+      console.warn("Failed to load Logo.avif as fallback:", err);
+    }
   }
 
   const logoUrl = logoBase64 ? `data:image/png;base64,${logoBase64}` : "";

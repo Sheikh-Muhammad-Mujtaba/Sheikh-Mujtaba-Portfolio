@@ -36,7 +36,7 @@ export default function Header({ logoLink }: HeaderProps) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/Logo.png"
+              src="/Logo.avif"
               alt="Mujtaba logo"
               width={42}
               height={42}

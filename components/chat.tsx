@@ -647,7 +647,7 @@ export default function Chat() {
               aria-label="Open chat dialog to ask questions"
             >
               <Image
-                src="/Logo.png"
+                src="/Logo.avif"
                 alt="Chat"
                 className="w-10 h-10 object-fill rounded-full"
                 width={50}

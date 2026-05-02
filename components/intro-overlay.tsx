@@ -119,7 +119,7 @@ export default function IntroOverlay({
       <div className={`overlayBackground ${styles.overlayBackground}`}></div>
       <div ref={ballRef} className={styles.premiumLogoWrapper}>
         <Image
-          src="/Logo.png"
+          src="/Logo.avif"
           alt="Logo Image"
           fill
           className={styles.premiumLogo}

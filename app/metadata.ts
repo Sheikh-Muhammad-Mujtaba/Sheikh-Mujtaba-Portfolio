@@ -74,13 +74,14 @@ export const siteMetadata: Metadata = {
       "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture.",
     images: [
       {
-        url: "/og-image.png",
+        // Use the dynamic Open Graph image route which generates the image server-side
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Sheikh Mujtaba - AI Developer & Security Engineer",
       },
       {
-        url: "/Logo.png",
+        url: "/Logo.avif",
         width: 500,
         height: 500,
         alt: "Mujtaba Logo",
@@ -94,7 +95,7 @@ export const siteMetadata: Metadata = {
     description:
       "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture.",
     creator: "@smujtabaja",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
 
   verification: {
@@ -128,7 +129,7 @@ export function generateProjectMetadata(
       type: "article",
       images: [
         {
-          url: `/images/${slug}.png`,
+          url: `/images/${slug}.avif`,
           width: 1200,
           height: 630,
           alt: `${name} project screenshot`,
@@ -139,7 +140,7 @@ export function generateProjectMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [`/images/${slug}.png`],
+      images: [`/images/${slug}.avif`],
     },
     alternates: {
       canonical: url,
