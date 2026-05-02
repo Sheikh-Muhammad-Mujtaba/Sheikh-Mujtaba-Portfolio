@@ -4,20 +4,22 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import DeferredChat from "../components/deferred-chat";
-import { Inter, Outfit } from "next/font/google";
+import IntroOverlay from "../components/intro-overlay";
+import { Instrument_Serif, Manrope } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
   preload: true,
 });
 
-const outfit = Outfit({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-instrument-serif",
+  weight: "400",
   display: "swap",
   preload: true,
 });
@@ -37,13 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {  
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${instrumentSerif.variable}`}>
       <head>
         <PersonJsonLd />
         <WebSiteJsonLd />
         <ProfessionalServiceJsonLd />
       </head>
       <body className="antialiased font-sans">
+        <IntroOverlay />
         {children}
         <DeferredChat />
         <Analytics />

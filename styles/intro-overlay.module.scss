@@ -1,143 +1,181 @@
 @use "./variables.module.scss" as *;
 
+/* ─── Intro Overlay ────────────────────────────────────────────────────────── */
 .introOverlay {
-  --intro-logo-x: calc(-50vw + 52px);
-  --intro-logo-y: calc(-50vh + 46px);
-  --intro-logo-scale: 0.42;
+  /* CSS custom-property fallbacks (overridden by JS once header rect is known) */
+  --intro-logo-x: 0px;
+  --intro-logo-y: 0px;
+  --intro-logo-scale: 0.3;
 
   position: fixed;
   inset: 0;
+  /*
+   * IMPORTANT z-index strategy
+   * ─────────────────────────────────────────────────────────────────
+   * Overlay sits at 1000 while visible so it covers the page.
+   * The CSS animation drops it to visibility:hidden + pointer-events:none
+   * after ~6 s so the chat widget (z-40 / z-[60]) is NEVER blocked.
+   * The chat widget must NOT use a z-index higher than 1000 while the
+   * overlay is still fading — that battle is won by timing, not by
+   * ever-escalating z-index races.
+   * ─────────────────────────────────────────────────────────────────
+   */
   z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
-  overflow: hidden;
-  animation: overlayExit 0.9s ease 3.42s forwards;
 
+  /* CRITICAL — pointer-events blocked while visible, gone after exit */
+  pointer-events: all;
+
+  overflow: hidden;
+
+  /* ── Step 1: full-opacity hold for 4 s, then 1.2 s fade + collapse ── */
+  animation: overlayExit 1.2s $ease-premium 4s forwards;
+
+  /* ── Background layer ─────────────────────────────────────────────── */
   .overlayBackground {
     position: absolute;
     inset: 0;
-    z-index: -1;
-    background: radial-gradient(circle at center, #0a1120 0%, $black 68%);
-    animation: backgroundExit 1s ease 3.12s forwards;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 40% 35%, rgba(34, 211, 238, 0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 68% 65%, rgba(214, 181, 109, 0.10) 0%, transparent 50%),
+      #020617;
+    /* Fades out 0.4 s before the overlay wrapper, so the logo lands
+       against the transparent real page rather than a black screen */
+    animation: backgroundExit 0.8s $ease-premium 3.8s forwards;
   }
 
+  /* ── Logo circle wrapper ──────────────────────────────────────────── */
   .premiumLogoWrapper {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: clamp(80px, 18vw, 160px);
+    height: clamp(80px, 18vw, 160px);
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08), transparent 70%);
     box-shadow:
-      inset -2px -2px 8px rgba(0, 0, 0, 0.4),
-      inset 2px 2px 8px rgba(255, 255, 255, 0.05),
-      0 20px 40px rgba(14, 165, 233, 0.2);
+      inset -2px -2px 8px rgba(0, 0, 0, 0.45),
+      inset 2px 2px 8px rgba(255, 255, 255, 0.06),
+      0 0 60px rgba(34, 211, 238, 0.22),
+      0 20px 60px rgba(0, 0, 0, 0.5);
     will-change: transform, opacity, filter;
     transform-origin: center center;
-    animation: logoTravel 3.95s forwards;
+    /*
+     * Phase 1  0 → 15%   — fade + blur in from below       (~0.6 s)
+     * Phase 2  15% → 75% — hold centre, visible             (~2.4 s)
+     * Phase 3  75% → 100% — travel to header-logo position  (~1 s)
+     * Total:  4 s  (perfectly matches the overlayExit delay)
+     */
+    animation: logoTravel 4s linear forwards;
 
+    /* Ambient glow ring */
     &::before {
       content: "";
       position: absolute;
-      width: 150%;
-      height: 150%;
+      width: 160%;
+      height: 160%;
       border-radius: 50%;
-      background: radial-gradient(circle at center, rgba(14, 165, 233, 0.25), transparent 70%);
-      z-index: 0;
-    }
-
-    @media (min-width: 768px) {
-      width: 150px;
-      height: 150px;
+      background: radial-gradient(circle at center, rgba(34, 211, 238, 0.18), transparent 65%);
+      z-index: -1;
+      animation: glowPulse 2.4s ease-in-out 0.6s infinite alternate;
     }
 
     .premiumLogo {
-      z-index: 1;
+      position: relative;
+      z-index: 2;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
+      object-fit: cover;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.28));
     }
   }
 }
 
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+
 @keyframes logoTravel {
   0% {
-    opacity: 0;
-    filter: blur(18px);
-    transform: translate3d(0, -112vh, 0) scale(1.08, 1.08);
-    animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
-  }
-  24% {
     opacity: 1;
-    filter: blur(0);
-    transform: translate3d(0, 44px, 0) scale(1.13, 0.82);
-    animation-timing-function: cubic-bezier(0.2, 0.9, 0.28, 1);
+    filter: blur(6px) brightness(0.8);
+    transform: translate3d(0, -100vh, 0) scale(0.9);
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
   }
-  34% {
+
+  20% {
     opacity: 1;
-    filter: blur(0);
-    transform: translate3d(0, -92px, 0) scale(0.92, 1.1);
-    animation-timing-function: cubic-bezier(0.3, 0, 0.55, 0);
+    filter: blur(0) brightness(1);
+    transform: translate3d(0, 0, 0) scale(1.05, 0.95); /* squash on impact */
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ease-out (bounce up) */
   }
-  45% {
-    opacity: 1;
-    transform: translate3d(0, 28px, 0) scale(1.08, 0.88);
-    animation-timing-function: cubic-bezier(0.22, 0.88, 0.32, 1);
+
+  32% {
+    transform: translate3d(0, -12vh, 0) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
   }
-  54% {
-    opacity: 1;
-    transform: translate3d(0, -42px, 0) scale(0.96, 1.05);
-    animation-timing-function: cubic-bezier(0.33, 0, 0.58, 0);
+
+  42% {
+    transform: translate3d(0, 0, 0) scale(1.02, 0.98); /* slight squash */
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ease-out (bounce up) */
   }
-  63% {
-    opacity: 1;
-    transform: translate3d(0, 12px, 0) scale(1.04, 0.94);
-    animation-timing-function: cubic-bezier(0.24, 0.82, 0.34, 1);
+
+  48% {
+    transform: translate3d(0, -3vh, 0) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
   }
-  70% {
-    opacity: 1;
-    transform: translate3d(0, -14px, 0) scale(0.99, 1.02);
-    animation-timing-function: cubic-bezier(0.32, 0, 0.56, 0);
+
+  52% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+    /* Rest and wait */
   }
-  78% {
+
+  72% {
     opacity: 1;
-    transform: translate3d(0, 3px, 0) scale(1.01, 0.98);
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  83% {
-    opacity: 1;
-    filter: blur(0);
+    filter: blur(0) brightness(1);
     transform: translate3d(0, 0, 0) scale(1);
-    animation-timing-function: cubic-bezier(0.42, 0, 0.18, 1);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* smooth ease for final travel */
   }
+
   100% {
     opacity: 0;
-    filter: blur(12px);
-    transform: translate3d(var(--intro-logo-x), var(--intro-logo-y), 0) scale(var(--intro-logo-scale));
+    filter: blur(6px) brightness(0.5);
+    transform: translate3d(var(--intro-logo-x), var(--intro-logo-y), 0)
+      scale(var(--intro-logo-scale));
   }
+}
+
+@keyframes glowPulse {
+  from { opacity: 0.5; transform: scale(0.95); }
+  to   { opacity: 1;   transform: scale(1.05); }
 }
 
 @keyframes backgroundExit {
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 @keyframes overlayExit {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+  0%   { opacity: 1; visibility: visible; pointer-events: all; }
+  99%  { opacity: 0; visibility: visible; pointer-events: none; }
+  100% { opacity: 0; visibility: hidden;  pointer-events: none; }
 }
 
+/* ─── Reduced-motion: skip the show gracefully ────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .introOverlay {
-    display: none;
+    animation: overlayExit 0.01s linear 0.5s forwards;
+
+    .premiumLogoWrapper {
+      animation: none;
+    }
+
+    .overlayBackground {
+      animation: none;
+    }
   }
 }

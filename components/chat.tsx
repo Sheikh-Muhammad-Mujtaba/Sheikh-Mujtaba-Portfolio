@@ -617,7 +617,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
       {/* Floating Action Button */}
       <AnimatePresence>
         {!isOpen && (
-            <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-end gap-2 transition-opacity duration-300">
+          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] flex items-end gap-2 transition-opacity duration-300">
             {/* Popup Bubble */}
             <AnimatePresence>
               {showBubble && (
@@ -647,6 +647,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 5.5, duration: 0.5 }}
               exit={{ opacity: 0, y: 20 }}
               aria-label="Open chat dialog to ask questions"
             >
@@ -672,7 +673,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
             />
 
             {/* Chat Container */}
@@ -680,7 +681,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-60 h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
+              className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-[9999] h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-3 sm:px-4 py-3 bg-slate-900 border-b border-slate-800">
@@ -728,16 +729,14 @@ export default function Chat({ initialOpen = false }: ChatProps) {
                     key={message.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex flex-col ${
-                      message.role === "user" ? "items-end" : "items-start"
-                    }`}
+                    className={`flex flex-col ${message.role === "user" ? "items-end" : "items-start"
+                      }`}
                   >
                     <div
-                      className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] leading-relaxed ${
-                        message.role === "user"
-                          ? "bg-slate-900 text-white rounded-br-md"
-                          : "bg-white text-slate-800 rounded-bl-md shadow-sm border border-slate-200"
-                      }`}
+                      className={`max-w-[90%] sm:max-w-[85%] rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-[13px] leading-relaxed ${message.role === "user"
+                        ? "bg-slate-900 text-white rounded-br-md"
+                        : "bg-white text-slate-800 rounded-bl-md shadow-sm border border-slate-200"
+                        }`}
                     >
                       {formatMessage(message.content)}
                     </div>
@@ -782,8 +781,8 @@ export default function Chat({ initialOpen = false }: ChatProps) {
                     exit={{ opacity: 0, y: 10 }}
                     onClick={scrollToBottom}
                     className="absolute bottom-28 left-1/2 -translate-x-1/2 p-2 bg-slate-900 text-white rounded-full shadow-lg hover:bg-slate-800 transition-colors z-10"
-                      aria-label="Scroll to latest message"
-                      title="Scroll to latest message"
+                    aria-label="Scroll to latest message"
+                    title="Scroll to latest message"
                   >
                     <ChevronDown className="w-4 h-4" />
                   </motion.button>
@@ -845,18 +844,17 @@ export default function Chat({ initialOpen = false }: ChatProps) {
                     <button
                       type="button"
                       onClick={toggleRecording}
-                      className={`p-2 sm:p-2.5 transition-colors relative ${
-                        isRecording
-                          ? "text-red-500"
-                          : "text-slate-400 hover:text-slate-600"
-                      }`}
+                      className={`p-2 sm:p-2.5 transition-colors relative ${isRecording
+                        ? "text-red-500"
+                        : "text-slate-400 hover:text-slate-600"
+                        }`}
                       disabled={isLoading}
                       aria-label={isRecording ? "Stop voice input" : "Start voice input"}
                       title={isRecording ? "Stop recording" : "Start voice input"}
                     >
                       {isRecording ? (
                         <>
-                        <MicOff className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
+                          <MicOff className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
                           {/* Recording indicator ring */}
                           <span className="absolute inset-0 rounded-full border-2 border-red-500 animate-ping opacity-30" />
                         </>

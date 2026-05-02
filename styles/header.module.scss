@@ -1,123 +1,295 @@
 @use "./variables.module.scss" as *;
 
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  pointer-events: none;
+}
+
 .nav {
   display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.85rem 1rem 0;
+}
+
+.navShell {
+  pointer-events: auto;
+  width: min(94vw, 1180px);
+  min-height: 54px;
+  display: flex;
   align-items: center;
-  min-height: 76px;
-  width: 90%;
-  max-width: 1536px;
-  margin: 0.75rem auto 0;
-  padding: 0.6rem 1rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.4rem 0.5rem 0.4rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(10, 10, 10, 0.68);
-  font-family: $font;
-  color: $white;
-  font-weight: 700;
-  z-index: 2;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    rgba(8, 12, 24, 0.68);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: navReveal 0.85s $ease-premium both;
 
   @media (min-width: 768px) {
-    width: 75%;
-  }
-
-  .spaceBetween {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    color: $white;
-    cursor: pointer;
-    font-size: 1.4rem;
-    text-decoration: none;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.04);
-    }
-  }
-
-  .navList {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 60px;
     gap: 1rem;
+    padding: 0.5rem 0.62rem 0.5rem 0.72rem;
+  }
+}
 
-    @media (max-width: 767px) {
-      /* Ensure desktop-style nav is hidden on small screens in case utility classes are not applied */
-      display: none;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  transition: transform 0.45s $ease-premium, filter 0.45s $ease-premium;
+
+  @media (min-width: 768px) {
+    width: 44px;
+    height: 44px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    border: 1px solid rgba(214, 181, 109, 0.34);
+    object-fit: cover;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32), 0 0 24px rgba(34, 211, 238, 0.08);
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.28));
+  }
+}
+
+.desktopNav {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+}
+
+.navLink,
+.socialLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 42px;
+  padding: 0 0.92rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  font-family: $font;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: color 0.45s $ease-premium, background-color 0.45s $ease-premium, transform 0.45s $ease-premium;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.38rem;
+    width: 18px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $cyan, $gold, transparent);
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.35);
+    transition: opacity 0.45s $ease-premium, transform 0.45s $ease-premium;
+  }
+
+  svg {
+    width: 1.08rem;
+    height: 1.08rem;
+    transition: transform 0.45s $ease-premium, filter 0.45s $ease-premium;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $white;
+    background: rgba(255, 255, 255, 0.045);
+    transform: translateY(-1px);
+
+    &::after {
+      opacity: 1;
+      transform: translateX(-50%) scaleX(1);
     }
 
-    li {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 8px;
-
-      @media (min-width: 768px) {
-        padding: 0 16px;
-      }
-
-      &:last-child {
-        padding: 0 0 0 8px;
-
-        @media (min-width: 768px) {
-          padding: 0 16px;
-        }
-      }
-
-      a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        font-family: $font;
-        color: $white;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 0.875rem;
-        padding: 0.35rem 0.6rem;
-        border-radius: 999px;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-        text-underline-offset: 0.25rem;
-
-        @media (min-width: 768px) {
-          font-size: 1rem;
-        }
-
-        &:hover {
-          text-decoration: underline;
-          background: rgba(255, 255, 255, 0.1);
-          transform: translateY(-1px);
-        }
-
-        &:focus {
-          text-decoration: underline;
-        }
-
-        span {
-          display: none;
-
-          @media (min-width: 640px) {
-            display: inline;
-          }
-        }
-
-        svg {
-          font-size: 1.3rem;
-
-          @media (min-width: 640px) {
-            font-size: 1.2rem;
-          }
-        }
-      }
+    svg {
+      transform: translateY(-1px);
+      filter: drop-shadow(0 0 9px rgba(34, 211, 238, 0.38));
     }
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  margin: 0 0.55rem;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.socialLink {
+  padding-inline: 0.82rem;
+  overflow: hidden;
+
+  span {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 0.5s $ease-premium, margin-left 0.5s $ease-premium, opacity 0.5s $ease-premium;
+  }
+
+  &:hover span,
+  &:focus-visible span {
+    max-width: 5rem;
+    margin-left: 0.12rem;
+    opacity: 1;
+  }
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  color: $white;
+  background: rgba(255, 255, 255, 0.035);
+  transition: background-color 0.45s $ease-premium, border-color 0.45s $ease-premium, transform 0.45s $ease-premium;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(34, 211, 238, 0.28);
+    background: rgba(34, 211, 238, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileMenu {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(100% + 0.65rem);
+  left: 50%;
+  width: min(calc(100vw - 2rem), 390px);
+  padding: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background: rgba(8, 12, 24, 0.88);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.42);
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px);
+  transition: opacity 0.45s $ease-premium, transform 0.45s $ease-premium;
+}
+
+.mobileMenuOpen {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mobileMenuClosed {
+  pointer-events: none;
+}
+
+.mobileMenuInner {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  min-height: 48px;
+  padding: 0 0.9rem;
+  border-radius: 14px;
+  color: rgba(248, 250, 252, 0.82);
+  font-weight: 750;
+  text-decoration: none;
+  transition: background-color 0.45s $ease-premium, color 0.45s $ease-premium;
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    color: $cyan;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $white;
+    background: rgba(255, 255, 255, 0.055);
+  }
+}
+
+.mobileDivider {
+  height: 1px;
+  margin: 0.45rem 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+.mobileSocials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+@keyframes navReveal {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    padding-top: 0.5rem;
+  }
+
+  .navShell {
+    width: min(94vw, 400px);
+    min-height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navShell {
+    animation: none;
   }
 }

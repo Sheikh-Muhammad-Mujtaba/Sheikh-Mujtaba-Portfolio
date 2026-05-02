@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { GitHubIcon, LinkedInIcon, LinktreeIcon } from "../components/social-icons";
+import { ArrowUpRight, Mail } from "lucide-react";
 
 import styles from "../styles/home.module.scss";
 
 import Header from "../components/header";
-import IntroOverlay from "../components/intro-overlay";
 import ProjectListing from "../components/project-listing";
 import { projectsList } from "../utils/project-data";
 
@@ -36,29 +36,39 @@ const blogPosts: { title: string; date: string, link: string }[] = [
 export default function Homepage() {
   return (
     <div className={styles.homeContainer}>
-      <IntroOverlay />
       <div>
         <Header logoLink="/" />
         <main>
           <section className={`${styles.hero} px-1`}>
             <div className={styles.cta}>
               <div className="flex flex-col gap-1 w-full min-w-0">
-                <div className={`${styles.title} leading-[1.05] tracking-tight`}>
+                <div className={`${styles.title} leading-[1.05]`}>
                   <div className="overflow-hidden pb-2"><h1 className="titleLine">I build</h1></div>
-                  <div className="overflow-hidden pb-2"><span className={`titleLine ${styles.highlight} ${styles.animatedGradient}`}>secure AI</span></div>
+                  <div className="overflow-hidden pb-2">
+                    <span className="titleLine flex flex-wrap gap-x-[0.45em]">
+                      <span className={`${styles.highlightCyan} ${styles.animatedGradientCyan}`}>secure</span>
+                      <span className={`${styles.highlightGold} ${styles.animatedGradientGold}`}> AI</span>
+                    </span>
+                  </div>
                   <div className="overflow-hidden pb-2"><span className="titleLine">systems.</span></div>
                 </div>
 
                 <p className={`${styles.jobTitle} wrap-break-word`}>
-                  <strong className="text-white text-lg sm:text-xl md:text-2xl block mb-2 tracking-wide">Sheikh Mujtaba</strong>
-                  <span className="text-cyan-400 font-medium">AI Developer</span> 
-                  <span className="opacity-50 mx-3">&bull;</span> 
-                  <span className="text-emerald-400 font-medium">Security Engineer</span>
+                  <strong className={styles.roleName}>Sheikh Mujtaba</strong>
+                  <span className={styles.roleAI}>AI Developer</span>
+                  <span className="opacity-50 mx-3">&bull;</span>
+                  <span className={styles.roleSecurity}>Security Engineer</span>
                 </p>
 
                 <div className="flex gap-3 sm:gap-4 mt-2 heroButtons justify-center w-full md:justify-start flex-wrap md:flex-nowrap">
-                  <Link href="#projects" className={styles.primaryBtn}>View Projects</Link>
-                  <a href="mailto:smujtabaja@gmail.com" className={styles.secondaryBtn}>Contact Me</a>
+                  <Link href="#projects" className={styles.primaryBtn}>
+                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    View Projects
+                  </Link>
+                  <a href="mailto:smujtabaja@gmail.com" className={styles.secondaryBtn}>
+                    <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    Contact Me
+                  </a>
                 </div>
               </div>
               <div
@@ -78,6 +88,13 @@ export default function Homepage() {
                   blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxMCAxMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cnIGN4PSc1MCUnIGN5PSc0MCUnIHI9JzcwJSc+PHN0b3Agc3RvcC1jb2xvcj0nIzA2YjZkNCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzAyMDYxNyc+PC9zdG9wPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPScxMCcgaGVpZ2h0PScxMCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=="
                   sizes="(max-width: 640px) 200px, (max-width: 1536px) 300px, 400px"
                 />
+                <div className={styles.portraitBadge}>
+                  <span className={styles.badgeGlyph} aria-hidden="true" />
+                  <span>
+                    Building secure, intelligent<br />
+                    solutions for a safer digital future.
+                  </span>
+                </div>
               </div>
             </div>
           </section>
@@ -165,7 +182,7 @@ export default function Homepage() {
           </section>
 
           {/* Quick Links Section */}
-          <section className="py-16 px-4 text-center bg-slate-900/30 rounded-xl my-8">
+          <section className={styles.quickLinks}>
             <h2 className="text-2xl font-bold mb-4">Want to Learn More?</h2>
             <p className="text-slate-400 mb-8 max-w-xl mx-auto">
               Explore detailed information about my services, background, or find answers to common questions.

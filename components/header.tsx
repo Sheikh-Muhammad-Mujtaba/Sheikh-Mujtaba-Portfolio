@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Briefcase, CircleHelp, Menu, User, X } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "./social-icons";
+import styles from "../styles/header.module.scss";
 
 type HeaderProps = {
   logoLink: string;
@@ -25,13 +26,12 @@ export default function Header({ logoLink }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <nav className="flex justify-center mt-3 sm:mt-4 px-4">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-full bg-[rgba(10,10,10,0.68)] backdrop-blur-xl border border-white/[0.18] shadow-lg w-[90%] md:w-[75%] max-w-[1536px] min-h-[60px]">
-          {/* Logo */}
+    <header className={styles.header}>
+      <nav className={styles.nav} aria-label="Primary navigation">
+        <div className={styles.navShell}>
           <Link
             href={logoLink}
-            className="flex items-center gap-2 group shrink-0"
+            className={styles.logo}
             rel="home"
             data-header-logo="true"
           >
@@ -41,31 +41,26 @@ export default function Header({ logoLink }: HeaderProps) {
               width={70}
               height={70}
               priority
-              className="w-10.5 h-10.5 rounded-full border border-white/40 shadow-lg object-cover group-hover:scale-105 transition-transform duration-200"
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {/* Main Nav Items */}
+          <div className={styles.desktopNav}>
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold text-white hover:bg-white/10 transition-all duration-200"
+                  className={styles.navLink}
                 >
-                  <Icon className="w-[1.2rem] h-[1.2rem]" />
+                  <Icon aria-hidden="true" />
                   <span>{item.label}</span>
                 </Link>
               );
             })}
 
-            {/* Divider */}
-            <div className="w-px h-5 bg-slate-600 mx-2" />
+            <div className={styles.divider} aria-hidden="true" />
 
-            {/* Social Links with Slide Reveal */}
             {socialLinks.map((link) => {
               const Icon = link.icon;
               return (
@@ -74,36 +69,33 @@ export default function Header({ logoLink }: HeaderProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-0 px-3 py-2 rounded-full text-white hover:bg-white/10 transition-all duration-300 overflow-hidden"
+                  className={styles.socialLink}
                   title={link.label}
                 >
-                  <Icon className="w-[1.3rem] h-[1.3rem] flex-shrink-0" />
-                  <span className="max-w-0 overflow-hidden group-hover:max-w-20 group-hover:ml-2 transition-all duration-300 whitespace-nowrap text-sm font-bold">
-                    {link.label}
-                  </span>
+                  <Icon aria-hidden="true" />
+                  <span>{link.label}</span>
                 </a>
               );
             })}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
+            className={styles.menuButton}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            type="button"
           >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
         </div>
 
-        {/* Mobile Menu Dropdown */}
         <div
-          className={`md:hidden absolute top-full left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm mt-2 rounded-2xl bg-slate-900/95 backdrop-blur-xl border border-white/10 shadow-xl overflow-hidden transition-all duration-300 ${
-            isMenuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+          className={`${styles.mobileMenu} ${
+            isMenuOpen ? styles.mobileMenuOpen : styles.mobileMenuClosed
           }`}
         >
-          <div className="p-4 space-y-1">
-            {/* Main Nav Items */}
+          <div className={styles.mobileMenuInner}>
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -111,19 +103,17 @@ export default function Header({ logoLink }: HeaderProps) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-all font-bold"
+                  className={styles.mobileLink}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon aria-hidden="true" />
                   <span>{item.label}</span>
                 </Link>
               );
             })}
 
-            {/* Divider */}
-            <div className="h-px bg-slate-700 my-3" />
+            <div className={styles.mobileDivider} aria-hidden="true" />
 
-            {/* Social Links */}
-            <div className="flex gap-2">
+            <div className={styles.mobileSocials}>
               {socialLinks.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -132,10 +122,10 @@ export default function Header({ logoLink }: HeaderProps) {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-all font-bold"
+                    className={styles.mobileLink}
                   >
-                    <Icon className="w-5 h-5" />
-                    <span className="text-sm">{link.label}</span>
+                    <Icon aria-hidden="true" />
+                    <span>{link.label}</span>
                   </a>
                 );
               })}
