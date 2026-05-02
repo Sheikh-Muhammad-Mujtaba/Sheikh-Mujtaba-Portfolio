@@ -5,8 +5,9 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
+    "analyze": "set ANALYZE=true && next build --webpack",
     "lint": "next lint"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@shikijs/rehype": "^1.25.1",
     "@types/mdx": "^2.0.13",
     "@types/node": "^22.10.4",

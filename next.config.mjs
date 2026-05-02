@@ -1,3 +1,9 @@
+import withBundleAnalyzer from "@next/bundle-analyzer";
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // App Router and Turbopack-safe
@@ -26,11 +32,7 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: [
-      "framer-motion",
-      "gsap",
-      "react-icons",
-    ],
+    optimizePackageImports: ["react-icons"],
   },
 
   // Enable static optimization for better SEO
@@ -39,8 +41,7 @@ const nextConfig = {
   // Compress responses for faster delivery
   compress: true,
 
-  // Keep source maps available for production bundles (Lighthouse best-practice audit).
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
 
   // Headers for SEO and security
   async headers() {
@@ -78,35 +79,20 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://*.google.com https://*.gstatic.com https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' https:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://*.google.com; connect-src 'self' https: wss: https://vitals.vercel-insights.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests;",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-        ],
-      },
-      {
-        // Cache static assets
-        source: "/(.*\\.(?:js|css|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|otf|eot))",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        // Optimize media resources
-        source: "/(.*\\.(?:mp4|webm|ogg))",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            value: `
+            default-src 'self';
+            script-src 'self' https://cdn.jsdelivr.net https://va.vercel-scripts.com;
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data: https:;
+            font-src 'self' data:;
+            connect-src 'self' https:;
+            frame-src https://www.youtube.com https://www.youtube-nocookie.com;
+            object-src 'none';
+            base-uri 'self';
+            form-action 'self';
+            frame-ancestors 'none';
+            upgrade-insecure-requests;
+            `,
           },
         ],
       },
@@ -125,4 +111,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);

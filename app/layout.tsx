@@ -8,7 +8,7 @@ import DeferredChat from "../components/deferred-chat";
 import { Inter, Outfit } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
-import dynamic from "next/dynamic";
+import ClientWrapper from "../components/client-wrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,16 +33,6 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-const SmoothScroll = dynamic(
-  () => import("../components/smooth-scroll-optimized"),
-  { ssr: false }
-);
-
-const DeferredChat = dynamic(
-  () => import("../components/deferred-chat"),
-  { ssr: false }
-);
-
 export default function RootLayout({
   children,
 }: {
@@ -66,8 +56,7 @@ export default function RootLayout({
         <ProfessionalServiceJsonLd />
       </head>
       <body className="antialiased font-sans">
-        <SmoothScroll>{children}</SmoothScroll>
-        <DeferredChat />
+        <ClientWrapper>{children}</ClientWrapper>
         <Analytics />
         <SpeedInsights />
       </body>

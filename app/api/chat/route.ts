@@ -1,7 +1,7 @@
-import * as GoogleGen from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import resume from "@/data/resume-data.json";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -208,7 +208,7 @@ export async function POST(req: Request) {
     }
 
     try {
-      const GoogleGenerativeAI = (GoogleGen as any).GoogleGenerativeAI ?? (GoogleGen as any).default ?? null;
+      const client = new GoogleGenerativeAI(GEMINI_API_KEY);
       if (GoogleGenerativeAI && typeof GoogleGenerativeAI === "function") {
         const client = new GoogleGenerativeAI(GEMINI_API_KEY);
         const model = client.getGenerativeModel({ model: modelName, systemInstruction: systemPrompt });
