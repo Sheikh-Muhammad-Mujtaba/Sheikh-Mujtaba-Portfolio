@@ -4,10 +4,13 @@ import styles from "../styles/project-listing.module.scss";
 import commonStyles from "../styles/common.module.scss";
 
 import { ProjectType } from "../utils/project-data";
+import YouTubeHoverPlayer from "./youtube-hover-player";
 
 type ProjectListingProps = {
   project: ProjectType;
 };
+
+
 
 export default function ProjectListing({ project }: ProjectListingProps) {
   const {
@@ -33,19 +36,16 @@ export default function ProjectListing({ project }: ProjectListingProps) {
       <div className={styles.projectItemContainer}>
         {videoEmbedUrl ? (
           <div className={styles.projectVideoWrapper} data-project-image="true">
-            <iframe
-              src={videoEmbedUrl}
+            <YouTubeHoverPlayer
+              embedUrl={videoEmbedUrl}
               title={`${name} video demo`}
               className={styles.projectVideo}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
+              id={`player-${slug}`}
             />
           </div>
         ) : (
           <a
-            href={link ?? code}
+            href={link ?? code ?? "#"}
             title={link ? `Open site of ${name}` : `View Code for ${name}`}
             data-project-image="true"
             target="_blank"
@@ -67,7 +67,7 @@ export default function ProjectListing({ project }: ProjectListingProps) {
           data-project-info="true"
         >
           <a
-            href={link ?? code}
+            href={link ?? code ?? "#"}
             title={link ? `Open site of ${name}` : `View Code for ${name}`}
             target="_blank"
             rel="noopener noreferrer"

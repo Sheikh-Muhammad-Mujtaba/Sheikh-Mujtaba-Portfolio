@@ -224,10 +224,7 @@ export default function Homepage() {
               Explore detailed information about my services, background, or find answers to common questions.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <a
-                href="/services"
-                className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-medium transition-colors"
-              >
+              <a href="/services" className="btn-primary">
                 View Services & Pricing
               </a>
               <a
