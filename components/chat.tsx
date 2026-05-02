@@ -275,6 +275,24 @@ export default function Chat({ initialOpen = false }: ChatProps) {
     }
   }, [isOpen]);
 
+  // Immediately open when the page set a prior open request (deferred launcher)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // If the launcher set a global flag before Chat mounted, honor it now.
+    try {
+      if ((window as any).__smjChatOpenRequested) {
+        setIsOpen(true);
+        delete (window as any).__smjChatOpenRequested;
+      }
+    } catch {}
+
+    // Also listen for explicit open events if other code wants to open it.
+    const handler = () => setIsOpen(true);
+    window.addEventListener("smj-open-chat", handler as EventListener);
+    return () => window.removeEventListener("smj-open-chat", handler as EventListener);
+  }, []);
+
   // Restore chat history from localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -617,7 +635,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
       {/* Floating Action Button */}
       <AnimatePresence>
         {!isOpen && (
-          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] flex items-end gap-2 transition-opacity duration-300">
+          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-end gap-2 transition-opacity duration-300">
             {/* Popup Bubble */}
             <AnimatePresence>
               {showBubble && (
@@ -629,7 +647,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
                   className="mb-2 relative"
                 >
                   <div
-                    onClick={() => setIsOpen(true)}
+                    onPointerDown={() => setIsOpen(true)}
                     className="bg-slate-900 text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl rounded-br-sm shadow-xl cursor-pointer hover:bg-slate-800 transition-colors max-w-[70vw] sm:max-w-none"
                   >
                     <span className="text-xs sm:text-sm font-medium block truncate">💬 Ask me anything!</span>
@@ -641,13 +659,14 @@ export default function Chat({ initialOpen = false }: ChatProps) {
             </AnimatePresence>
 
             <motion.button
+              onPointerDown={() => setIsOpen(true)}
               onClick={() => setIsOpen(true)}
               className="flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 glass rounded-full shadow-2xl border border-slate-200 hover:shadow-xl transition-shadow overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 5.5, duration: 0.5 }}
+              transition={{ duration: 0.35 }}
               exit={{ opacity: 0, y: 20 }}
               aria-label="Open chat dialog to ask questions"
             >
@@ -673,7 +692,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30"
             />
 
             {/* Chat Container */}
@@ -681,7 +700,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-[9999] h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
+              className="fixed bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-auto md:right-6 w-[calc(100vw-1rem)] sm:w-[min(26rem,calc(100vw-2rem))] z-40 h-auto max-h-[92dvh] bg-[#faf9f6] rounded-lg md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-3 sm:px-4 py-3 bg-slate-900 border-b border-slate-800">

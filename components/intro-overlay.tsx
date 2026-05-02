@@ -56,7 +56,12 @@ export default function IntroOverlay() {
      * We unmount at 5.4 s (200 ms buffer) so the DOM element is
      * fully gone before the chat widget ever needs to be interacted with.
      */
-    const removeTimer = window.setTimeout(() => setPhase("done"), 5400);
+    const removeTimer = window.setTimeout(() => {
+      setPhase("done");
+      try {
+        window.dispatchEvent(new Event("smj-intro-done"));
+      } catch {}
+    }, 5400);
 
     return () => {
       window.removeEventListener("resize", computeTarget);

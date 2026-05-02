@@ -9,6 +9,7 @@ import { Instrument_Serif, Manrope } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
 
+
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
