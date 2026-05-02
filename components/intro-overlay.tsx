@@ -36,7 +36,7 @@ export default function IntroOverlay() {
     setTargetPosition();
     window.addEventListener("resize", setTargetPosition);
 
-    const removeTimer = window.setTimeout(() => setIsMounted(false), 3300);
+    const removeTimer = window.setTimeout(() => setIsMounted(false), 4600);
 
     return () => {
       window.removeEventListener("resize", setTargetPosition);

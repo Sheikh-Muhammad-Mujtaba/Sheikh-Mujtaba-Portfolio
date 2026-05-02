@@ -13,14 +13,14 @@
   align-items: center;
   pointer-events: none;
   overflow: hidden;
-  animation: overlayExit 0.7s ease 2.45s forwards;
+  animation: overlayExit 0.9s ease 3.42s forwards;
 
   .overlayBackground {
     position: absolute;
     inset: 0;
     z-index: -1;
     background: radial-gradient(circle at center, #0a1120 0%, $black 68%);
-    animation: backgroundExit 0.7s ease 2.18s forwards;
+    animation: backgroundExit 1s ease 3.12s forwards;
   }
 
   .premiumLogoWrapper {
@@ -39,7 +39,7 @@
       0 20px 40px rgba(14, 165, 233, 0.2);
     will-change: transform, opacity, filter;
     transform-origin: center center;
-    animation: logoTravel 2.72s cubic-bezier(0.2, 0.82, 0.2, 1) forwards;
+    animation: logoTravel 3.95s forwards;
 
     &::before {
       content: "";
@@ -70,42 +70,55 @@
   0% {
     opacity: 0;
     filter: blur(18px);
-    transform: translate3d(0, -108vh, 0) scale(1.12);
+    transform: translate3d(0, -112vh, 0) scale(1.08, 1.08);
+    animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
   }
-  28% {
+  24% {
     opacity: 1;
     filter: blur(0);
-    transform: translate3d(0, 22px, 0) scale(1.02, 0.94);
+    transform: translate3d(0, 44px, 0) scale(1.13, 0.82);
+    animation-timing-function: cubic-bezier(0.2, 0.9, 0.28, 1);
   }
-  36% {
+  34% {
     opacity: 1;
-    transform: translate3d(0, -34px, 0) scale(0.96, 1.05);
+    filter: blur(0);
+    transform: translate3d(0, -92px, 0) scale(0.92, 1.1);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.55, 0);
   }
   45% {
     opacity: 1;
-    transform: translate3d(0, 12px, 0) scale(1.01, 0.97);
+    transform: translate3d(0, 28px, 0) scale(1.08, 0.88);
+    animation-timing-function: cubic-bezier(0.22, 0.88, 0.32, 1);
   }
-  53% {
+  54% {
     opacity: 1;
-    transform: translate3d(0, -12px, 0) scale(0.98, 1.02);
+    transform: translate3d(0, -42px, 0) scale(0.96, 1.05);
+    animation-timing-function: cubic-bezier(0.33, 0, 0.58, 0);
   }
-  61% {
+  63% {
     opacity: 1;
-    transform: translate3d(0, 4px, 0) scale(1);
+    transform: translate3d(0, 12px, 0) scale(1.04, 0.94);
+    animation-timing-function: cubic-bezier(0.24, 0.82, 0.34, 1);
   }
-  68% {
+  70% {
     opacity: 1;
-    filter: blur(0);
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, -14px, 0) scale(0.99, 1.02);
+    animation-timing-function: cubic-bezier(0.32, 0, 0.56, 0);
   }
   78% {
     opacity: 1;
+    transform: translate3d(0, 3px, 0) scale(1.01, 0.98);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  83% {
+    opacity: 1;
     filter: blur(0);
     transform: translate3d(0, 0, 0) scale(1);
+    animation-timing-function: cubic-bezier(0.42, 0, 0.18, 1);
   }
   100% {
     opacity: 0;
-    filter: blur(8px);
+    filter: blur(12px);
     transform: translate3d(var(--intro-logo-x), var(--intro-logo-y), 0) scale(var(--intro-logo-scale));
   }
 }
