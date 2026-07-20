@@ -61,58 +61,74 @@ export default function ScrollAnimations() {
         const badge = document.querySelector<HTMLElement>("[data-hero-badge]");
 
         if (hero && heroPortrait && aboutTarget && isDesktop) {
+          // Stays in normal flow — transforms only. `position: fixed` cannot be
+          // used here: [data-hero-visual] receives a transform from the pointer
+          // tilt below, and a transformed ancestor becomes the containing block
+          // for fixed descendants, which breaks the anchoring entirely.
           gsap.set(heroPortrait, {
             transformPerspective: 1200,
             transformStyle: "preserve-3d",
+            transformOrigin: "top left",
             willChange: "transform",
-            position: "relative",
-            zIndex: 999,
           });
 
-          // Helper to calculate exact spatial deltas between Hero portrait and About target slot
+          // Document-space position: viewport rects shift while scrolling, so a
+          // delta built from them goes stale mid-scrub. Adding the scroll offset
+          // makes the measurement scroll-invariant.
+          const docPos = (el: HTMLElement) => {
+            const r = el.getBoundingClientRect();
+            return {
+              left: r.left + window.scrollX,
+              top: r.top + window.scrollY,
+              width: r.width,
+            };
+          };
+
+          // Back the live transform out of the measurement to recover the
+          // portrait's untransformed box, then measure to the target from there.
+          // `transformOrigin: top left` keeps scale from shifting that corner,
+          // so the subtraction is exact.
           const getDeltas = () => {
             const curX = (gsap.getProperty(heroPortrait, "x") as number) || 0;
             const curY = (gsap.getProperty(heroPortrait, "y") as number) || 0;
             const curScale = (gsap.getProperty(heroPortrait, "scale") as number) || 1;
 
-            const hRect = heroPortrait.getBoundingClientRect();
-            const tRect = aboutTarget.getBoundingClientRect();
+            const h = docPos(heroPortrait);
+            const t = docPos(aboutTarget);
 
-            const baseHLeft = hRect.left - curX;
-            const baseHTop = hRect.top - curY;
-            const baseHWidth = hRect.width / curScale;
+            const baseLeft = h.left - curX;
+            const baseTop = h.top - curY;
+            const baseWidth = h.width / curScale;
 
-            const dx = tRect.left - baseHLeft;
-            const dy = tRect.top - baseHTop;
-            const scale = baseHWidth > 0 ? tRect.width / baseHWidth : 1;
-
-            return { dx, dy, scale };
+            return {
+              dx: t.left - baseLeft,
+              dy: t.top - baseTop,
+              scale: baseWidth > 0 ? t.width / baseWidth : 1,
+            };
           };
 
-          // ScrollTrigger transition moving portrait diagonally from top-right Hero down to bottom-left About target slot
           const portraitTL = gsap.timeline({
             scrollTrigger: {
               trigger: hero,
               endTrigger: aboutSection || aboutTarget,
               start: "top top",
-              end: "top 35%",
-              scrub: 1.2,
+              end: "top 40%",
+              scrub: 0.6,
               invalidateOnRefresh: true,
             },
           });
 
           portraitTL
             .to(heroPortrait, {
-              x: () => getDeltas().dx * 0.55,
-              y: () => getDeltas().dy * 0.55,
-              scale: () => 1 + (getDeltas().scale - 1) * 0.55,
-              rotationY: -22,
-              rotationX: 8,
-              z: 140,
-              zIndex: 999,
-              boxShadow: "0 45px 120px rgba(34, 211, 238, 0.4), 0 0 75px rgba(34, 211, 238, 0.25)",
-              ease: "power2.inOut",
-              duration: 0.5,
+              x: () => getDeltas().dx * 0.5,
+              y: () => getDeltas().dy * 0.5,
+              scale: () => 1 + (getDeltas().scale - 1) * 0.5,
+              rotationY: -16,
+              rotationX: 6,
+              z: 120,
+              boxShadow: "0 50px 140px rgba(34, 211, 238, 0.45), 0 0 80px rgba(34, 211, 238, 0.28)",
+              ease: "power2.out",
+              duration: 0.55,
             })
             .to(heroPortrait, {
               x: () => getDeltas().dx,
@@ -121,10 +137,9 @@ export default function ScrollAnimations() {
               rotationY: 0,
               rotationX: 0,
               z: 0,
-              zIndex: 999,
               boxShadow: "0 35px 100px rgba(0, 0, 0, 0.45), 0 0 60px rgba(34, 211, 238, 0.1)",
-              ease: "power2.out",
-              duration: 0.5,
+              ease: "power3.inOut",
+              duration: 0.45,
             });
         }
 
@@ -254,6 +269,7 @@ export default function ScrollAnimations() {
 
           if (isDesktop) {
             const fromLeft = i % 2 === 0;
+
             tl.from(
               img,
               {
@@ -264,7 +280,40 @@ export default function ScrollAnimations() {
                 ease: "none",
               },
               0
-            ).from(info, { y: 48, opacity: 0, ease: "none" }, 0.15);
+            );
+
+            // Cascade the copy (title → description → type → buttons) instead of
+            // sliding .projectInfo in as one slab. Animating the children keeps
+            // .projectInfo itself transform-free for the parallax drift below.
+            const infoLines = gsap.utils.toArray<HTMLElement>(info.children);
+            tl.from(
+              infoLines,
+              {
+                y: 44,
+                opacity: 0,
+                stagger: 0.07,
+                ease: "none",
+              },
+              0.15
+            );
+
+            // Gentle counter-drift so the copy and the artwork don't travel in
+            // lockstep. Kept small — .projectItemContainer has no overflow
+            // clipping, so a large offset would push the text past the card.
+            gsap.fromTo(
+              info,
+              { yPercent: 3.5 },
+              {
+                yPercent: -3.5,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: card,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              }
+            );
           } else {
             tl.from(card, { y: 36, opacity: 0, ease: "none" }, 0);
           }

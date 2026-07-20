@@ -83,6 +83,9 @@
   // ─── HERO ───────────────────────────────────
   .hero {
     position: relative;
+    // Above every section below it — the portrait travels out of this section
+    // into #about, so the hero's stacking context must win against them.
+    z-index: 10;
     display: flex;
     align-items: center;
     width: min(92%, 1280px);
@@ -220,7 +223,7 @@
         width: min(100%, 380px);
         margin-inline: auto;
         position: relative;
-        transform-style: preserve-3d;
+        z-index: 999;
         border-radius: clamp(20px, 4vw, 34px);
         border: 1px solid rgba(34, 211, 238, 0.28);
         background:
@@ -474,11 +477,11 @@
     background:
       linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 36%),
       rgba(15, 23, 42, 0.46);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
   }
 
-  // About gets an opaque background so the hero portrait is never blurred
+  // About gets an opaque background so the hero portrait is never blurred.
+  // Deliberately no z-index: it must stay below .hero (z-index: 10) so the
+  // travelling portrait paints over this card instead of behind it.
   .aboutContainer {
     background:
       linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 36%),
@@ -720,9 +723,7 @@
         background: rgba(2, 6, 23, 0.26);
         font-size: 0.9rem;
         line-height: 1.7;
-        transform-style: preserve-3d;
         backface-visibility: hidden;
-        will-change: transform, opacity;
         transition: border-color 0.4s $ease-premium, box-shadow 0.4s $ease-premium;
 
         @media (min-width: 768px) {
