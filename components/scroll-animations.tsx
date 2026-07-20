@@ -315,8 +315,31 @@ export default function ScrollAnimations() {
               }
             );
           } else {
-            tl.from(card, { y: 36, opacity: 0, ease: "none" }, 0);
+            // Animate the inner shell, not the card itself — the outer
+            // .projectListing has to stay free for the exit fade below.
+            // firstElementChild is .projectItemContainer (its only direct
+            // child); that element's CSS :hover transform is moot on touch.
+            const shell = (card.firstElementChild as HTMLElement) || card;
+            tl.from(shell, { y: 36, opacity: 0, ease: "none" }, 0);
           }
+
+          // Float + fade away as the card clears the top of the viewport, so
+          // cards recede on exit instead of holding full opacity until they
+          // pop off screen. Applied to the outer .projectListing: it is the
+          // only element in this card with no CSS :hover transform for GSAP's
+          // inline styles to override.
+          gsap.to(card, {
+            opacity: 0,
+            scale: 0.95,
+            y: -30,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "bottom 50%",
+              end: "bottom 5%",
+              scrub: true,
+            },
+          });
         });
 
         return () => {
