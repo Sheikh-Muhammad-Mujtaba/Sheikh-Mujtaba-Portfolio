@@ -1,101 +1,67 @@
 # Sheikh Mujtaba - AI Developer & Security Engineer
+# Website: https://sheikmujtaba.me
+# This file helps AI models understand the content and purpose of this website
 
-## Overview
+## Website Overview
+Sheikh Mujtaba is an AI Developer and Security Engineer specializing in:
+- Building secure AI agents and agentic AI systems
+- ERPNext automation and digital transformation
+- Digital Full-Time Equivalent (FTE) solutions
+- Cybersecurity and web application penetration testing
+- RAG (Retrieval Augmented Generation) pipelines
+- LLM integration and prompt engineering
+- Full-stack development with Next.js, FastAPI, and Python
+- Business process automation and n8n workflows
 
-Sheikh Mujtaba is an AI Developer and Security Engineer specializing in Agentic AI systems, RAG (Retrieval Augmented Generation) pipelines, multi-agent orchestration, and secure-by-design architecture. Based in Pakistan, he works with international clients on production-grade AI implementations.
+## Keywords
+- Sheikh Mujtaba
+- cybersheikh
+- AI agents
+- Agentic AI
+- ERPNext specialist
+- Digital FTE
+- Automation engineer
+- Software developer
+- Security engineer
+- RAG pipeline development
+- LLM integration
+- AI security
+- Prompt injection testing
+- Business automation
 
-> Website: https://sheikhmujtaba.me
-> Contact: smujtabaja@gmail.com
-> LinkedIn: https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/
-> GitHub: https://github.com/Sheikh-Muhammad-Mujtaba
-> Medium: https://medium.com/@smujtabaja
-> X (Twitter): https://x.com/Mujtaba_Javed_
-> Linktree: https://linktr.ee/s.m.mujtabajaved
+## Services
+1. AI Agent Development - Building autonomous AI systems using OpenAI, Gemini, and Claude APIs
+2. ERPNext Solutions - Custom ERPNext implementations and automation
+3. Digital FTE - Automating repetitive business processes to reduce costs
+4. Security Engineering - Web app penetration testing, AI red teaming
+5. Full-Stack Development - Building scalable web applications with modern tech stack
+6. LLM Integration - Integrating large language models into business applications
+7. RAG Pipeline Development - Creating knowledge-grounded AI systems
+8. Business Process Automation - Workflow automation using n8n and Python
 
-## Core Expertise
+## Technical Skills
+- AI/ML: OpenAI API, Google Gemini, Claude API, LangChain, LlamaIndex, RAG
+- Languages: Python, TypeScript, JavaScript, SQL
+- Frontend: React, Next.js, Tailwind CSS, GSAP
+- Backend: FastAPI, Node.js, Express
+- Databases: PostgreSQL, Qdrant, Vector Databases, MongoDB
+- DevOps: Docker, AWS, Cloud deployment
+- Tools: n8n workflows, Git, Linux
 
-### AI Development
-- Agentic AI systems using OpenAI Agents SDK, Gemini SDK, and Claude API
-- RAG pipeline architecture with Qdrant vector database and PostgreSQL/pgvector
-- Multi-agent orchestration flows with human-in-the-loop control
-- LLM integration (GPT-4, Gemini, Claude) with context grounding
-- Tool-calling AI workers for business automation
+## Experience
+- AI Developer for Remote Clients - Building RAG-based chatbots and autonomous AI agents
+- Web Application Developer - Full-stack development with Next.js and FastAPI
+- Freelance Developer - Multiple successful client projects
+- Security Engineer - Web app pentesting, AI security assessments
 
-### Security Engineering
-- Web application security assessment and penetration testing
-- AI red teaming and prompt injection testing
-- Secure-by-design architecture for AI systems
-- ERP security and workflow hardening
-- Backdoor removal and hosting hardening
-
-### Full-Stack Development
-- Next.js, React, TypeScript frontend development
-- FastAPI, Python backend systems
-- PostgreSQL, Qdrant database design
-- n8n workflow automation
-- Cloud deployment (Vercel, AWS, Google Cloud)
-
-## Notable Projects
-
-### AI & Automation
-- **CRM Digital FTE**: Autonomous customer success platform with Gemini and OpenAI Agents SDK
-- **AI Employee Digital FTE**: 9-service orchestrated AI employee system with Next.js/FastAPI dashboard
-- **AI Spec-Driven Documentation**: RAG-powered technical docs platform with Qdrant and strict context grounding
-- **NuraShell**: Python CLI agent with Gemini and ChatGPT integration (PyPI package)
-
-### Web Development
-- **Learning Management System (LMS)**: Full-stack with Next.js, PostgreSQL, role-based dashboards
-- **E-Commerce Platforms**: Multiple Next.js + Tailwind CSS implementations with Stripe
-- **Internal Tools**: Web tools for Tech Accuracy reducing downtime
-
-### Security Research
-- **Gray Swan Red Teaming**: Ethical AI red teaming engagements
-- **CTF Challenges**: Security competition solutions and write-ups
-- **Malware Analysis**: PHP backdoor investigation and DNS payload analysis
-
-## Services Offered
-
-| Service | Description | Tech Stack | Engagement Model |
-|---------|-------------|------------|------------------|
-| AI Agent Development | Build autonomous agents for business automation | OpenAI SDK, Gemini, Claude, FastAPI | Project-based, Retainer |
-| RAG Pipeline Architecture | Design production-grade retrieval systems | Qdrant, PostgreSQL, pgvector, LangChain | Project-based |
-| Security Engineering | Web app pentesting, AI red teaming | Burp Suite, Custom tools | Audit, Retainer |
-| Full-Stack Development | End-to-end web application development | Next.js, FastAPI, PostgreSQL | Project-based |
-| AI Consulting | Architecture review and implementation guidance | Various | Hourly, Retainer |
-
-## Experience Highlights
-
-- **AI Developer for Remote Clients** (Apr 2025-Present): Deployed RAG chatbots and autonomous AI agent systems for enterprise clients
-- **Web Application Developer & IT Consultant** (Jul 2025-Present): Built internal tools at Tech Accuracy, streamlined maintenance workflows
-- **Freelance Web Developer** (Jan 2024-2025): Delivered full-stack Next.js applications with AI backend integration
-
-## Technical Writing
-
-- "Difference between Generative AI and LLM — In simple and easy language" (Medium, May 2025)
-- "The Strongest Encryption Algorithms in 2025: A Complete Guide" (Medium, March 2025)
-- "Introduction to Machine Learning: A Beginner's Guide" (Medium, March 2025)
-
-## Why Hire Sheikh Mujtaba?
-
-1. **Production Experience**: Built and deployed production-grade AI systems for real businesses
-2. **Security-First**: Applies security engineering principles to AI development
-3. **Full-Stack Capability**: Can architect complete systems from database to UI
-4. **Context Grounding Specialist**: Focus on reducing AI hallucination through proper RAG implementation
-5. **Human-in-the-Loop Design**: Builds reliable autonomous systems with appropriate oversight
-
-## Ideal Client Profile
-
-- Companies building AI-powered features or products
-- Startups needing rapid AI prototyping and deployment
-- Enterprises requiring secure AI system architecture
-- Teams needing RAG pipeline implementation
-- Organizations seeking AI automation workflow design
+## Portfolio Highlights
+- Multiple shipped AI agent projects
+- ERPNext customizations and implementations
+- Full-stack SaaS applications
+- Security research and penetration testing
 
 ## Contact
-
 - Email: smujtabaja@gmail.com
-- LinkedIn: https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/
 - GitHub: https://github.com/Sheikh-Muhammad-Mujtaba
-- Portfolio: https://sheikhmujtaba.me
-- X (Twitter): https://x.com/Mujtaba_Javed_
-- Linktree: https://linktr.ee/s.m.mujtabajaved
+- LinkedIn: https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/
+- Location: Pakistan | Available for Remote Work Worldwide

@@ -21,6 +21,7 @@
 
   .projectItemContainer {
     display: grid;
+    perspective: 1000px;
     grid-template-columns: minmax(0, 1fr);
     gap: clamp(1.25rem, 3.5vw, 2.5rem);
     align-items: center;
@@ -38,6 +39,10 @@
     @media (min-width: 900px) {
       grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
       padding: clamp(0.9rem, 2vw, 1.3rem);
+    }
+
+    > a[data-project-image="true"] {
+      display: block;
     }
 
     &:hover {
@@ -99,10 +104,10 @@
           width: fit-content;
           margin: 0.15rem 0 1rem;
           padding: 0.28rem 0.62rem;
-          border: 1px solid rgba(214, 181, 109, 0.18);
+          border: 1px solid rgba(214, 181, 109, 0.35);
           border-radius: 999px;
           background: rgba(214, 181, 109, 0.08);
-          color: rgba(214, 181, 109, 0.95);
+          color: #ddbf82;
           font-size: 0.72rem;
           font-weight: 800;
           letter-spacing: 0.08em;

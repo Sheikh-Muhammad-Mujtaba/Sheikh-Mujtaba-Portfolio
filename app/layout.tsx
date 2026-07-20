@@ -2,6 +2,7 @@ import "./tailwind.css";
 import "../styles/global.scss";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 import type { Metadata, Viewport } from "next";
 import DeferredChat from "../components/deferred-chat";
 import IntroOverlay from "../components/intro-overlay";
@@ -45,6 +46,24 @@ export default function RootLayout({
         <PersonJsonLd />
         <WebSiteJsonLd />
         <ProfessionalServiceJsonLd />
+
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-QPNQ4HRE4V"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-QPNQ4HRE4V');
+            `,
+          }}
+        />
       </head>
       <body className="antialiased font-sans">
         <IntroOverlay />

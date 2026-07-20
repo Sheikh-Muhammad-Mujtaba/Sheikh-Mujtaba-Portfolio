@@ -39,6 +39,7 @@ export type ProjectType = {
   link?: string;
   slug: string;
   type: string;
+  featured?: boolean;
 };
 
 export const projectsList: ProjectType[] = [
@@ -51,6 +52,7 @@ export const projectsList: ProjectType[] = [
     code: "https://github.com/Sheikh-Muhammad-Mujtaba/CRM-Digital-FTE",
     slug: "crm-digital-fte-ai-customer-success-platform",
     type: "AI Platform",
+    featured: true,
   },
   {
     name: "AI Employee Digital FTE - Business Autopilot",
@@ -60,6 +62,7 @@ export const projectsList: ProjectType[] = [
     code: "https://github.com/Sheikh-Muhammad-Mujtaba/AI-Employee-Digital-FTE",
     slug: "ai-employee-digital-fte-business-autopilot",
     type: "AI Agent",
+    featured: true,
   },
   {
     name: "Learning Management System (LMS)",
@@ -68,6 +71,7 @@ export const projectsList: ProjectType[] = [
     image: Lms,
     slug: "learning-management-system-lms",
     type: "Full-Stack",
+    featured: true,
   },
   {
     name: "AI Spec-Driven Documentation Platform",
@@ -80,6 +84,7 @@ export const projectsList: ProjectType[] = [
     link: "https://ai-spec-driven.vercel.app/",
     slug: "ai-spec-driven-documentation-platform",
     type: "AI + Documentation",
+    featured: true,
   },
   {
     name: "SHOP.CO E-Commerce",
@@ -178,6 +183,7 @@ export const projectsList: ProjectType[] = [
     link: "https://pypi.org/project/nuralshell/",
     slug: "nurashell",
     type: "AI Agent",
+    featured: true,
   },
   {
     name: "Laravel POS Register Modification",

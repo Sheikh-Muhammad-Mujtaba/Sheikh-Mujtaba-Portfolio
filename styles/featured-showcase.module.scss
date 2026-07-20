@@ -1,0 +1,179 @@
+@use "./variables.module.scss" as *;
+
+.showcase {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(5.5rem, 12vh, 7rem) 1rem clamp(2rem, 6vh, 3.5rem);
+  overflow-x: clip;
+
+  @media (min-width: 768px) {
+    padding-inline: 1.5rem;
+  }
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+
+  h2 {
+    margin: 0.35rem 0;
+    font-family: $font-heading;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    color: $white;
+  }
+}
+
+.kicker {
+  color: $cyan;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.sub {
+  color: $muted;
+  font-size: 0.95rem;
+}
+
+.stage {
+  perspective: 1600px;
+}
+
+.deck {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  transform-style: preserve-3d;
+}
+
+.card {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  align-items: center;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  border: 1px solid $border;
+  border-radius: clamp(16px, 3vw, 26px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), transparent 34%),
+    rgba(15, 23, 42, 0.5);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.35);
+
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+}
+
+.cardMedia {
+  overflow: hidden;
+  border: 1px solid rgba(34, 211, 238, 0.16);
+  border-radius: clamp(12px, 2vw, 18px);
+}
+
+.cardImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  h3 {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.05;
+    color: rgba(248, 250, 252, 0.96);
+  }
+}
+
+.cardType {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.28rem 0.62rem;
+  border: 1px solid rgba(214, 181, 109, 0.35);
+  border-radius: 999px;
+  background: rgba(214, 181, 109, 0.08);
+  color: #ddbf82;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cardDesc {
+  color: $muted;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.cardLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: 999px;
+    color: $white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 0.4s $ease-premium, background-color 0.4s $ease-premium;
+
+    &:hover {
+      border-color: rgba(34, 211, 238, 0.7);
+      background: rgba(34, 211, 238, 0.08);
+    }
+  }
+}
+
+.cardMore {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: $muted !important;
+
+  &:hover {
+    color: $white !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .stageIsPinned .deck {
+    display: block;
+    height: min(64vh, 560px);
+  }
+
+  .stageIsPinned .card {
+    position: absolute;
+    inset: 0;
+    width: min(100%, 920px);
+    height: 100%;
+    margin: 0 auto;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.05), transparent 34%),
+      rgba(10, 16, 30, 0.92);
+  }
+
+  .stageIsPinned .cardMedia {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .stageIsPinned .cardImage {
+    height: 100%;
+  }
+}

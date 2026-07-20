@@ -1,0 +1,29 @@
+# robots.txt for Sheikh Mujtaba Portfolio
+# Allow all search engine bots to crawl
+
+User-Agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /.next/
+Disallow: /_next/
+Crawl-Delay: 1
+
+# Specific rules for Googlebot
+User-Agent: Googlebot
+Allow: /
+Crawl-Delay: 0
+
+# Block bad bots
+User-Agent: AhrefsBot
+Disallow: /
+
+User-Agent: SemrushBot
+Disallow: /
+
+User-Agent: MJ12bot
+Disallow: /
+
+# Sitemap
+Sitemap: https://sheikmujtaba.me/sitemap.xml
+Sitemap: https://sheikmujtaba.me/llms.txt

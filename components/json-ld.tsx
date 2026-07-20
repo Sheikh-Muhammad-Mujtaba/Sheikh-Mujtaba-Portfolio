@@ -1,297 +1,180 @@
-"use client";
-
-import Script from "next/script";
-
-// Person Schema for Sheikh Mujtaba
 export function PersonJsonLd() {
-  const personSchema = {
+  const schema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Sheikh Mujtaba Javed",
-    alternateName: "Sheikh Mujtaba",
-    url: "https://sheikhmujtaba.me",
-    image: "https://sheikhmujtaba.me/images/ProfileImage.jpeg",
+    name: "Sheikh Mujtaba",
+    url: "https://sheikmujtaba.me",
+    email: "smujtabaja@gmail.com",
     jobTitle: "AI Developer & Security Engineer",
-    description:
-      "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, multi-agent orchestration, and secure-by-design architecture.",
-    worksFor: {
-      "@type": "Organization",
-      name: "Tech Accuracy",
-    },
-    knowsAbout: [
-      "Artificial Intelligence",
-      "Machine Learning",
-      "Agentic AI",
-      "RAG (Retrieval Augmented Generation)",
-      "Cybersecurity",
-      "Web Application Security",
-      "Next.js",
-      "FastAPI",
-      "Python",
-      "TypeScript",
-      "LLM Integration",
-      "Multi-Agent Systems",
-      "Penetration Testing",
-      "AI Red Teaming",
-    ],
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "Self-taught & Industry Certified",
-    },
+    description: "Building secure AI agents, ERPNext automation, and digital FTE solutions",
+    image: "https://sheikmujtaba.me/opengraph-image.png",
     sameAs: [
       "https://github.com/Sheikh-Muhammad-Mujtaba",
       "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
-      "https://linktr.ee/s.m.mujtabajaved",
       "https://medium.com/@smujtabaja",
+      "https://linktr.ee/s.m.mujtabajaved",
     ],
-    email: "mailto:smujtabaja@gmail.com",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "PK",
-    },
-    nationality: {
-      "@type": "Country",
-      name: "Pakistan",
+    knowsAbout: [
+      "Agentic AI",
+      "RAG Pipeline",
+      "LLM Integration",
+      "ERPNext",
+      "Digital FTE",
+      "Business Automation",
+      "Cybersecurity",
+      "Full-Stack Development",
+      "FastAPI",
+      "Next.js",
+      "Python",
+      "TypeScript",
+    ],
+    worksFor: {
+      "@type": "Organization",
+      name: "Self Employed",
     },
   };
 
   return (
-    <Script
-      id="person-schema"
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
 
-// WebSite Schema
 export function WebSiteJsonLd() {
-  const websiteSchema = {
+  const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Sheikh Mujtaba Portfolio",
-    url: "https://sheikhmujtaba.me",
+    url: "https://sheikmujtaba.me",
     description:
-      "Portfolio and blog of Sheikh Mujtaba, showcasing AI development and security engineering projects.",
-    author: {
+      "AI Developer & Security Engineer specializing in Agentic AI, ERPNext automation, and digital FTE solutions",
+    creator: {
       "@type": "Person",
       name: "Sheikh Mujtaba",
-      url: "https://sheikhmujtaba.me",
     },
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://sheikhmujtaba.me/?q={search_term_string}",
+        urlTemplate: "https://sheikmujtaba.me/search?q={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },
-    inLanguage: "en-US",
-    isAccessibleForFree: true,
-    copyrightYear: new Date().getFullYear(),
   };
 
   return (
-    <Script
-      id="website-schema"
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(websiteSchema).replace(/</g, "\\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
 
-// ProfessionalService Schema
 export function ProfessionalServiceJsonLd() {
-  const serviceSchema = {
+  const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: "Sheikh Mujtaba - AI & Security Engineering Services",
+    name: "Sheikh Mujtaba - AI & Security Services",
+    url: "https://sheikmujtaba.me",
     description:
-      "Professional AI development and security engineering services including RAG pipeline architecture, multi-agent systems, web application security, and AI automation.",
-    url: "https://sheikhmujtaba.me",
-    provider: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-      url: "https://sheikhmujtaba.me",
-    },
+      "Professional AI development, ERPNext automation, and cybersecurity services",
     areaServed: {
-      "@type": "Place",
-      name: "Global - Remote Services",
+      "@type": "GeoShape",
+      name: "Worldwide",
     },
-    serviceType: [
-      "AI Development",
-      "Security Engineering",
-      "Web Development",
-      "LLM Integration",
-      "RAG Pipeline Architecture",
-      "Multi-Agent System Design",
-      "Cybersecurity Consulting",
-    ],
     priceRange: "$$",
-    knowsAbout: [
-      "OpenAI Agents SDK",
-      "Gemini SDK",
-      "Claude API",
-      "FastAPI",
-      "Next.js",
-      "Qdrant",
-      "PostgreSQL",
-      "Python",
-      "TypeScript",
-      "Penetration Testing",
+    image: "https://sheikmujtaba.me/opengraph-image.png",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "PK",
+      addressRegion: "Pakistan",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Work",
+      email: "smujtabaja@gmail.com",
+      contactOption: "TollFree",
+    },
+    founder: {
+      "@type": "Person",
+      name: "Sheikh Mujtaba",
+    },
+    award: [
+      "Expert in Agentic AI Systems",
+      "ERPNext Specialist",
+      "Full-Stack Developer",
+      "Security Engineer",
     ],
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Services",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "AI Agent Development",
-            description:
-              "Build autonomous AI agents with multi-agent orchestration using OpenAI, Gemini, and Claude APIs",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "RAG Pipeline Architecture",
-            description:
-              "Design and implement production-grade RAG systems with Qdrant vector database and PostgreSQL",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Security Engineering",
-            description:
-              "Web application security assessment, penetration testing, and AI red teaming services",
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "Full-Stack Web Development",
-            description:
-              "Build modern web applications with Next.js, FastAPI, and secure-by-design architecture",
-          },
-        },
-      ],
-    },
+    makesOffer: [
+      {
+        "@type": "Offer",
+        name: "AI Agent Development",
+        description: "Building autonomous AI systems for business automation",
+      },
+      {
+        "@type": "Offer",
+        name: "ERPNext Solutions",
+        description: "Custom ERPNext implementations and automation",
+      },
+      {
+        "@type": "Offer",
+        name: "Digital FTE Automation",
+        description: "Automating business processes to reduce costs",
+      },
+      {
+        "@type": "Offer",
+        name: "Security Engineering",
+        description: "Web app penetration testing and security consulting",
+      },
+      {
+        "@type": "Offer",
+        name: "Full-Stack Development",
+        description: "Building scalable web applications",
+      },
+      {
+        "@type": "Offer",
+        name: "LLM Integration",
+        description: "Integrating OpenAI, Gemini, and Claude APIs",
+      },
+      {
+        "@type": "Offer",
+        name: "RAG Pipeline Development",
+        description: "Creating knowledge-grounded AI systems",
+      },
+      {
+        "@type": "Offer",
+        name: "Business Automation",
+        description: "Workflow automation using n8n and Python",
+      },
+    ],
   };
 
   return (
-    <Script
-      id="service-schema"
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(serviceSchema).replace(/</g, "\\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
 
-// BlogPosting Schema for individual blog posts
-export function BlogPostingJsonLd({
-  title,
-  description,
-  date,
-  url,
-}: {
-  title: string;
-  description: string;
-  date: string;
-  url: string;
-}) {
-  const blogSchema = {
+export function BreadcrumbJsonLd({ items }: { items: Array<{ name: string; url: string }> }) {
+  const schema = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: title,
-    description: description,
-    url: url,
-    datePublished: date,
-    author: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-      url: "https://sheikhmujtaba.me",
-    },
-    publisher: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-      url: "https://sheikhmujtaba.me",
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
-    },
-    inLanguage: "en-US",
-    isAccessibleForFree: true,
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
   };
 
   return (
-    <Script
-      id="blog-schema"
+    <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(blogSchema).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-// CreativeWork Schema for portfolio projects
-export function ProjectJsonLd({
-  name,
-  description,
-  slug,
-  type,
-  codeUrl,
-  demoUrl,
-}: {
-  name: string;
-  description: string;
-  slug: string;
-  type: string;
-  codeUrl?: string;
-  demoUrl?: string;
-}) {
-  const projectSchema = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: name,
-    description: description,
-    url: `https://sheikhmujtaba.me/#${slug}`,
-    image: `https://sheikhmujtaba.me/images/${slug}.avif`,
-    creator: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-      url: "https://sheikhmujtaba.me",
-    },
-    genre: type,
-    codeRepository: codeUrl,
-    isAccessibleForFree: true,
-    inLanguage: "en-US",
-    ...(demoUrl && { potentialAction: {
-      "@type": "ViewAction",
-      target: demoUrl,
-    }}),
-  };
-
-  return (
-    <Script
-      id={`project-schema-${slug}`}
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(projectSchema).replace(/</g, "\\u003c"),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }

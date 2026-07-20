@@ -1,42 +1,20 @@
 import { ImageResponse } from "next/og";
-import fs from "fs";
-import path from "path";
 
 export const runtime = "nodejs";
-
-export const alt = "Sheikh Mujtaba - AI Developer & Security Engineer";
+export const contentType = "image/png";
 export const size = {
   width: 1200,
   height: 630,
 };
-
-export const contentType = "image/png";
+export const alt = "Sheikh Mujtaba - AI Developer & Security Engineer";
 
 export default async function Image() {
-  let logoBase64 = "";
-  
-  try {
-    const logoPath = path.join(process.cwd(), "public", "Logo.png");
-    const logoData = fs.readFileSync(logoPath);
-    logoBase64 = logoData.toString("base64");
-  } catch (error) {
-    console.warn("Failed to load Logo.png, attempting Logo.avif:", error);
-    try {
-      const logoPath = path.join(process.cwd(), "public", "Logo.avif");
-      const logoData = fs.readFileSync(logoPath);
-      logoBase64 = logoData.toString("base64");
-    } catch (err) {
-      console.warn("Failed to load Logo.avif as fallback:", err);
-    }
-  }
-
-  const logoUrl = logoBase64 ? `data:image/png;base64,${logoBase64}` : "";
-
   return new ImageResponse(
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+          fontSize: 48,
+          background: "linear-gradient(135deg, #020617 0%, #030712 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -44,71 +22,70 @@ export default async function Image() {
           alignItems: "center",
           justifyContent: "center",
           padding: "60px",
-          fontFamily: "Inter, sans-serif",
+          gap: "20px",
         }}
       >
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-            marginBottom: "40px",
+            background: "radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.2), transparent 70%)",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            pointerEvents: "none",
           }}
-        >
-          {logoUrl && (
-            <img
-              src={logoUrl}
-              alt="Logo"
-              style={{
-                width: "120px",
-                height: "120px",
-                borderRadius: "50%",
-                objectFit: "contain",
-              }}
-            />
-          )}
-        </div>
-        <h1
+        />
+        <div
           style={{
-            fontSize: "72px",
-            fontWeight: "800",
-            color: "white",
-            margin: "0 0 20px 0",
+            fontSize: 68,
+            fontWeight: "bold",
+            background: "linear-gradient(90deg, #22d3ee 0%, #d6b56d 100%)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
             textAlign: "center",
-            letterSpacing: "-0.02em",
+            marginBottom: "20px",
           }}
         >
           Sheikh Mujtaba
-        </h1>
-        <p
+        </div>
+        <div
           style={{
-            fontSize: "36px",
-            color: "#22d3ee",
-            margin: "0 0 16px 0",
+            fontSize: 36,
+            color: "#f8fafc",
             textAlign: "center",
-            fontWeight: "600",
+            marginBottom: "10px",
           }}
         >
           AI Developer & Security Engineer
-        </p>
+        </div>
+        <div
+          style={{
+            fontSize: 28,
+            color: "#cbd5e1",
+            textAlign: "center",
+          }}
+        >
+          Building Secure AI Agents & ERPNext Automation Solutions
+        </div>
         <div
           style={{
             display: "flex",
-            gap: "24px",
-            fontSize: "24px",
-            color: "#94a3b8",
+            gap: "20px",
+            marginTop: "40px",
+            fontSize: 20,
           }}
         >
-          <span>Agentic AI</span>
-          <span style={{ color: "#475569" }}>•</span>
-          <span>RAG Pipelines</span>
-          <span style={{ color: "#475569" }}>•</span>
-          <span>Secure Architecture</span>
+          <span style={{ color: "#22d3ee" }}>•</span>
+          <span style={{ color: "#f8fafc" }}>AI Agents</span>
+          <span style={{ color: "#22d3ee" }}>•</span>
+          <span style={{ color: "#f8fafc" }}>Digital FTE</span>
+          <span style={{ color: "#22d3ee" }}>•</span>
+          <span style={{ color: "#f8fafc" }}>Security</span>
         </div>
       </div>
     ),
-    {
-      ...size,
-    }
+    { ...size }
   );
 }
