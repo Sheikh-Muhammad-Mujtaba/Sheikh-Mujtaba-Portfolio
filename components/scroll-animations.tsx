@@ -9,11 +9,17 @@ export default function ScrollAnimations() {
     mm.add(
       {
         isDesktop: "(min-width: 900px)",
+        // Not read below — it guarantees that a phone matches a condition.
+        // gsap.matchMedia only runs the callback when one is true, so with
+        // `isDesktop` + `reduce` alone every reveal on this page silently
+        // never ran on mobile.
+        isMobile: "(max-width: 899px)",
         reduce: "(prefers-reduced-motion: reduce)",
       },
       (ctx) => {
         const { isDesktop, reduce } = ctx.conditions as {
           isDesktop: boolean;
+          isMobile: boolean;
           reduce: boolean;
         };
         if (reduce) return;

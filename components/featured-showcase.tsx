@@ -24,35 +24,34 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
       mm.add(
         {
           isDesktop: "(min-width: 900px)",
+          // See note below: guarantees a matching condition on phones.
+          isMobile: "(max-width: 899px)",
           reduce: "(prefers-reduced-motion: reduce)",
         },
         (ctx) => {
           const { isDesktop, reduce } = ctx.conditions as {
             isDesktop: boolean;
+            isMobile: boolean;
             reduce: boolean;
           };
+          // `isMobile` is not used below — it exists so that at least one
+          // condition always matches. gsap.matchMedia only invokes the callback
+          // when a condition is true, so with `isDesktop` + `reduce` alone a
+          // phone with no reduced-motion preference matched nothing and every
+          // animation in here silently never ran.
           if (reduce) return;
 
           const stage = section.querySelector<HTMLElement>("[data-fs-stage]");
           const cards = gsap.utils.toArray<HTMLElement>("[data-fs-card]", section);
           if (!stage || cards.length < 2) return;
 
-          if (!isDesktop) {
-            cards.forEach((card) => {
-              gsap.from(card, {
-                y: 44,
-                opacity: 0,
-                duration: 0.85,
-                ease: "power3.out",
-                scrollTrigger: { trigger: card, start: "top 88%" },
-              });
-            });
-            return;
-          }
-
           stage.classList.add(styles.stageIsPinned);
 
           const steps = cards.length - 1;
+          // Scroll distance spent on each card, as a fraction of the viewport.
+          // Phones get a shorter scrub so the pin does not feel like the page
+          // has frozen; the deck itself is identical.
+          const stepFraction = isDesktop ? 1 : 0.7;
 
           // Stacked deck: every card fills the pinned stage. The first one is
           // in place, the rest wait just below the clip edge and slide up over
@@ -75,7 +74,12 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: `+=${steps * 100}%`,
+              // Explicit pixels rather than `+=N%`: a percentage end string is
+              // resolved against the trigger's own size, which made the whole
+              // pin collapse into roughly one viewport of scroll. Recomputed on
+              // refresh via invalidateOnRefresh below.
+              end: () =>
+                `+=${Math.round(window.innerHeight * stepFraction * steps)}`,
               pin: true,
               scrub: 1,
               anticipatePin: 1,

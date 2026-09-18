@@ -611,14 +611,17 @@
     }
 
     .aboutVisualSlot {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      min-height: 380px;
+      // The hero portrait only travels into this slot at >=900px (see
+      // components/scroll-animations.tsx). Below that nothing ever fills it,
+      // so rendering it left a 380px empty dashed box above the about copy.
+      display: none;
 
       @media (min-width: 900px) {
+        display: flex;
         justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        min-height: 380px;
       }
     }
 
