@@ -47,6 +47,30 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Build assets are crawlable (see app/robots.ts) so that Googlebot can
+        // fetch them and observe this noindex. That is the only mechanism that
+        // removes the /_next/static/media/*.avif and *.woff2 URLs which were
+        // already indexed; a robots.txt Disallow would strand them there.
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, noimageindex, nofollow",
+          },
+        ],
+      },
+      {
+        // Same treatment for anything served straight out of /public that is an
+        // asset rather than a page.
+        source: "/:path*.(avif|webp|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|otf|mp4|webm)",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, noimageindex",
+          },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           {

@@ -5,10 +5,16 @@ import Image from "next/image";
 import { useState } from "react";
 import { Briefcase, CircleHelp, Menu, User, X } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "./social-icons";
+import { useIsScrolled } from "../utils/use-is-scrolled";
 import styles from "../styles/header.module.scss";
 
 type HeaderProps = {
   logoLink: string;
+  /**
+   * Marketing pages opt in: the bar contracts into a floating island once the
+   * page is scrolled. Left off, the rendered markup is unchanged.
+   */
+  floating?: boolean;
 };
 
 const navItems = [
@@ -22,13 +28,32 @@ const socialLinks = [
   { href: "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/", label: "LinkedIn", icon: LinkedInIcon },
 ];
 
-export default function Header({ logoLink }: HeaderProps) {
+function classNames(...values: Array<string | false | undefined>) {
+  return values.filter(Boolean).join(" ");
+}
+
+export default function Header({ logoLink, floating = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const scrolled = useIsScrolled();
+  const isScrolled = floating && scrolled;
 
   return (
     <header className={styles.header}>
-      <nav className={styles.nav} aria-label="Primary navigation">
-        <div className={styles.navShell}>
+      <nav
+        className={classNames(
+          styles.nav,
+          floating && styles.navFloating,
+          isScrolled && styles.navFloatingScrolled
+        )}
+        aria-label="Primary navigation"
+      >
+        <div
+          className={classNames(
+            styles.navShell,
+            floating && styles.navShellFloating,
+            isScrolled && styles.navShellFloatingScrolled
+          )}
+        >
           <Link
             href={logoLink}
             className={styles.logo}

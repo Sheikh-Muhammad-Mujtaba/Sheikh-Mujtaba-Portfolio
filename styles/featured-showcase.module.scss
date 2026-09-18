@@ -38,7 +38,7 @@
 }
 
 .stage {
-  perspective: 1600px;
+  position: relative;
 }
 
 .deck {
@@ -46,7 +46,6 @@
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 4vw, 2.5rem);
-  transform-style: preserve-3d;
 }
 
 .card {
@@ -153,6 +152,10 @@
   .stageIsPinned .deck {
     display: block;
     height: min(64vh, 560px);
+    // Cards wait below the deck before sliding up, so the deck clips them.
+    // Padding-free inset keeps each card flush with the rounded clip edge.
+    overflow: hidden;
+    border-radius: clamp(16px, 3vw, 26px);
   }
 
   .stageIsPinned .card {

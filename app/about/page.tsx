@@ -204,7 +204,7 @@ export default function AboutPage() {
   return (
     <>
       <PersonSchema />
-      <Header logoLink="/" />
+      <Header logoLink="/" floating />
       <main className="min-h-screen text-white header-offset">
         {/* Hero Section */}
         <section className="section-padding relative overflow-hidden">

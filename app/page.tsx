@@ -12,7 +12,7 @@ import FeaturedShowcase from "../components/featured-showcase";
 import ScrollAnimationsLoader from "../components/scroll-animations-loader";
 import { projectsList } from "../utils/project-data";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sheikmujtaba.me";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sheikhmujtaba.me";
 
 export const metadata: Metadata = {
   title: "Sheikh Mujtaba | AI Developer & Security Engineer | ERPNext Automation Expert",
@@ -119,7 +119,7 @@ export default function Homepage() {
   return (
     <div className={styles.homeContainer}>
       <div>
-        <Header logoLink="/" />
+        <Header logoLink="/" floating />
         <main>
           <section className={`${styles.hero} px-1`} data-hero>
             <div className={styles.cta}>
@@ -312,6 +312,12 @@ export default function Homepage() {
                 className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
               >
                 Read FAQ
+              </a>
+              <a
+                href="/blog"
+                className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
+              >
+                Engineering Notes
               </a>
             </div>
           </section>

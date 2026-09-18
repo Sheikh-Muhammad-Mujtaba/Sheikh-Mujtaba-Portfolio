@@ -281,7 +281,7 @@ export default function ServicesPage() {
       <HowToBuildAIAgents />
       <HowToSecureAISystems />
       <ServiceSchema />
-      <Header logoLink="/" />
+      <Header logoLink="/" floating />
       <main className="min-h-screen text-white header-offset">
         {/* Hero Section */}
         <section className="section-padding text-center relative overflow-hidden">

@@ -33,7 +33,7 @@ export default function FAQPage() {
     <>
       <FAQJsonLd />
       <BreadcrumbSchema />
-      <Header logoLink="/" />
+      <Header logoLink="/" floating />
       <main className="min-h-screen text-white header-offset overflow-x-hidden">
         {/* Hero Section */}
         <section className="section-padding text-center relative overflow-hidden px-4">
@@ -94,6 +94,13 @@ export default function FAQPage() {
                     aria-label="View Services"
                   >
                     View Services
+                  </a>
+                  <a
+                    href="/blog"
+                    className="btn-secondary w-full sm:w-auto"
+                    aria-label="Read the engineering blog"
+                  >
+                    Read the Blog
                   </a>
                 </div>
               </div>

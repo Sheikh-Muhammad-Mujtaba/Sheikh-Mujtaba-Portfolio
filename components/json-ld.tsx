@@ -1,13 +1,16 @@
+import { ids, siteUrl } from "../utils/site";
+
 export function PersonJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": ids.person,
     name: "Sheikh Mujtaba",
-    url: "https://sheikmujtaba.me",
+    url: siteUrl,
     email: "smujtabaja@gmail.com",
     jobTitle: "AI Developer & Security Engineer",
     description: "Building secure AI agents, ERPNext automation, and digital FTE solutions",
-    image: "https://sheikmujtaba.me/opengraph-image.png",
+    image: `${siteUrl}/opengraph-image.png`,
     sameAs: [
       "https://github.com/Sheikh-Muhammad-Mujtaba",
       "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
@@ -32,6 +35,7 @@ export function PersonJsonLd() {
       "@type": "Organization",
       name: "Self Employed",
     },
+    mainEntityOfPage: { "@type": "WebSite", "@id": ids.website },
   };
 
   return (
@@ -46,19 +50,20 @@ export function WebSiteJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": ids.website,
     name: "Sheikh Mujtaba Portfolio",
-    url: "https://sheikmujtaba.me",
+    url: siteUrl,
+    inLanguage: "en",
     description:
       "AI Developer & Security Engineer specializing in Agentic AI, ERPNext automation, and digital FTE solutions",
-    creator: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-    },
+    creator: { "@type": "Person", "@id": ids.person },
+    publisher: { "@type": "Person", "@id": ids.person },
+    hasPart: { "@type": "Blog", "@id": ids.blog },
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://sheikmujtaba.me/search?q={search_term_string}",
+        urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
@@ -76,8 +81,9 @@ export function ProfessionalServiceJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": ids.service,
     name: "Sheikh Mujtaba - AI & Security Services",
-    url: "https://sheikmujtaba.me",
+    url: siteUrl,
     description:
       "Professional AI development, ERPNext automation, and cybersecurity services",
     areaServed: {
@@ -85,7 +91,7 @@ export function ProfessionalServiceJsonLd() {
       name: "Worldwide",
     },
     priceRange: "$$",
-    image: "https://sheikmujtaba.me/opengraph-image.png",
+    image: `${siteUrl}/opengraph-image.png`,
     address: {
       "@type": "PostalAddress",
       addressCountry: "PK",
@@ -97,10 +103,8 @@ export function ProfessionalServiceJsonLd() {
       email: "smujtabaja@gmail.com",
       contactOption: "TollFree",
     },
-    founder: {
-      "@type": "Person",
-      name: "Sheikh Mujtaba",
-    },
+    founder: { "@type": "Person", "@id": ids.person },
+    provider: { "@type": "Person", "@id": ids.person },
     award: [
       "Expert in Agentic AI Systems",
       "ERPNext Specialist",

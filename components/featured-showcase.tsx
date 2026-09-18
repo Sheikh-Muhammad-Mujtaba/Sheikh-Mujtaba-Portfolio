@@ -40,9 +40,9 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
           if (!isDesktop) {
             cards.forEach((card) => {
               gsap.from(card, {
-                y: 28,
+                y: 44,
                 opacity: 0,
-                duration: 0.8,
+                duration: 0.85,
                 ease: "power3.out",
                 scrollTrigger: { trigger: card, start: "top 88%" },
               });
@@ -52,40 +52,30 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
 
           stage.classList.add(styles.stageIsPinned);
 
-          const count = cards.length;
-          const steps = count - 1;
-          const stepAngle = 360 / count;
+          const steps = cards.length - 1;
 
-          // Carousel ring: every card shares a transform origin pushed back on
-          // the z-axis, so rotating them in place orbits them around a common
-          // 3D circle. Radius derives from card width so cards never overlap.
-          const ringRadius = () =>
-            ((cards[0].offsetWidth / 2) / Math.tan(Math.PI / count)) * 1.08;
+          // Stacked deck: every card fills the pinned stage. The first one is
+          // in place, the rest wait just below the clip edge and slide up over
+          // the card before them as the section scrubs.
+          gsap.set(cards, { force3D: true, willChange: "transform, opacity" });
+          gsap.set(cards[0], { yPercent: 0, scale: 1, opacity: 1 });
+          gsap.set(cards.slice(1), { yPercent: 105, scale: 1, opacity: 1 });
 
-          gsap.set(cards, {
-            transformOrigin: () => `50% 50% ${-ringRadius()}px`,
-            rotationY: (i: number) => i * stepAngle,
-            force3D: true,
-          });
-
-          const applyDepth = (progress: number) => {
-            const position = progress * steps;
-            const active = Math.round(position);
+          const setActive = (progress: number) => {
+            const active = Math.round(progress * steps);
             cards.forEach((card, i) => {
-              const distance = Math.abs(i - position);
-              gsap.set(card, {
-                opacity: gsap.utils.clamp(0.2, 1, 1 - distance * 0.55),
-              });
               card.toggleAttribute("inert", i !== active);
+              card.style.zIndex = String(i);
             });
           };
-          applyDepth(0);
+          setActive(0);
 
           const tl = gsap.timeline({
+            defaults: { ease: "none" },
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: `+=${steps * 120}%`,
+              end: `+=${steps * 100}%`,
               pin: true,
               scrub: 1,
               anticipatePin: 1,
@@ -97,19 +87,28 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
               invalidateOnRefresh: true,
             },
             onUpdate() {
-              applyDepth(this.progress());
+              setActive(this.progress());
             },
           });
 
-          tl.to(cards, {
-            rotationY: `-=${steps * stepAngle}`,
-            ease: "none",
-            duration: steps,
+          cards.forEach((card, i) => {
+            if (i === 0) return;
+            const label = i - 1;
+            // Outgoing card settles back a touch so the incoming one reads as
+            // sliding over the top of it rather than replacing it.
+            tl.to(
+              cards[i - 1],
+              { yPercent: -6, scale: 0.94, opacity: 0.45, duration: 1 },
+              label
+            ).to(card, { yPercent: 0, duration: 1 }, label);
           });
 
           return () => {
             stage.classList.remove(styles.stageIsPinned);
-            cards.forEach((card) => card.removeAttribute("inert"));
+            cards.forEach((card) => {
+              card.removeAttribute("inert");
+              card.style.removeProperty("z-index");
+            });
           };
         }
       );
@@ -129,7 +128,7 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
       <div className={styles.heading}>
         <p className={styles.kicker}>Selected Work</p>
         <h2>Featured Projects</h2>
-        <p className={styles.sub}>Flagship builds — scroll to flip through the deck.</p>
+        <p className={styles.sub}>Flagship builds — scroll to stack through the deck.</p>
       </div>
       <div className={styles.stage} data-fs-stage>
         <div className={styles.deck}>
