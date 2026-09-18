@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     creator: "@cybersheikh",
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: `${siteUrl}/`,
   },
 };
 
