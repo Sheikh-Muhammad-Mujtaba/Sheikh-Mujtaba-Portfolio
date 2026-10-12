@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GitHubIcon, LinkedInIcon, LinktreeIcon, XIcon } from "../components/social-icons";
+import { GitHubIcon, LinkedInIcon, LinktreeIcon, MediumIcon, XIcon } from "../components/social-icons";
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -401,6 +401,17 @@ export default function Homepage() {
               >
                 X
                 <XIcon className={styles.socialIcon} width={18} height={18} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://medium.com/@smujtabaja"
+                target="_blank"
+                rel="me noopener noreferrer"
+                title="Read Mujtaba's articles on Medium"
+              >
+                Medium
+                <MediumIcon className={styles.socialIcon} width={18} height={18} />
               </a>
             </li>
           </ul>
