@@ -98,9 +98,11 @@ export const siteMetadata: Metadata = {
     images: ["/opengraph-image"],
   },
 
-  verification: {
-    google: "your-google-verification-code",
-  },
+  // Search Console: set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to the real token.
+  // The literal placeholder used to be published as a meta tag.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 
   other: {
     "msapplication-TileColor": "#000000",
@@ -166,12 +168,12 @@ export const aboutPageMetadata: Metadata = {
 };
 
 export const servicesPageMetadata: Metadata = {
-  title: "Services & Pricing - AI Development | Sheikh Mujtaba",
+  title: "Services - AI Development | Sheikh Mujtaba",
   description:
-    "Professional AI development services: Agentic AI systems, RAG pipeline architecture, Security engineering, Full-stack development. Transparent pricing.",
+    "AI development services: agentic AI systems, RAG pipeline architecture, security engineering and full-stack development. Custom proposals with clear timelines.",
   keywords: [
     "AI development services",
-    "Agentic AI pricing",
+    "Agentic AI development",
     "RAG pipeline services",
     "hire AI developer",
     "AI consulting",

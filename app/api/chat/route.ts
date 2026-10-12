@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import resume from "@/data/resume-data.json";
+import resumeData from "@/data/resume-data.json";
 
 export const runtime = "nodejs";
 
@@ -7,6 +7,17 @@ interface Message {
   role: "system" | "user" | "assistant";
   content: string;
 }
+
+interface Resume {
+  personal?: { name?: string; title?: string; location?: string; summary?: string };
+  skills?: Record<string, unknown>;
+  experience?: { role?: string; company?: string; type?: string; period?: string; description?: string }[];
+  projects?: { name?: string; type?: string; description?: string; technologies?: string[] }[];
+  services?: { name?: string; description?: string }[];
+  blogPosts?: { title?: string; date?: string }[];
+}
+
+const resume: Resume = resumeData;
 
 /**
  * Smart context extraction based on query keywords
@@ -32,7 +43,7 @@ function getContext(query: string): Record<string, unknown> {
   const context: Record<string, unknown> = {};
 
   if (wants.projects) {
-    context.projects = take((resume as any).projects, 3).map((p: any) => ({
+    context.projects = take(resume.projects, 3).map((p) => ({
       name: p.name,
       type: p.type,
       description: truncate(p.description, 220),
@@ -41,14 +52,14 @@ function getContext(query: string): Record<string, unknown> {
   }
 
   if (wants.skills) {
-    const sk = (resume as any).skills || {};
+    const sk = resume.skills || {};
     context.skills = Object.fromEntries(
       Object.entries(sk).map(([k, v]) => [k, Array.isArray(v) ? (v as string[]).slice(0, 6) : v])
     );
   }
 
   if (wants.experience) {
-    context.experience = take((resume as any).experience, 4).map((e: any) => ({
+    context.experience = take(resume.experience, 4).map((e) => ({
       role: e.role,
       company: e.company || e.type || "",
       period: e.period || "",
@@ -58,33 +69,33 @@ function getContext(query: string): Record<string, unknown> {
 
   if (wants.personal) {
     context.personal = {
-      name: (resume as any).personal?.name,
-      title: (resume as any).personal?.title,
-      location: (resume as any).personal?.location,
-      summary: truncate((resume as any).personal?.summary, 300),
+      name: resume.personal?.name,
+      title: resume.personal?.title,
+      location: resume.personal?.location,
+      summary: truncate(resume.personal?.summary, 300),
     };
   }
 
   if (wants.services) {
-    context.services = take((resume as any).services, 4).map((s: any) => ({ name: s.name, description: truncate(s.description, 140) }));
+    context.services = take(resume.services, 4).map((s) => ({ name: s.name, description: truncate(s.description, 140) }));
   }
 
   if (wants.blogPosts) {
-    context.blogPosts = take((resume as any).blogPosts, 3).map((b: any) => ({ title: b.title, date: b.date }));
+    context.blogPosts = take(resume.blogPosts, 3).map((b) => ({ title: b.title, date: b.date }));
   }
 
   // If no specific section requested, provide a compact summary of all sections
   if (!Object.values(wants).some(Boolean)) {
     context.personal = {
-      name: (resume as any).personal?.name,
-      title: (resume as any).personal?.title,
-      summary: truncate((resume as any).personal?.summary, 300),
+      name: resume.personal?.name,
+      title: resume.personal?.title,
+      summary: truncate(resume.personal?.summary, 300),
     };
-    context.projects = take((resume as any).projects, 3).map((p: any) => ({ name: p.name, description: truncate(p.description, 200) }));
+    context.projects = take(resume.projects, 3).map((p) => ({ name: p.name, description: truncate(p.description, 200) }));
     context.skills = Object.fromEntries(
-      Object.entries((resume as any).skills || {}).map(([k, v]) => [k, Array.isArray(v) ? (v as string[]).slice(0, 5) : v])
+      Object.entries(resume.skills || {}).map(([k, v]) => [k, Array.isArray(v) ? (v as string[]).slice(0, 5) : v])
     );
-    context.experience = take((resume as any).experience, 3).map((e: any) => ({ role: e.role, company: e.company || e.type || "", description: truncate(e.description, 180) }));
+    context.experience = take(resume.experience, 3).map((e) => ({ role: e.role, company: e.company || e.type || "", description: truncate(e.description, 180) }));
   }
 
   return context;
@@ -121,14 +132,14 @@ export async function POST(req: Request) {
       const parts: string[] = [];
       for (const [k, v] of Object.entries(obj)) {
         if (Array.isArray(v)) {
-          const items = (v as any[]).map((it) => {
+          const items = (v as unknown[]).map((it) => {
             if (typeof it === "string") return it;
             if (it && typeof it === "object") return Object.values(it).slice(0, 3).join(" — ");
             return String(it);
           });
           parts.push(`${k}: ${items.slice(0, 6).join("; ")}`);
         } else if (v && typeof v === "object") {
-          parts.push(`${k}: ${Object.entries(v as Record<string, any>)
+          parts.push(`${k}: ${Object.entries(v as Record<string, unknown>)
             .map(([kk, vv]) => `${kk}=${String(vv)}`)
             .slice(0, 6)
             .join(", ")}`);
@@ -165,16 +176,24 @@ export async function POST(req: Request) {
     // dependency and uses the Gemini/Google provider directly.
     const GEMINI_API_KEY = (process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || null) as string | null;
 
-    const modelName = "gemini-2.5-flash";
+    const modelName = "gemini-3.1-flash-lite";
 
-    const extractReplyFromGemini = (payload: any): string => {
+    type GeminiPayload = {
+      reply?: unknown;
+      text?: unknown;
+      candidates?: { content?: { parts?: { text?: unknown }[] } }[];
+      output?: { content?: { text?: unknown }[] }[];
+      output_text?: unknown;
+    };
+
+    const extractReplyFromGemini = (payload: GeminiPayload | string | null | undefined): string => {
       if (!payload) return "";
       if (typeof payload === "string") return payload.trim();
       if (typeof payload?.reply === "string") return payload.reply.trim();
       if (typeof payload?.text === "string") return payload.text.trim();
 
       const candidateText = payload?.candidates?.[0]?.content?.parts
-        ?.map((p: any) => (typeof p?.text === "string" ? p.text : ""))
+        ?.map((p) => (typeof p?.text === "string" ? p.text : ""))
         .join("") || "";
       if (candidateText.trim()) return candidateText.trim();
 
@@ -208,7 +227,6 @@ export async function POST(req: Request) {
     }
 
     try {
-      const client = new GoogleGenerativeAI(GEMINI_API_KEY);
       if (GoogleGenerativeAI && typeof GoogleGenerativeAI === "function") {
         const client = new GoogleGenerativeAI(GEMINI_API_KEY);
         const model = client.getGenerativeModel({ model: modelName, systemInstruction: systemPrompt });

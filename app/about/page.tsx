@@ -554,7 +554,7 @@ export default function AboutPage() {
                 </p>
                 <div className="flex gap-4 justify-center flex-wrap mb-8">
                   <a href="/services" className="btn-primary">
-                    View Services & Pricing
+                    View Services
                   </a>
                   <a href="mailto:smujtabaja@gmail.com" className="btn-secondary">
                     Get in Touch

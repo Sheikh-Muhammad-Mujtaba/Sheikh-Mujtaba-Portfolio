@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import FAQSection, { FAQJsonLd } from "../../components/faq-section";
 import { BreadcrumbSchema } from "../../components/howto-schema";
 import Header from "../../components/header";
@@ -88,20 +89,20 @@ export default function FAQPage() {
                   >
                     Email Me
                   </a>
-                  <a
+                  <Link
                     href="/services"
                     className="btn-secondary w-full sm:w-auto"
                     aria-label="View Services"
                   >
                     View Services
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/blog"
                     className="btn-secondary w-full sm:w-auto"
                     aria-label="Read the engineering blog"
                   >
                     Read the Blog
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

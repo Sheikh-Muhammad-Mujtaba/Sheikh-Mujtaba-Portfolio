@@ -5,11 +5,10 @@ Showcases my work and the experience I have in web development.
 
 ## Getting Started
 
-First, run the development server:
+This project uses [Yarn](https://classic.yarnpkg.com/) (v1). Install dependencies, then run the development server:
 
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
 ```
 
@@ -21,6 +20,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 - Next.js
 - GSAP
+- Remotion (live cyber layers in `remotion/`, embedded with `@remotion/player`)
 - Framer Motion
 - Scss
 

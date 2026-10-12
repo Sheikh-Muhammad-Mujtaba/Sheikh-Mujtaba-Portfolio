@@ -36,7 +36,7 @@ Canonical site: ${siteUrl}
 ## Site map
 
 - [Home](${siteUrl}/): Overview, featured projects and shipped work.
-- [Services](${siteUrl}/services): Engagement types, scope and pricing bands.
+- [Services](${siteUrl}/services): Engagement types, scope and typical timelines.
 - [About](${siteUrl}/about): Background, stack and how I work.
 - [FAQ](${siteUrl}/faq): Common questions on AI agents, RAG and security work.
 - [Blog](${siteUrl}/blog): Long-form engineering guides.

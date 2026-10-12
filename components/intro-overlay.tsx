@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import styles from "../styles/intro-overlay.module.scss";
+import { BreachIntro } from "./remotion/lazy";
 
 export default function IntroOverlay() {
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -82,6 +83,7 @@ export default function IntroOverlay() {
       aria-live="off"
     >
       <div className={styles.overlayBackground} />
+      <BreachIntro className={styles.cyberLayer} />
       <div ref={logoRef} className={styles.premiumLogoWrapper}>
         <Image
           src="/Logo.avif"

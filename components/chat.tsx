@@ -228,23 +228,55 @@ type ChatProps = {
   initialOpen?: boolean;
 };
 
+type SpeechRecognitionInstance = InstanceType<NonNullable<Window["SpeechRecognition"]>>;
+type ChatWindow = Window & { __smjChatOpenRequested?: boolean };
+
+// Chat is only ever loaded client-side (components/deferred-chat.tsx uses
+// ssr: false), so these run in useState initializers instead of mount effects.
+const readStoredMessages = (): Message[] => {
+  try {
+    const raw = window.localStorage.getItem(CHAT_STORAGE_KEY);
+    const parsed = raw ? (JSON.parse(raw) as unknown) : null;
+    const restored = Array.isArray(parsed) ? parsed.filter(isValidMessage) : [];
+    return restored.length > 0 ? restored : [WELCOME_MESSAGE];
+  } catch {
+    return [{ ...WELCOME_MESSAGE, timestamp: Date.now() }];
+  }
+};
+
+const readStoredAsked = (): Set<string> => {
+  try {
+    const raw = window.localStorage.getItem(ASKED_STORAGE_KEY);
+    const parsed = raw ? (JSON.parse(raw) as unknown) : null;
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(
+      parsed
+        .filter((entry): entry is string => typeof entry === "string")
+        .map((entry) => entry.toLowerCase().trim())
+        .filter(Boolean)
+    );
+  } catch {
+    return new Set();
+  }
+};
+
 export default function Chat({ initialOpen = false }: ChatProps) {
-  const [isOpen, setIsOpen] = useState(initialOpen);
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
-  const [askedQuestions, setAskedQuestions] = useState<Set<string>>(new Set());
+  // Honor an open request the launcher set before Chat mounted.
+  const [isOpen, setIsOpen] = useState(() => initialOpen || (window as ChatWindow).__smjChatOpenRequested === true);
+  const [messages, setMessages] = useState<Message[]>(readStoredMessages);
+  const [askedQuestions, setAskedQuestions] = useState<Set<string>>(readStoredAsked);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [isSpeechSupported, setIsSpeechSupported] = useState(false);
+  const [isSpeechSupported] = useState(() => Boolean(window.SpeechRecognition || window.webkitSpeechRecognition));
   const [speechError, setSpeechError] = useState<string | null>(null);
   const [showBubble, setShowBubble] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recognitionRef = useRef<any>(null); // Type overridden to any to resolve Vercel build TS error
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const activeRequestRef = useRef<AbortController | null>(null);
-  const hasHydratedFromStorageRef = useRef(false);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -279,13 +311,8 @@ export default function Chat({ initialOpen = false }: ChatProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // If the launcher set a global flag before Chat mounted, honor it now.
-    try {
-      if ((window as any).__smjChatOpenRequested) {
-        setIsOpen(true);
-        delete (window as any).__smjChatOpenRequested;
-      }
-    } catch {}
+    // The flag was already read into the initial isOpen state — clear it.
+    delete (window as ChatWindow).__smjChatOpenRequested;
 
     // Also listen for explicit open events if other code wants to open it.
     const handler = () => setIsOpen(true);
@@ -293,42 +320,9 @@ export default function Chat({ initialOpen = false }: ChatProps) {
     return () => window.removeEventListener("smj-open-chat", handler as EventListener);
   }, []);
 
-  // Restore chat history from localStorage
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const storedMessagesRaw = window.localStorage.getItem(CHAT_STORAGE_KEY);
-      const storedAskedRaw = window.localStorage.getItem(ASKED_STORAGE_KEY);
-
-      if (storedMessagesRaw) {
-        const parsed = JSON.parse(storedMessagesRaw) as unknown;
-        if (Array.isArray(parsed)) {
-          const restored = parsed.filter(isValidMessage);
-          setMessages(restored.length > 0 ? restored : [{ ...WELCOME_MESSAGE, timestamp: Date.now() }]);
-        }
-      }
-
-      if (storedAskedRaw) {
-        const parsedAsked = JSON.parse(storedAskedRaw) as unknown;
-        if (Array.isArray(parsedAsked)) {
-          const normalized = parsedAsked
-            .filter((entry): entry is string => typeof entry === "string")
-            .map((entry) => entry.toLowerCase().trim())
-            .filter(Boolean);
-          setAskedQuestions(new Set(normalized));
-        }
-      }
-    } catch {
-      setMessages([{ ...WELCOME_MESSAGE, timestamp: Date.now() }]);
-      setAskedQuestions(new Set());
-    } finally {
-      hasHydratedFromStorageRef.current = true;
-    }
-  }, []);
-
   // Persist chat history to localStorage
   useEffect(() => {
-    if (typeof window === "undefined" || !hasHydratedFromStorageRef.current) return;
+    if (typeof window === "undefined") return;
     try {
       window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
       window.localStorage.setItem(ASKED_STORAGE_KEY, JSON.stringify(Array.from(askedQuestions)));
@@ -343,18 +337,18 @@ export default function Chat({ initialOpen = false }: ChatProps) {
     };
   }, []);
 
-  // Show bubble after 3 seconds delay
+  // Show bubble 3 seconds after the chat is closed; opening it hides the bubble.
   useEffect(() => {
-    if (isOpen) {
-      setShowBubble(false);
-      return;
-    }
+    if (isOpen) return;
 
     const timer = setTimeout(() => {
       setShowBubble(true);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      setShowBubble(false);
+    };
   }, [isOpen]);
 
   // Check for speech recognition support
@@ -362,7 +356,6 @@ export default function Chat({ initialOpen = false }: ChatProps) {
     if (typeof window !== "undefined") {
       const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SpeechRecognitionAPI) {
-        setIsSpeechSupported(true);
         const recognition = new SpeechRecognitionAPI();
         recognitionRef.current = recognition;
         recognition.continuous = false;
@@ -377,7 +370,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
           setIsRecording(false);
         };
 
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event) => {
           let finalTranscript = "";
           let interimTranscript = "";
 
@@ -401,7 +394,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
           }
         };
 
-        recognition.onerror = (event: any) => {
+        recognition.onerror = (event) => {
           // Use warn instead of error to avoid Lighthouse console errors flag
           console.warn("Speech recognition notice:", event.error);
           setIsRecording(false);
@@ -743,7 +736,7 @@ export default function Chat({ initialOpen = false }: ChatProps) {
                 onTouchMoveCapture={preventTouchPropagation}
                 className="overflow-y-auto overscroll-contain [touch-action:pan-y] px-3 sm:px-4 py-3 sm:py-4 space-y-2.5 sm:space-y-3 bg-[#faf9f6] max-h-[50dvh] sm:max-h-[52dvh] md:max-h-[56dvh]"
               >
-                {messages.map((message, index) => (
+                {messages.map((message) => (
                   <motion.div
                     key={message.id}
                     initial={{ opacity: 0, y: 10 }}

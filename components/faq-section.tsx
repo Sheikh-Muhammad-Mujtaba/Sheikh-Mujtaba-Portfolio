@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "How long does it take to build an AI agent system?",
     answer:
-      "Timeline depends on complexity: A basic single-agent system with 2-3 tools takes 1-2 weeks ($2,500-$5,000). A multi-agent orchestration with RAG integration and human-in-the-loop controls takes 2-4 weeks ($5,000-$15,000). Enterprise systems with complex integrations, SSO, and SLA requirements take 4-8 weeks ($15,000+). I provide detailed timelines during project scoping.",
+      "Timeline depends on complexity: A basic single-agent system with 2-3 tools takes 1-2 weeks. A multi-agent orchestration with RAG integration and human-in-the-loop controls takes 2-4 weeks. Enterprise systems with complex integrations, SSO, and SLA requirements take 4-8 weeks. I provide a detailed timeline and proposal during project scoping.",
   },
   {
     question: "What makes Sheikh Mujtaba's approach to AI development unique?",

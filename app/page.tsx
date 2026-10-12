@@ -10,6 +10,8 @@ import Header from "../components/header";
 import ProjectListing from "../components/project-listing";
 import FeaturedShowcase from "../components/featured-showcase";
 import ScrollAnimationsLoader from "../components/scroll-animations-loader";
+import { HeroBackdrop, PortraitHud } from "../components/remotion/lazy";
+import SecurityConsole from "../components/security-console";
 import { projectsList } from "../utils/project-data";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sheikhmujtaba.me";
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
     description: "Building secure AI systems, ERPNext automation solutions, and digital transformation. Specializing in AI agents, RAG pipelines, and enterprise automation.",
     images: [
       {
-        url: `${siteUrl}/opengraph-image.png`,
+        url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
         alt: "Sheikh Mujtaba - AI Developer & Security Engineer",
@@ -84,7 +86,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sheikh Mujtaba | AI Developer & Security Engineer",
     description: "Building secure AI agents and ERPNext automation solutions",
-    images: [`${siteUrl}/opengraph-image.png`],
+    images: [`${siteUrl}/opengraph-image`],
     creator: "@cybersheikh",
   },
   alternates: {
@@ -122,18 +124,20 @@ export default function Homepage() {
         <Header logoLink="/" floating />
         <main>
           <section className={`${styles.hero} px-1`} data-hero>
+            <HeroBackdrop className={styles.heroBackdrop} />
             <div className={styles.cta}>
               <div className="flex flex-col gap-1 w-full min-w-0" data-hero-copy>
-                <div className={`${styles.title} leading-[1.05]`}>
-                  <div className="overflow-hidden pb-2"><h1 className="titleLine">I build</h1></div>
-                  <div className="overflow-hidden pb-2">
+                {/* The whole line is the H1 (it used to wrap only "I build"). Spans keep it valid phrasing content. */}
+                <h1 className={`${styles.title} leading-[1.05]`}>
+                  <span className="block overflow-hidden pb-2"><span className="titleLine">I build</span></span>
+                  <span className="block overflow-hidden pb-2">
                     <span className="titleLine flex flex-wrap gap-x-[0.45em]">
                       <span className={`${styles.highlightCyan} ${styles.animatedGradientCyan}`}>secure</span>
                       <span className={`${styles.highlightGold} ${styles.animatedGradientGold}`}> AI</span>
                     </span>
-                  </div>
-                  <div className="overflow-hidden pb-2"><span className="titleLine">systems.</span></div>
-                </div>
+                  </span>
+                  <span className="block overflow-hidden pb-2"><span className="titleLine">systems.</span></span>
+                </h1>
 
                 <p className={`${styles.jobTitle} wrap-break-word`}>
                   <strong className={styles.roleName}>Sheikh Mujtaba</strong>
@@ -172,6 +176,7 @@ export default function Homepage() {
                     blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAnIGhlaWdodD0nMTAnIHZpZXdCb3g9JzAgMCAxMCAxMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9J2cnIGN4PSc1MCUnIGN5PSc0MCUnIHI9JzcwJSc+PHN0b3Agc3RvcC1jb2xvcj0nIzA2YjZkNCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzAyMDYxNyc+PC9zdG9wPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPScxMCcgaGVpZ2h0PScxMCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=="
                     sizes="(max-width: 640px) 200px, (max-width: 1536px) 300px, 400px"
                   />
+                  <PortraitHud className={styles.portraitHud} />
                   <div className={styles.portraitBadge} data-hero-badge>
                     <span className={styles.badgeGlyph} aria-hidden="true" />
                     <span>
@@ -226,6 +231,17 @@ export default function Homepage() {
                 <em>Last updated: April 2025 | Based in Pakistan | Available for remote work worldwide</em>
               </p>
             </div>
+          </section>
+          <section className={styles.opsConsole} data-reveal>
+            <div className={styles.opsHeader}>
+              <p className={styles.sectionKicker}>Live Ops</p>
+              <h2>Security Console</h2>
+              <p>
+                Recon, AI red-teaming and hardened deploys &mdash; the same loop I run on every
+                agent, RAG pipeline and ERP integration before it ships.
+              </p>
+            </div>
+            <SecurityConsole />
           </section>
           <section
             id="experienceContainer"
@@ -298,27 +314,27 @@ export default function Homepage() {
               Explore detailed information about my services, background, or find answers to common questions.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <a href="/services" className="btn-primary">
-                View Services & Pricing
-              </a>
-              <a
+              <Link href="/services" className="btn-primary">
+                View Services
+              </Link>
+              <Link
                 href="/about"
                 className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
               >
                 About Me
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/faq"
                 className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
               >
                 Read FAQ
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/blog"
                 className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
               >
                 Engineering Notes
-              </a>
+              </Link>
             </div>
           </section>
           <ScrollAnimationsLoader />

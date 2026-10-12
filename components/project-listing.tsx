@@ -16,7 +16,6 @@ export default function ProjectListing({ project }: ProjectListingProps) {
   const {
     slug,
     image,
-    mobileImage,
     name,
     description,
     link,

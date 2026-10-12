@@ -47,6 +47,14 @@
     animation: backgroundExit 0.8s $ease-premium 3.8s forwards;
   }
 
+  /* ── Remotion boot-sequence layer (components/remotion) ───────────── */
+  .cyberLayer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    animation: backgroundExit 0.8s $ease-premium 3.8s forwards;
+  }
+
   /* ── Logo circle wrapper ──────────────────────────────────────────── */
   .premiumLogoWrapper {
     position: relative;

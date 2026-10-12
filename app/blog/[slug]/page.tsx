@@ -123,7 +123,7 @@ function ArticleJsonLd({ post }: { post: BlogPost }) {
       "@type": "SpeakableSpecification",
       cssSelector: ["[data-speakable]"],
     },
-    image: `${siteUrl}/opengraph-image.png`,
+    image: `${siteUrl}/opengraph-image`,
   };
 
   const faq = {

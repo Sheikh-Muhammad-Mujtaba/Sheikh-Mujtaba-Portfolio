@@ -11,11 +11,6 @@ export function HowToBuildAIAgents() {
     description:
       "A comprehensive guide to building autonomous AI agents with multi-agent orchestration, tool integration, and human-in-the-loop controls for business automation.",
     totalTime: "P4W",
-    estimatedCost: {
-      "@type": "MonetaryAmount",
-      currency: "USD",
-      value: "5000-15000",
-    },
     supply: [
       "OpenAI API key or Gemini API key",
       "Python 3.10+",
@@ -103,11 +98,6 @@ export function HowToSecureAISystems() {
     description:
       "Step-by-step guide to testing AI systems for security vulnerabilities including prompt injection, jailbreak attempts, and output validation.",
     totalTime: "P1W",
-    estimatedCost: {
-      "@type": "MonetaryAmount",
-      currency: "USD",
-      value: "3000-8000",
-    },
     tool: [
       { "@type": "HowToTool", name: "Burp Suite" },
       { "@type": "HowToTool", name: "Custom prompt injection scripts" },

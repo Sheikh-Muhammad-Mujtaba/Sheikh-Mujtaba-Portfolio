@@ -11,6 +11,10 @@
   50% { transform: translate3d(22px, -18px, 0) scale(1.05); }
 }
 
+@keyframes layerFadeIn {
+  from { opacity: 0; }
+}
+
 @keyframes revealUp {
   from {
     opacity: 0;
@@ -164,15 +168,15 @@
           animation: revealUp 0.95s $ease-premium both;
         }
 
-        > div:nth-child(1) :global(.titleLine) {
+        > span:nth-child(1) :global(.titleLine) {
           animation-delay: 0.42s;
         }
 
-        > div:nth-child(2) :global(.titleLine) {
+        > span:nth-child(2) :global(.titleLine) {
           animation-delay: 0.56s;
         }
 
-        > div:nth-child(3) :global(.titleLine) {
+        > span:nth-child(3) :global(.titleLine) {
           animation-delay: 0.7s;
         }
       }
@@ -443,8 +447,36 @@
     }
   }
 
+  // ─── REMOTION LAYERS (components/remotion) ──
+  // Full-bleed live backdrop behind the hero copy. Negative z-index stays
+  // inside .hero's own stacking context, so it paints above the page
+  // background but below the title, buttons and portrait.
+  .heroBackdrop {
+    position: absolute;
+    top: -6rem;
+    bottom: -4rem;
+    left: 50%;
+    z-index: -1;
+    width: 100vw;
+    transform: translateX(-50%);
+    opacity: 0.85;
+    animation: layerFadeIn 1.2s $ease-premium both;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 72%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 14%, #000 72%, transparent);
+  }
+
+  // Biometric HUD over the portrait — above the image and its vignette,
+  // below the glass badge (z-index: 3).
+  .portraitHud {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    animation: layerFadeIn 0.9s $ease-premium both;
+  }
+
   // ─── SECTION CONTAINERS ─────────────────────
   .aboutContainer,
+  .opsConsole,
   .experienceContainer,
   .blogPreviewContainer,
   .projectContainer,
@@ -464,6 +496,7 @@
   }
 
   .aboutContainer,
+  .opsConsole,
   .experienceContainer,
   .blogPreviewContainer {
     padding: clamp(1rem, 3.5vw, 2rem);
@@ -472,6 +505,7 @@
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
   }
 
+  .opsConsole,
   .experienceContainer,
   .blogPreviewContainer {
     background:
@@ -511,8 +545,10 @@
   .aboutContainer,
   .experienceContainer,
   .blogPreviewContainer,
-  .projectContainer {
+  .projectContainer,
+  .opsConsole {
     > h2,
+    .opsHeader h2,
     .projectTitleContainer h2 {
       position: relative;
       padding-bottom: 0.9rem;
@@ -687,6 +723,33 @@
           background: linear-gradient(135deg, $cyan, $gold);
           box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
         }
+      }
+    }
+  }
+
+  // ─── LIVE OPS CONSOLE ───────────────────────
+  .opsConsole {
+    display: grid;
+    // minmax(0, …) so the console's long, non-wrapping lines scroll inside it
+    // instead of widening the column on phones.
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .opsHeader {
+      h2 {
+        margin-bottom: 0.9rem;
+      }
+
+      p:last-child {
+        color: $muted;
+        line-height: 1.7;
+        max-width: 34rem;
       }
     }
   }

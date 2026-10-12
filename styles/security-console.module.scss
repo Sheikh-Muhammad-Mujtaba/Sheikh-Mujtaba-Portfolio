@@ -1,0 +1,186 @@
+@use "./variables.module.scss" as *;
+
+$mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+$green: #34d399;
+$red: #f43f5e;
+
+@keyframes consoleShow {
+  to { opacity: 1; }
+}
+
+@keyframes consoleType {
+  to { width: calc(var(--n) * 1ch); }
+}
+
+@keyframes consoleBlink {
+  50% { opacity: 0; }
+}
+
+.terminal {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(34, 211, 238, 0.22);
+  border-radius: clamp(12px, 2vw, 18px);
+  background:
+    radial-gradient(circle at 85% 0%, rgba(34, 211, 238, 0.08), transparent 45%),
+    rgba(2, 6, 23, 0.88);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 0 60px rgba(34, 211, 238, 0.08);
+  font-family: $mono;
+  // Reserve the finished height up front: no layout shift while lines appear.
+  contain: layout paint;
+
+  // CRT scanlines
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+  }
+
+  // Everything waits, paused, until ConsoleAutoplay sees the console.
+  &:not([data-play]) * {
+    animation-play-state: paused !important;
+  }
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 clamp(14px, 3vw, 24px);
+  border-bottom: 1px solid rgba(34, 211, 238, 0.14);
+  background: rgba(15, 23, 42, 0.6);
+  font-size: 0.72rem;
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.85;
+
+    &[data-c="red"] { background: $red; }
+    &[data-c="gold"] { background: $gold; }
+    &[data-c="green"] { background: $green; }
+  }
+
+  .title {
+    margin-left: 12px;
+    overflow: hidden;
+    color: $muted-deep;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .secure {
+    margin-left: auto;
+    flex: none;
+    color: $green;
+    letter-spacing: 0.16em;
+  }
+}
+
+.body {
+  margin: 0;
+  padding: clamp(14px, 3vw, 24px);
+  overflow-x: auto;
+  color: rgba(203, 213, 225, 0.85);
+  font-family: inherit;
+  font-size: clamp(0.66rem, 1.5vw, 0.86rem);
+  line-height: 1.75;
+  white-space: pre;
+  scrollbar-width: thin;
+
+  code {
+    font: inherit;
+  }
+}
+
+.line {
+  display: block;
+  min-height: 1.75em;
+}
+
+.out,
+.cmdLine {
+  opacity: 0;
+  animation: consoleShow 0.18s ease-out var(--d) forwards;
+}
+
+.out {
+  &[data-tone="muted"] { color: $muted-deep; }
+  &[data-tone="ok"] { color: $green; }
+  &[data-tone="warn"] { color: $gold; }
+  &[data-tone="accent"] { color: $cyan; }
+  &[data-tone="bright"] { color: $white; }
+}
+
+.typed {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  vertical-align: bottom;
+  color: $white;
+  animation: consoleType var(--t) steps(var(--n), end) var(--d) forwards;
+}
+
+.progress {
+  color: $cyan;
+}
+
+.bar {
+  position: relative;
+  display: inline-block;
+  width: calc(var(--n) * 1ch);
+  vertical-align: bottom;
+
+  &::before {
+    content: attr(data-empty);
+    color: rgba(34, 211, 238, 0.3);
+  }
+}
+
+.barFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  overflow: hidden;
+  animation: consoleType var(--t) steps(var(--n), end) var(--d) forwards;
+}
+
+.user { color: $green; }
+.path { color: $cyan; }
+.muted { color: $muted-deep; }
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: $cyan;
+  animation: consoleBlink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .out,
+  .cmdLine,
+  .typed,
+  .barFill {
+    animation: none;
+    opacity: 1;
+    width: auto;
+  }
+
+  .barFill {
+    width: 100%;
+  }
+
+  .cursor {
+    animation: none;
+  }
+}
