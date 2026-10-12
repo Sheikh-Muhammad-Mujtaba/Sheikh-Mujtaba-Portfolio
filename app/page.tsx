@@ -13,14 +13,21 @@ import ScrollAnimationsLoader from "../components/scroll-animations-loader";
 import { HeroBackdrop, PortraitHud } from "../components/remotion/lazy";
 import SecurityConsole from "../components/security-console";
 import { projectsList } from "../utils/project-data";
+import { blogPosts as sitePosts } from "../utils/blog-data";
+
+const postDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://sheikhmujtaba.me";
 
 export const metadata: Metadata = {
-  title: "Sheikh Mujtaba | AI Developer & Security Engineer | ERPNext Automation Expert",
-  description: "Sheikh Mujtaba builds secure AI agents, ERPNext automation, and digital FTE solutions. Cybersecurity & full-stack development specialist. Expert in AI agents, RAG pipelines, LLM integration, and business automation.",
+  title: { absolute: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer & AI Developer" },
+  description: "Sheikh Mujtaba (Mujtaba Javed) is an AI Security Engineer and AI Developer. He red-teams LLM apps, tests for prompt injection and builds secure AI agents, RAG pipelines and ERPNext automation.",
   keywords: [
     "Sheikh Mujtaba",
+    "Mujtaba Javed",
+    "Sheikh Mujtaba Javed",
+    "AI Security Engineer",
+    "AI red teaming",
     "cybersheikh",
     "AI agents",
     "Agentic AI",
@@ -69,23 +76,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "Sheikh Mujtaba - AI Developer & Security Engineer",
-    title: "Sheikh Mujtaba | AI Developer, Security Engineer & ERPNext Expert",
-    description: "Building secure AI systems, ERPNext automation solutions, and digital transformation. Specializing in AI agents, RAG pipelines, and enterprise automation.",
+    siteName: "Sheikh Mujtaba - AI Security Engineer & AI Developer",
+    title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer & AI Developer",
+    description: "AI Security Engineer and AI Developer: AI red teaming, prompt injection testing, secure AI agents, RAG pipelines and ERPNext automation.",
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Sheikh Mujtaba - AI Developer & Security Engineer",
+        alt: "Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer & AI Developer",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sheikh Mujtaba | AI Developer & Security Engineer",
-    description: "Building secure AI agents and ERPNext automation solutions",
+    title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer",
+    description: "AI red teaming, prompt injection testing and secure AI agents, RAG pipelines and ERPNext automation.",
     images: [`${siteUrl}/opengraph-image`],
     creator: "@cybersheikh",
   },
@@ -141,9 +148,9 @@ export default function Homepage() {
 
                 <p className={`${styles.jobTitle} wrap-break-word`}>
                   <strong className={styles.roleName}>Sheikh Mujtaba</strong>
-                  <span className={styles.roleAI}>AI Developer</span>
+                  <span className={styles.roleSecurity}>AI Security Engineer</span>
                   <span className="opacity-50 mx-3">&bull;</span>
-                  <span className={styles.roleSecurity}>Security Engineer</span>
+                  <span className={styles.roleAI}>AI Developer</span>
                 </p>
 
                 <div className="flex gap-3 sm:gap-4 mt-2 heroButtons justify-center w-full md:justify-start flex-wrap md:flex-nowrap">
@@ -204,7 +211,7 @@ export default function Homepage() {
                 <p className={styles.sectionKicker}>Who I Am</p>
                 <h2>About Sheikh Mujtaba</h2>
                 <p className="mb-4">
-                  <strong>Sheikh Mujtaba is an AI Developer and Security Engineer</strong> who builds production-grade Agentic AI systems for business automation. He specializes in architecting RAG (Retrieval Augmented Generation) pipelines, multi-agent orchestration, and secure AI infrastructure.
+                  <strong>Sheikh Mujtaba (also known as Mujtaba Javed) is an AI Security Engineer and AI Developer</strong> who builds production-grade Agentic AI systems for business automation and red-teams the LLM applications other teams ship. He specializes in AI security testing, RAG (Retrieval Augmented Generation) pipelines, multi-agent orchestration, and secure AI infrastructure.
                 </p>
 
                 <h3 className="text-xl font-semibold mt-6 mb-3 text-cyan-400">What is Agentic AI?</h3>
@@ -278,6 +285,15 @@ export default function Homepage() {
             <p className={styles.sectionKicker}>Latest Writing</p>
             <h2>My Blog</h2>
             <ul>
+              {/* Newest on-site guides first: internal links pass ranking value to them. */}
+              {sitePosts.slice(0, 4).map((post) => (
+                <li key={post.slug} data-reveal-item>
+                  <Link href={`/blog/${post.slug}`}>
+                    <h3>{post.title}</h3>
+                    <p>{postDate.format(new Date(post.published))}</p>
+                  </Link>
+                </li>
+              ))}
               {blogPosts.map((post, i) => (
                 <li key={i} data-reveal-item>
                   <a href={post.link} target="_blank" rel="noopener noreferrer">

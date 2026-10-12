@@ -1,23 +1,37 @@
-import { ids, siteUrl } from "../utils/site";
+import {
+  authorAlternateNames,
+  authorEmail,
+  authorImage,
+  authorJobTitle,
+  authorName,
+  authorSameAs,
+  ids,
+  siteUrl,
+} from "../utils/site";
 
 export function PersonJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": ids.person,
-    name: "Sheikh Mujtaba",
+    name: authorName,
+    alternateName: authorAlternateNames,
+    givenName: "Mujtaba",
+    familyName: "Javed",
     url: siteUrl,
-    email: "smujtabaja@gmail.com",
-    jobTitle: "AI Developer & Security Engineer",
-    description: "Building secure AI agents, ERPNext automation, and digital FTE solutions",
-    image: `${siteUrl}/opengraph-image.png`,
-    sameAs: [
-      "https://github.com/Sheikh-Muhammad-Mujtaba",
-      "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
-      "https://medium.com/@smujtabaja",
-      "https://linktr.ee/s.m.mujtabajaved",
-    ],
+    email: authorEmail,
+    jobTitle: authorJobTitle,
+    description:
+      "Sheikh Mujtaba (Mujtaba Javed) is an AI Security Engineer and AI Developer who builds secure AI agents, RAG pipelines and ERPNext automation, and red-teams LLM applications.",
+    image: authorImage,
+    sameAs: authorSameAs,
+    homeLocation: { "@type": "Country", name: "Pakistan" },
     knowsAbout: [
+      "AI Security",
+      "LLM Security",
+      "AI Red Teaming",
+      "Prompt Injection",
+      "MCP Security",
       "Agentic AI",
       "RAG Pipeline",
       "LLM Integration",
@@ -31,9 +45,11 @@ export function PersonJsonLd() {
       "Python",
       "TypeScript",
     ],
+    // Matches the About page and the homepage experience list.
     worksFor: {
       "@type": "Organization",
-      name: "Self Employed",
+      name: "Tech Accuracy",
+      url: "https://techaccuracy.com",
     },
     mainEntityOfPage: { "@type": "WebSite", "@id": ids.website },
   };

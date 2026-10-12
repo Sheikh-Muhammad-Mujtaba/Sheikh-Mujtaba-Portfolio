@@ -3,13 +3,24 @@ import Image from "next/image";
 import Script from "next/script";
 import Header from "../../components/header";
 import { FaGithub, FaLinkedin, FaEnvelope, FaMedium, FaRobot, FaShieldAlt, FaCode } from "react-icons/fa";
+import {
+  authorAlternateNames,
+  authorImage,
+  authorJobTitle,
+  authorName,
+  authorSameAs,
+  ids,
+} from "../../utils/site";
 
 export const metadata: Metadata = {
-  title: "About - Sheikh Mujtaba | AI Developer & Security Engineer",
+  title: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer",
   description:
-    "Learn about Sheikh Mujtaba, an AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture. Based in Pakistan, working globally.",
+    "Sheikh Mujtaba (Mujtaba Javed) is an AI Security Engineer and AI Developer from Pakistan: AI red teaming, prompt injection testing, secure agentic AI systems and RAG pipelines for clients worldwide.",
   keywords: [
     "Sheikh Mujtaba",
+    "Mujtaba Javed",
+    "Sheikh Mujtaba Javed",
+    "AI Security Engineer",
     "AI Developer Pakistan",
     "Security Engineer",
     "Agentic AI expert",
@@ -21,8 +32,8 @@ export const metadata: Metadata = {
     "hire AI developer",
   ],
   openGraph: {
-    title: "About Sheikh Mujtaba - AI Developer & Security Engineer",
-    description: "Specializing in Agentic AI, RAG pipelines, and secure-by-design architecture",
+    title: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer",
+    description: "AI Security Engineer and AI Developer: AI red teaming, secure agentic AI and RAG pipelines.",
     type: "profile",
   },
   alternates: {
@@ -35,13 +46,16 @@ function PersonSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Sheikh Mujtaba Javed",
-    alternateName: "Sheikh Mujtaba",
+    // Same @id and names as the site-wide Person (components/json-ld.tsx), so
+    // search engines merge both into one entity instead of two people.
+    "@id": ids.person,
+    name: authorName,
+    alternateName: authorAlternateNames,
     url: "https://sheikhmujtaba.me/about",
-    image: "https://sheikhmujtaba.me/images/ProfileImage.jpeg",
-    jobTitle: "AI Developer & Security Engineer",
+    image: authorImage,
+    jobTitle: authorJobTitle,
     description:
-      "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, multi-agent orchestration, and secure-by-design architecture.",
+      "Sheikh Mujtaba (Mujtaba Javed) is an AI Security Engineer and AI Developer specializing in AI red teaming, prompt injection testing, agentic AI systems, RAG pipelines and secure-by-design architecture.",
     worksFor: {
       "@type": "Organization",
       name: "Tech Accuracy",
@@ -68,12 +82,7 @@ function PersonSchema() {
       "@type": "EducationalOrganization",
       name: "Self-taught & Industry Certified",
     },
-    sameAs: [
-      "https://github.com/Sheikh-Muhammad-Mujtaba",
-      "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
-      "https://linktr.ee/s.m.mujtabajaved",
-      "https://medium.com/@smujtabaja",
-    ],
+    sameAs: authorSameAs,
     email: "mailto:smujtabaja@gmail.com",
     address: {
       "@type": "PostalAddress",
@@ -243,11 +252,14 @@ export default function AboutPage() {
               {/* Bio */}
               <div className="order-1 md:order-2 animate-slide-up" style={{ animationDelay: '0.1s' }}>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-                  <span className="text-sm text-cyan-400 font-medium">AI Developer & Security Engineer</span>
+                  <span className="text-sm text-cyan-400 font-medium">AI Security Engineer &amp; AI Developer</span>
                 </div>
                 
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
                   Sheikh <span className="text-gradient">Mujtaba</span>
+                  <span className="block mt-3 text-lg md:text-xl font-medium text-slate-400 tracking-normal">
+                    Mujtaba Javed &middot; AI Security Engineer
+                  </span>
                 </h1>
                 
                 <p className="text-lg text-slate-400 mb-6 leading-relaxed">

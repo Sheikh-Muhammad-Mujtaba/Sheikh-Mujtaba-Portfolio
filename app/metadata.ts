@@ -6,12 +6,12 @@ export const siteMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "Sheikh Mujtaba | AI Developer & Security Engineer",
+    default: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer",
     template: "%s | Sheikh Mujtaba",
   },
 
   description:
-    "Portfolio of Sheikh Mujtaba, an AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, multi-agent orchestration, and secure-by-design architecture.",
+    "Portfolio of Sheikh Mujtaba (Mujtaba Javed), an AI Security Engineer and AI Developer specializing in AI red teaming, agentic AI systems, RAG pipelines and secure-by-design architecture.",
 
   keywords: [
     "AI Developer",

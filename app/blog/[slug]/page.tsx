@@ -15,7 +15,7 @@ import {
   tableOfContents,
   type BlogPost,
 } from "../../../utils/blog-data";
-import { authorRef, ids, siteUrl, topicFor } from "../../../utils/site";
+import { authorAlternateNames, authorJobTitle, authorRef, ids, siteUrl, topicFor } from "../../../utils/site";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: post.title,
     description: post.description,
     keywords: post.keywords,
-    authors: [{ name: "Sheikh Mujtaba", url: siteUrl }],
+    authors: [{ name: "Sheikh Mujtaba", url: `${siteUrl}/about` }],
     alternates: { canonical: url },
     openGraph: {
       type: "article",
@@ -101,7 +101,8 @@ function ArticleJsonLd({ post }: { post: BlogPost }) {
     isAccessibleForFree: true,
     author: {
       ...authorRef,
-      jobTitle: "AI Developer & Security Engineer",
+      alternateName: authorAlternateNames,
+      jobTitle: authorJobTitle,
       knowsAbout: post.keywords,
     },
     publisher: authorRef,
@@ -200,7 +201,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               {post.description}
             </p>
             <p className={styles.meta} style={{ marginTop: "1rem" }}>
-              <span>Sheikh Mujtaba</span>
+              <Link href="/about" rel="author">Sheikh Mujtaba</Link>
               <span className={styles.metaDot} aria-hidden="true">
                 &bull;
               </span>

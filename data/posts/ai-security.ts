@@ -24,7 +24,13 @@ export const aiSecurity: BlogPost = {
   readingMinutes: 13,
   excerpt:
     "Prompt injection is not a bug you patch, it is a property of the architecture. Here is the threat model, the red team method, and the controls that survive contact with attackers.",
-  related: ["agentic-ai-development", "ai-integration-in-business-workflows"],
+  related: [
+    "ai-security-engineer",
+    "prompt-injection",
+    "owasp-top-10-for-llm-applications",
+    "ai-red-teaming",
+    "agentic-ai-development",
+  ],
   blocks: [
     {
       type: "p",

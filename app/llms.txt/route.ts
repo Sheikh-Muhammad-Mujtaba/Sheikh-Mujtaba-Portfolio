@@ -25,7 +25,7 @@ export function GET() {
     )
     .join("\n\n");
 
-  const body = `# Sheikh Mujtaba — AI Developer & Security Engineer
+  const body = `# Sheikh Mujtaba (Mujtaba Javed) — AI Security Engineer & AI Developer
 
 > Independent engineer building agentic AI systems, ERPNext automation and the
 > security controls that keep them safe in production. Based in Pakistan,

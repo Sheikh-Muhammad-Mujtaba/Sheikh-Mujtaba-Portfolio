@@ -6,6 +6,31 @@ export const siteName = "Sheikh Mujtaba — AI Developer & Security Engineer";
 
 export const authorName = "Sheikh Mujtaba";
 
+/**
+ * Every name the author is known by. Search engines only merge these into one
+ * person when they appear together on the same entity, so every Person
+ * JSON-LD block on the site uses this exact list.
+ */
+export const authorAlternateNames = [
+  "Mujtaba Javed",
+  "Sheikh Mujtaba Javed",
+  "Sheikh Muhammad Mujtaba Javed",
+  "Sheikh M. Mujtaba Javed",
+  "Muhammad Mujtaba",
+];
+
+export const authorJobTitle = "AI Security Engineer & AI Developer";
+
+export const authorImage = `${siteUrl}/images/ProfileImage.jpeg`;
+
+/** Profiles that are verifiably the same person — the strongest identity signal. */
+export const authorSameAs = [
+  "https://github.com/Sheikh-Muhammad-Mujtaba",
+  "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
+  "https://medium.com/@smujtabaja",
+  "https://linktr.ee/s.m.mujtabajaved",
+];
+
 export const authorEmail = "smujtabaja@gmail.com";
 
 /**
@@ -63,6 +88,23 @@ export const topicEntities: Record<string, { name: string; sameAs: string[] }> =
     ],
   },
 };
+
+const wiki = (page: string) => `https://en.wikipedia.org/wiki/${page}`;
+
+// Security-cluster posts. Wikipedia URLs verified to resolve; reuses the
+// Wikidata IDs above where the entity is the same.
+Object.assign(topicEntities, {
+  "AI security engineer": topicEntities["AI security"],
+  "how to become an AI security engineer": topicEntities["AI security"],
+  "prompt injection": { name: "Prompt injection", sameAs: [wiki("Prompt_injection")] },
+  "OWASP Top 10 for LLM applications": { name: "OWASP", sameAs: [wiki("OWASP")] },
+  "MCP security": { name: "Model Context Protocol", sameAs: [wiki("Model_Context_Protocol")] },
+  "AI agent security": topicEntities["agentic AI development"],
+  "AI red teaming": { name: "Red team", sameAs: [wiki("Red_team")] },
+  "RAG security": { name: "Retrieval-augmented generation", sameAs: [wiki("Retrieval-augmented_generation")] },
+  "LLM guardrails": { name: "Large language model", sameAs: [wiki("Large_language_model")] },
+  "ERPNext security": topicEntities["ERPNext development"],
+});
 
 export function topicFor(focusKeyword: string) {
   const entity = topicEntities[focusKeyword];

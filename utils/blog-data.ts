@@ -3,6 +3,16 @@ import { erpnextDevelopment } from "../data/posts/erpnext-development";
 import { agenticAiDevelopment } from "../data/posts/agentic-ai-development";
 import { aiSecurity } from "../data/posts/ai-security";
 import { aiIntegrationInBusinessWorkflows } from "../data/posts/ai-integration-in-business-workflows";
+import { aiSecurityEngineer } from "../data/posts/ai-security-engineer";
+import { howToBecomeAiSecurityEngineer } from "../data/posts/how-to-become-an-ai-security-engineer";
+import { promptInjection } from "../data/posts/prompt-injection";
+import { owaspTop10ForLlmApplications } from "../data/posts/owasp-top-10-for-llm-applications";
+import { mcpSecurity } from "../data/posts/mcp-security";
+import { aiAgentSecurity } from "../data/posts/ai-agent-security";
+import { aiRedTeaming } from "../data/posts/ai-red-teaming";
+import { ragSecurity } from "../data/posts/rag-security";
+import { llmGuardrails } from "../data/posts/llm-guardrails";
+import { erpnextSecurity } from "../data/posts/erpnext-security";
 
 export type { BlogPost, PostBlock, PostFaq } from "./blog-types";
 
@@ -12,6 +22,17 @@ const NL = "\n";
 
 /** Newest first — the index and the sitemap both read this order. */
 export const blogPosts: BlogPost[] = [
+  // AI security cluster (2026-10-12) — the pillar post leads the index.
+  aiSecurityEngineer,
+  promptInjection,
+  owaspTop10ForLlmApplications,
+  aiRedTeaming,
+  mcpSecurity,
+  aiAgentSecurity,
+  ragSecurity,
+  llmGuardrails,
+  howToBecomeAiSecurityEngineer,
+  erpnextSecurity,
   aiIntegrationInBusinessWorkflows,
   aiSecurity,
   agenticAiDevelopment,
