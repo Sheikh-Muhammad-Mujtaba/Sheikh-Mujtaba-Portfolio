@@ -94,7 +94,8 @@ export const siteMetadata: Metadata = {
     title: "Sheikh Mujtaba | AI Developer & Security Engineer",
     description:
       "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture.",
-    creator: "@smujtabaja",
+    site: "@Mujtaba_Javed_",
+    creator: "@Mujtaba_Javed_",
     images: ["/opengraph-image"],
   },
 

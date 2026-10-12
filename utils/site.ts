@@ -23,8 +23,11 @@ export const authorJobTitle = "AI Security Engineer & AI Developer";
 
 export const authorImage = `${siteUrl}/images/ProfileImage.jpeg`;
 
+export const authorTwitterUrl = "https://x.com/Mujtaba_Javed_";
+
 /** Profiles that are verifiably the same person — the strongest identity signal. */
 export const authorSameAs = [
+  authorTwitterUrl,
   "https://github.com/Sheikh-Muhammad-Mujtaba",
   "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
   "https://medium.com/@smujtabaja",

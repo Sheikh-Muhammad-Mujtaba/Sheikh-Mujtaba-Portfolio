@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GitHubIcon, LinkedInIcon, LinktreeIcon } from "../components/social-icons";
+import { GitHubIcon, LinkedInIcon, LinktreeIcon, XIcon } from "../components/social-icons";
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -94,7 +94,8 @@ export const metadata: Metadata = {
     title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer",
     description: "AI red teaming, prompt injection testing and secure AI agents, RAG pipelines and ERPNext automation.",
     images: [`${siteUrl}/opengraph-image`],
-    creator: "@cybersheikh",
+    site: "@Mujtaba_Javed_",
+    creator: "@Mujtaba_Javed_",
   },
   alternates: {
     canonical: siteUrl,
@@ -362,7 +363,7 @@ export default function Homepage() {
               <a
                 href="https://github.com/Sheikh-Muhammad-Mujtaba"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 title="Go to Mujtaba's GitHub"
               >
                 GitHub
@@ -373,7 +374,7 @@ export default function Homepage() {
               <a
                 href="https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 title="Connect with Mujtaba on LinkedIn"
               >
                 LinkedIn
@@ -384,11 +385,22 @@ export default function Homepage() {
               <a
                 href="https://linktr.ee/s.m.mujtabajaved"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 title="Check out Mujtaba's Linktree"
               >
                 Linktree
                 <LinktreeIcon className={styles.socialIcon} width={20} height={20} />
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://x.com/Mujtaba_Javed_"
+                target="_blank"
+                rel="me noopener noreferrer"
+                title="Follow Mujtaba Javed on X"
+              >
+                X
+                <XIcon className={styles.socialIcon} width={18} height={18} />
               </a>
             </li>
           </ul>

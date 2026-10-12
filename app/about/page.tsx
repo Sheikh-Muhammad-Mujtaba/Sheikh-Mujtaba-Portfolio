@@ -3,6 +3,7 @@ import Image from "next/image";
 import Script from "next/script";
 import Header from "../../components/header";
 import { FaGithub, FaLinkedin, FaEnvelope, FaMedium, FaRobot, FaShieldAlt, FaCode } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import {
   authorAlternateNames,
   authorImage,
@@ -277,7 +278,7 @@ export default function AboutPage() {
                   <a
                     href="https://github.com/Sheikh-Muhammad-Mujtaba"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
                     <FaGithub className="w-5 h-5" />
@@ -286,7 +287,7 @@ export default function AboutPage() {
                   <a
                     href="https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
                     <FaLinkedin className="w-5 h-5" />
@@ -295,11 +296,20 @@ export default function AboutPage() {
                   <a
                     href="https://medium.com/@smujtabaja"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
                     <FaMedium className="w-5 h-5" />
                     Medium
+                  </a>
+                  <a
+                    href="https://x.com/Mujtaba_Javed_"
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
+                  >
+                    <FaXTwitter className="w-5 h-5" />
+                    X
                   </a>
                   <a
                     href="mailto:smujtabaja@gmail.com"
