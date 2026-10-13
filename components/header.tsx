@@ -25,7 +25,7 @@ const navItems = [
 
 const socialLinks = [
   { href: "https://github.com/Sheikh-Muhammad-Mujtaba", label: "GitHub", icon: GitHubIcon },
-  { href: "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/", label: "LinkedIn", icon: LinkedInIcon },
+  { href: "https://www.linkedin.com/in/sheikhmujtaba/", label: "LinkedIn", icon: LinkedInIcon },
 ];
 
 function classNames(...values: Array<string | false | undefined>) {

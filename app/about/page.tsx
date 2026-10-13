@@ -285,7 +285,7 @@ export default function AboutPage() {
                     GitHub
                   </a>
                   <a
-                    href="https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/"
+                    href="https://www.linkedin.com/in/sheikhmujtaba/"
                     target="_blank"
                     rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"

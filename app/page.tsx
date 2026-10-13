@@ -372,7 +372,7 @@ export default function Homepage() {
             </li>
             <li>
               <a
-                href="https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/"
+                href="https://www.linkedin.com/in/sheikhmujtaba/"
                 target="_blank"
                 rel="me noopener noreferrer"
                 title="Connect with Mujtaba on LinkedIn"

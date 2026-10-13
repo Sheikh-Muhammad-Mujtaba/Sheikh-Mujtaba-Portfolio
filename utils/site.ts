@@ -29,7 +29,7 @@ export const authorTwitterUrl = "https://x.com/Mujtaba_Javed_";
 export const authorSameAs = [
   authorTwitterUrl,
   "https://github.com/Sheikh-Muhammad-Mujtaba",
-  "https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/",
+  "https://www.linkedin.com/in/sheikhmujtaba/",
   "https://medium.com/@smujtabaja",
   "https://linktr.ee/s.m.mujtabajaved",
 ];

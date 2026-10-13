@@ -93,7 +93,7 @@ ${answers}
 
 - Email: ${authorEmail}
 - GitHub: https://github.com/Sheikh-Muhammad-Mujtaba
-- LinkedIn: https://www.linkedin.com/in/sheikh-m-mujtaba-javed-0362872b9/
+- LinkedIn: https://www.linkedin.com/in/sheikhmujtaba/
 - Location: Pakistan, available for remote work worldwide
 
 ## Citation
