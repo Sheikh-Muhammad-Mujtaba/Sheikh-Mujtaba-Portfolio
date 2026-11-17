@@ -6,7 +6,7 @@ import Header from "../../components/header";
 import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
-  title: "FAQ - AI Development & Security Engineering | Sheikh Mujtaba",
+  title: { absolute: "FAQ - AI Development & Security Engineering | Sheikh Mujtaba" },
   description:
     "Frequently asked questions about Agentic AI, RAG pipelines, AI agent development services, security engineering, and working with Sheikh Mujtaba.",
   keywords: [

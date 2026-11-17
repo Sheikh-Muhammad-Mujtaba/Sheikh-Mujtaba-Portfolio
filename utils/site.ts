@@ -17,6 +17,8 @@ export const authorAlternateNames = [
   "Sheikh Muhammad Mujtaba Javed",
   "Sheikh M. Mujtaba Javed",
   "Muhammad Mujtaba",
+  // Search Console shows people searching this spelling.
+  "Mujtaba Shaikh",
 ];
 
 export const authorJobTitle = "AI Security Engineer & AI Developer";

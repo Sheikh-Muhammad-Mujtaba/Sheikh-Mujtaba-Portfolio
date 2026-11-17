@@ -14,6 +14,7 @@ import FeaturedShowcase from "../components/featured-showcase";
 import ScrollAnimationsLoader from "../components/scroll-animations-loader";
 import { HeroBackdrop, PortraitHud } from "../components/remotion/lazy";
 import SecurityConsole from "../components/security-console";
+import RoleLinks from "../components/role-links";
 import { projectsList } from "../utils/project-data";
 import { blogPosts as sitePosts } from "../utils/blog-data";
 
@@ -340,6 +341,8 @@ export default function Homepage() {
           <ScrollAnimationsLoader />
         </main>
         <footer>
+          <h2 className={styles.footerTitle}>What I Do</h2>
+          <RoleLinks className={`${styles.footerLinks} ${styles.mobileStack}`} />
           <h2 className={styles.footerTitle}>Connect with Me</h2>
           <ul className={`${styles.footerLinks} ${styles.mobileStack}`}>
             <li>

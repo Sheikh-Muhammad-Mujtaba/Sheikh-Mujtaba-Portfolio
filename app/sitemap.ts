@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { blogPosts } from "../utils/blog-data";
+import { rolePages } from "../utils/role-data";
 import { siteUrl } from "../utils/site";
 
 /**
@@ -19,6 +20,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const posts: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
     lastModified: new Date(post.updated),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const roles: MetadataRoute.Sitemap = rolePages.map((page) => ({
+    url: `${siteUrl}/${page.slug}`,
+    lastModified: new Date(page.updated),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
@@ -54,6 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    ...roles,
     ...posts,
   ];
 }

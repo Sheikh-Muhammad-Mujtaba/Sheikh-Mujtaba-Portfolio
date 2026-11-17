@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import Header from "../../components/header";
+import RoleLinks from "../../components/role-links";
 import { FaGithub, FaLinkedin, FaEnvelope, FaMedium, FaRobot, FaShieldAlt, FaCode } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import {
@@ -16,7 +17,7 @@ import {
 import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
-  title: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer",
+  title: { absolute: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer" },
   description:
     "Sheikh Mujtaba (Mujtaba Javed) is an AI Security Engineer and AI Developer from Pakistan: AI red teaming, prompt injection testing, secure agentic AI systems and RAG pipelines for clients worldwide.",
   keywords: [
@@ -561,6 +562,23 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Roles */}
+        <section className="section-padding relative border-t border-slate-800/50">
+          <div className="container-premium">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+              The Roles I <span className="text-gradient">Work In</span>
+            </h2>
+            <p className="text-slate-400 mb-8 text-center max-w-2xl mx-auto">
+              One engineer, several hats. Each page covers the work, projects and questions for
+              that role.
+            </p>
+            <RoleLinks
+              className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto"
+              linkClassName="glass block rounded-xl px-5 py-4 text-slate-200 hover:text-cyan-300 transition-colors"
+            />
           </div>
         </section>
 

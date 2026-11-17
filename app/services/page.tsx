@@ -8,7 +8,7 @@ import { ids } from "../../utils/site";
 import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
-  title: "Services - AI Development & Security Engineering | Sheikh Mujtaba",
+  title: { absolute: "Services - AI Development & Security Engineering | Sheikh Mujtaba" },
   description:
     "AI development and security engineering services: agentic AI systems, RAG pipeline architecture, AI red teaming, security assessments and full-stack development. Clear scope, timelines and custom proposals.",
   keywords: [

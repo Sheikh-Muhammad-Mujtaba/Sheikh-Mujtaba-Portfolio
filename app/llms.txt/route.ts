@@ -1,4 +1,5 @@
 import { blogPosts, leadAnswer } from "../../utils/blog-data";
+import { rolePages } from "../../utils/role-data";
 import { authorEmail, siteUrl } from "../../utils/site";
 
 export const dynamic = "force-static";
@@ -15,6 +16,13 @@ export function GET() {
     .map(
       (post) =>
         `- [${post.title}](${siteUrl}/blog/${post.slug}): ${post.excerpt}`
+    )
+    .join("\n");
+
+  const roles = rolePages
+    .map(
+      (page) =>
+        `- [Sheikh Mujtaba — ${page.role}](${siteUrl}/${page.slug}): ${page.description}`
     )
     .join("\n");
 
@@ -42,6 +50,10 @@ Canonical site: ${siteUrl}
 - [Blog](${siteUrl}/blog): Long-form engineering guides.
 - [Full guide text](${siteUrl}/llms-full.txt): every guide in Markdown, for
   retrieval and citation.
+
+## Roles
+
+${roles}
 
 ## Guides
 
