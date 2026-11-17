@@ -2,280 +2,244 @@
 
 import { gsap, ScrollTrigger, useGSAP } from "../utils/gsap";
 
+/**
+ * Desktop-only scroll effects. Loaded by scroll-animations-loader.tsx only on
+ * wide screens with motion allowed, so phones never download GSAP. Simple
+ * fade-ins live in reveal-observer.tsx (no library needed).
+ */
 export default function ScrollAnimations() {
   useGSAP(() => {
     const mm = gsap.matchMedia();
 
-    mm.add(
-      {
-        isDesktop: "(min-width: 900px)",
-        // Not read below — it guarantees that a phone matches a condition.
-        // gsap.matchMedia only runs the callback when one is true, so with
-        // `isDesktop` + `reduce` alone every reveal on this page silently
-        // never ran on mobile.
-        isMobile: "(max-width: 899px)",
-        reduce: "(prefers-reduced-motion: reduce)",
-      },
-      (ctx) => {
-        const { isDesktop, reduce } = ctx.conditions as {
-          isDesktop: boolean;
-          isMobile: boolean;
-          reduce: boolean;
+    mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+      const cleanups: Array<() => void> = [];
+
+      /* ---- 3D Hero Portrait Move to About Section on Scroll ---- */
+      const hero = document.querySelector<HTMLElement>("[data-hero]");
+      const copy = document.querySelector<HTMLElement>("[data-hero-copy]");
+      const visual = document.querySelector<HTMLElement>("[data-hero-visual]");
+      const heroPortrait = document.querySelector<HTMLElement>("[data-hero-portrait]");
+      const aboutTarget = document.querySelector<HTMLElement>("[data-about-portrait-target]");
+      const aboutSection = document.querySelector<HTMLElement>("#about");
+      const badge = document.querySelector<HTMLElement>("[data-hero-badge]");
+
+      if (hero && heroPortrait && aboutTarget) {
+        // Stays in normal flow — transforms only. `position: fixed` cannot be
+        // used here: [data-hero-visual] receives a transform from the pointer
+        // tilt below, and a transformed ancestor becomes the containing block
+        // for fixed descendants, which breaks the anchoring entirely.
+        gsap.set(heroPortrait, {
+          transformPerspective: 1200,
+          transformStyle: "preserve-3d",
+          transformOrigin: "top left",
+          willChange: "transform",
+        });
+
+        // Document-space position: viewport rects shift while scrolling, so a
+        // delta built from them goes stale mid-scrub. Adding the scroll offset
+        // makes the measurement scroll-invariant.
+        const docPos = (el: HTMLElement) => {
+          const r = el.getBoundingClientRect();
+          return {
+            left: r.left + window.scrollX,
+            top: r.top + window.scrollY,
+            width: r.width,
+          };
         };
-        if (reduce) return;
 
-        /* ---- Section reveals (about / blog / quick links) ---- */
-        const revealSections = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-        gsap.set(revealSections, { y: 40, opacity: 0 });
-        revealSections.forEach((section) => {
-          gsap.to(section, {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: section,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
-            },
-          });
+        // Back the live transform out of the measurement to recover the
+        // portrait's untransformed box, then measure to the target from there.
+        // `transformOrigin: top left` keeps scale from shifting that corner,
+        // so the subtraction is exact.
+        const getDeltas = () => {
+          const curX = (gsap.getProperty(heroPortrait, "x") as number) || 0;
+          const curY = (gsap.getProperty(heroPortrait, "y") as number) || 0;
+          const curScale = (gsap.getProperty(heroPortrait, "scale") as number) || 1;
+
+          const h = docPos(heroPortrait);
+          const t = docPos(aboutTarget);
+
+          const baseLeft = h.left - curX;
+          const baseTop = h.top - curY;
+          const baseWidth = h.width / curScale;
+
+          return {
+            dx: t.left - baseLeft,
+            dy: t.top - baseTop,
+            scale: baseWidth > 0 ? t.width / baseWidth : 1,
+          };
+        };
+
+        const portraitTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            endTrigger: aboutSection || aboutTarget,
+            start: "top top",
+            end: "top 40%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
         });
 
-        const revealItems = gsap.utils.toArray<HTMLElement>("[data-reveal-item]");
-        gsap.set(revealItems, { y: 24, opacity: 0 });
-        ScrollTrigger.batch(revealItems, {
-          start: "top 88%",
-          once: true,
-          onEnter: (batch) =>
-            gsap.to(batch, {
-              y: 0,
-              opacity: 1,
-              duration: 0.75,
-              ease: "power3.out",
-              stagger: 0.08,
-              overwrite: true,
-            }),
-        });
-
-        /* ---- 3D Hero Portrait Move to About Section on Scroll ---- */
-        const hero = document.querySelector<HTMLElement>("[data-hero]");
-        const copy = document.querySelector<HTMLElement>("[data-hero-copy]");
-        const visual = document.querySelector<HTMLElement>("[data-hero-visual]");
-        const heroPortrait = document.querySelector<HTMLElement>("[data-hero-portrait]");
-        const aboutTarget = document.querySelector<HTMLElement>("[data-about-portrait-target]");
-        const aboutSection = document.querySelector<HTMLElement>("#about");
-        const badge = document.querySelector<HTMLElement>("[data-hero-badge]");
-
-        if (hero && heroPortrait && aboutTarget && isDesktop) {
-          // Stays in normal flow — transforms only. `position: fixed` cannot be
-          // used here: [data-hero-visual] receives a transform from the pointer
-          // tilt below, and a transformed ancestor becomes the containing block
-          // for fixed descendants, which breaks the anchoring entirely.
-          gsap.set(heroPortrait, {
-            transformPerspective: 1200,
-            transformStyle: "preserve-3d",
-            transformOrigin: "top left",
-            willChange: "transform",
+        portraitTL
+          .to(heroPortrait, {
+            x: () => getDeltas().dx * 0.5,
+            y: () => getDeltas().dy * 0.5,
+            scale: () => 1 + (getDeltas().scale - 1) * 0.5,
+            rotationY: -16,
+            rotationX: 6,
+            z: 120,
+            boxShadow: "0 50px 140px rgba(34, 211, 238, 0.45), 0 0 80px rgba(34, 211, 238, 0.28)",
+            ease: "power2.out",
+            duration: 0.55,
+          })
+          .to(heroPortrait, {
+            x: () => getDeltas().dx,
+            y: () => getDeltas().dy,
+            scale: () => getDeltas().scale,
+            rotationY: 0,
+            rotationX: 0,
+            z: 0,
+            boxShadow: "0 35px 100px rgba(0, 0, 0, 0.45), 0 0 60px rgba(34, 211, 238, 0.1)",
+            ease: "power3.inOut",
+            duration: 0.45,
           });
+      }
 
-          // Document-space position: viewport rects shift while scrolling, so a
-          // delta built from them goes stale mid-scrub. Adding the scroll offset
-          // makes the measurement scroll-invariant.
-          const docPos = (el: HTMLElement) => {
-            const r = el.getBoundingClientRect();
-            return {
-              left: r.left + window.scrollX,
-              top: r.top + window.scrollY,
-              width: r.width,
-            };
-          };
-
-          // Back the live transform out of the measurement to recover the
-          // portrait's untransformed box, then measure to the target from there.
-          // `transformOrigin: top left` keeps scale from shifting that corner,
-          // so the subtraction is exact.
-          const getDeltas = () => {
-            const curX = (gsap.getProperty(heroPortrait, "x") as number) || 0;
-            const curY = (gsap.getProperty(heroPortrait, "y") as number) || 0;
-            const curScale = (gsap.getProperty(heroPortrait, "scale") as number) || 1;
-
-            const h = docPos(heroPortrait);
-            const t = docPos(aboutTarget);
-
-            const baseLeft = h.left - curX;
-            const baseTop = h.top - curY;
-            const baseWidth = h.width / curScale;
-
-            return {
-              dx: t.left - baseLeft,
-              dy: t.top - baseTop,
-              scale: baseWidth > 0 ? t.width / baseWidth : 1,
-            };
-          };
-
-          const portraitTL = gsap.timeline({
+      /* ---- Hero Copy Parallax & Floating Badge ---- */
+      if (hero && copy && visual) {
+        gsap
+          .timeline({
             scrollTrigger: {
               trigger: hero,
-              endTrigger: aboutSection || aboutTarget,
               start: "top top",
-              end: "top 40%",
-              scrub: 0.6,
-              invalidateOnRefresh: true,
+              end: "bottom top",
+              scrub: true,
             },
-          });
+          })
+          .to(copy, { yPercent: -14, opacity: 0.15, ease: "none" }, 0);
+      }
 
-          portraitTL
-            .to(heroPortrait, {
-              x: () => getDeltas().dx * 0.5,
-              y: () => getDeltas().dy * 0.5,
-              scale: () => 1 + (getDeltas().scale - 1) * 0.5,
-              rotationY: -16,
-              rotationX: 6,
-              z: 120,
-              boxShadow: "0 50px 140px rgba(34, 211, 238, 0.45), 0 0 80px rgba(34, 211, 238, 0.28)",
-              ease: "power2.out",
-              duration: 0.55,
-            })
-            .to(heroPortrait, {
-              x: () => getDeltas().dx,
-              y: () => getDeltas().dy,
-              scale: () => getDeltas().scale,
-              rotationY: 0,
-              rotationX: 0,
-              z: 0,
-              boxShadow: "0 35px 100px rgba(0, 0, 0, 0.45), 0 0 60px rgba(34, 211, 238, 0.1)",
-              ease: "power3.inOut",
-              duration: 0.45,
-            });
-        }
+      if (badge) {
+        gsap.to(badge, {
+          y: -8,
+          duration: 3.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
 
-        /* ---- Hero Copy Parallax & Floating Badge ---- */
-        if (hero && copy && visual) {
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-              },
-            })
-            .to(copy, { yPercent: -14, opacity: 0.15, ease: "none" }, 0);
-        }
+      /* ---- Hero Pointer 3D Tilt ---- */
+      if (hero && visual) {
+        const rx = gsap.quickTo(visual, "rotationX", {
+          duration: 0.7,
+          ease: "power3.out",
+        });
+        const ry = gsap.quickTo(visual, "rotationY", {
+          duration: 0.7,
+          ease: "power3.out",
+        });
+        const onMove = (e: PointerEvent) => {
+          const r = hero.getBoundingClientRect();
+          ry(gsap.utils.mapRange(0, r.width, -10, 10, e.clientX - r.left));
+          rx(gsap.utils.mapRange(0, r.height, 7, -7, e.clientY - r.top));
+        };
+        const onLeave = () => {
+          rx(0);
+          ry(0);
+        };
+        hero.addEventListener("pointermove", onMove);
+        hero.addEventListener("pointerleave", onLeave);
+        cleanups.push(() => {
+          hero.removeEventListener("pointermove", onMove);
+          hero.removeEventListener("pointerleave", onLeave);
+        });
+      }
 
-        if (badge) {
-          gsap.to(badge, {
-            y: -8,
-            duration: 3.5,
-            ease: "sine.inOut",
-            repeat: -1,
-            yoyo: true,
-          });
-        }
+      /* ---- Featured projects: pinned horizontal gallery ---- */
+      const showcase = document.querySelector<HTMLElement>("[data-fs]");
+      const track = showcase?.querySelector<HTMLElement>("[data-fs-track]");
+      const viewport = showcase?.querySelector<HTMLElement>("[data-fs-viewport]");
 
-        /* ---- Hero Pointer 3D Tilt ---- */
-        if (hero && visual && isDesktop) {
-          const rx = gsap.quickTo(visual, "rotationX", {
-            duration: 0.7,
-            ease: "power3.out",
-          });
-          const ry = gsap.quickTo(visual, "rotationY", {
-            duration: 0.7,
-            ease: "power3.out",
-          });
-          const onMove = (e: PointerEvent) => {
-            const r = hero.getBoundingClientRect();
-            ry(gsap.utils.mapRange(0, r.width, -10, 10, e.clientX - r.left));
-            rx(gsap.utils.mapRange(0, r.height, 7, -7, e.clientY - r.top));
-          };
-          const onLeave = () => {
-            rx(0);
-            ry(0);
-          };
-          hero.addEventListener("pointermove", onMove);
-          hero.addEventListener("pointerleave", onLeave);
-        }
+      if (showcase && track && viewport) {
+        const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-fs-card]"));
+        const counter = showcase.querySelector<HTMLElement>("[data-fs-current]");
+        const bar = showcase.querySelector<HTMLElement>("[data-fs-progress]");
 
-        /* ---- 3D Experience Cards Slide-In on Scroll ---- */
-        const expItems = gsap.utils.toArray<HTMLElement>("[data-experience-item]");
-        const expListeners: Array<{ el: HTMLElement; move: (e: MouseEvent) => void; leave: () => void }> = [];
+        showcase.setAttribute("data-fs-pinned", "");
+        viewport.scrollLeft = 0;
 
-        expItems.forEach((item, index) => {
-          const dir = item.getAttribute("data-direction") || (index % 2 === 0 ? "left" : "right");
-          const isLeft = dir === "left";
+        const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+        // Progress (0–1) at which each card is aligned with the first card's start.
+        const stops = () => {
+          const total = distance() || 1;
+          const first = cards[0]?.offsetLeft ?? 0;
+          return cards.map((card) => Math.min(1, (card.offsetLeft - first) / total));
+        };
 
-          gsap.set(item, {
-            transformPerspective: 1000,
-            transformStyle: "preserve-3d",
-            x: isLeft ? -90 : 90,
-            rotationY: isLeft ? -25 : 25,
-            z: -120,
-            opacity: 0,
-          });
-
-          gsap.to(item, {
-            x: 0,
-            rotationY: 0,
-            z: 0,
-            opacity: 1,
-            duration: 0.85,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 90%",
-              end: "top 60%",
-              scrub: 0.8,
+        const tween = gsap.to(track, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: showcase,
+            start: "top top",
+            end: () => `+=${distance()}`,
+            pin: true,
+            scrub: 0.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            snap: {
+              snapTo: (value: number) =>
+                stops().reduce((best, stop) =>
+                  Math.abs(stop - value) < Math.abs(best - value) ? stop : best,
+                ),
+              duration: { min: 0.2, max: 0.5 },
+              ease: "power1.inOut",
             },
-          });
-
-          // Interactive 3D hover tilt for experience cards on desktop
-          if (isDesktop) {
-            const onMove = (e: MouseEvent) => {
-              const rect = item.getBoundingClientRect();
-              const xPct = (e.clientX - rect.left) / rect.width - 0.5;
-              const yPct = (e.clientY - rect.top) / rect.height - 0.5;
-              gsap.to(item, {
-                rotationY: xPct * 10,
-                rotationX: -yPct * 10,
-                z: 15,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            };
-            const onLeave = () => {
-              gsap.to(item, {
-                rotationY: 0,
-                rotationX: 0,
-                z: 0,
-                duration: 0.5,
-                ease: "power2.out",
-              });
-            };
-            item.addEventListener("mousemove", onMove);
-            item.addEventListener("mouseleave", onLeave);
-            expListeners.push({ el: item, move: onMove, leave: onLeave });
-          }
+            onUpdate: (self) => {
+              if (bar) bar.style.transform = `scaleX(${self.progress})`;
+              if (counter) {
+                const points = stops();
+                let active = 0;
+                points.forEach((stop, i) => {
+                  if (self.progress + 0.02 >= stop) active = i;
+                });
+                counter.textContent = String(active + 1).padStart(2, "0");
+              }
+            },
+          },
         });
 
-        return () => {
-          expListeners.forEach(({ el, move, leave }) => {
-            el.removeEventListener("mousemove", move);
-            el.removeEventListener("mouseleave", leave);
-          });
+        // Keyboard users: tabbing into an off-screen card scrolls the page to it.
+        const onFocus = (event: FocusEvent) => {
+          const card = (event.target as HTMLElement).closest<HTMLElement>("[data-fs-card]");
+          const st = tween.scrollTrigger;
+          if (!card || !st) return;
+          const index = cards.indexOf(card);
+          const target = st.start + (stops()[index] ?? 0) * (st.end - st.start);
+          window.scrollTo({ top: target });
         };
-      }
-    );
+        track.addEventListener("focusin", onFocus);
 
-    // Recompute trigger positions once every image/font has settled
+        cleanups.push(() => {
+          track.removeEventListener("focusin", onFocus);
+          showcase.removeAttribute("data-fs-pinned");
+          if (bar) bar.style.removeProperty("transform");
+          if (counter) counter.textContent = "01";
+        });
+      }
+
+      return () => cleanups.forEach((fn) => fn());
+    });
+
+    // Recompute trigger positions once every image/font has settled.
     if (document.readyState === "complete") {
       requestAnimationFrame(() => ScrollTrigger.refresh());
     } else {
-      window.addEventListener("load", () => ScrollTrigger.refresh(), {
-        once: true,
-      });
+      window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
     }
   });
 
   return null;
 }
-

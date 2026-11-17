@@ -8,28 +8,41 @@ const Chat = dynamic(() => import("./chat"), {
   loading: () => null,
 });
 
+const INTERACTIONS = ["pointerdown", "pointermove", "keydown", "touchstart", "scroll"] as const;
+const FALLBACK_MS = 8000;
+
+/**
+ * The chat widget (and framer-motion with it) is the largest script after the
+ * framework. It loads on the visitor's first interaction — or after a few
+ * seconds idle — instead of during page load, so it never adds to main-thread
+ * blocking while the page is becoming interactive.
+ */
 export default function DeferredChat() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // The chat (plus framer-motion) is not needed for first paint, and the
-    // intro overlay covers the launcher for its first ~4s anyway. Load it once
-    // the page has finished loading and the main thread is idle, so it never
-    // competes with the hero image, fonts or LCP.
     let idleId: number | undefined;
-    const arm = () => {
-      const mount = () => setReady(true);
+    let done = false;
+
+    const mount = () => {
+      if (done) return;
+      done = true;
+      INTERACTIONS.forEach((type) => window.removeEventListener(type, onInteract));
+      window.clearTimeout(fallback);
+      // Yield to whatever the interaction itself triggered before parsing chat.
       idleId =
         typeof window.requestIdleCallback === "function"
-          ? window.requestIdleCallback(mount, { timeout: 2500 })
-          : window.setTimeout(mount, 1200);
+          ? window.requestIdleCallback(() => setReady(true), { timeout: 1500 })
+          : window.setTimeout(() => setReady(true), 300);
     };
+    const onInteract = () => mount();
 
-    if (document.readyState === "complete") arm();
-    else window.addEventListener("load", arm, { once: true });
+    INTERACTIONS.forEach((type) => window.addEventListener(type, onInteract, { passive: true, once: true }));
+    const fallback = window.setTimeout(mount, FALLBACK_MS);
 
     return () => {
-      window.removeEventListener("load", arm);
+      INTERACTIONS.forEach((type) => window.removeEventListener(type, onInteract));
+      window.clearTimeout(fallback);
       if (idleId === undefined) return;
       if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);
       else window.clearTimeout(idleId);

@@ -6,6 +6,8 @@ import Script from "next/script";
 import type { Metadata, Viewport } from "next";
 import DeferredChat from "../components/deferred-chat";
 import IntroOverlay from "../components/intro-overlay";
+import RevealObserver from "../components/reveal-observer";
+import SiteFooter from "../components/site-footer";
 import { Instrument_Serif, JetBrains_Mono, Manrope } from "next/font/google";
 import { siteMetadata } from "./metadata";
 import { PersonJsonLd, WebSiteJsonLd, ProfessionalServiceJsonLd } from "../components/json-ld";
@@ -100,6 +102,8 @@ export default function RootLayout({
         </a>
         <IntroOverlay />
         {children}
+        <SiteFooter />
+        <RevealObserver />
         <DeferredChat />
         <Analytics />
         <SpeedInsights />

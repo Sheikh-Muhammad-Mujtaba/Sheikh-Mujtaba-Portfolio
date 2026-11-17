@@ -1,44 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const ScrollAnimations = dynamic(() => import("./scroll-animations"), {
   ssr: false,
 });
 
+const DESKTOP_MOTION = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
+
+/**
+ * Loads GSAP only where it is used: wide screens with motion allowed. Phones
+ * and reduced-motion visitors never download it — that alone removed most of
+ * the homepage's main-thread blocking time on mobile.
+ */
 export default function ScrollAnimationsLoader() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let done = false;
+    const query = window.matchMedia(DESKTOP_MOTION);
+    let idle: number | undefined;
+
     const arm = () => {
-      if (!done) {
-        done = true;
-        setReady(true);
-      }
+      if (!query.matches || idle !== undefined) return;
+      const go = () => setReady(true);
+      idle =
+        typeof window.requestIdleCallback === "function"
+          ? window.requestIdleCallback(go, { timeout: 1200 })
+          : window.setTimeout(go, 200);
     };
 
-    // Arm as soon as the browser goes idle rather than waiting on the intro
-    // overlay's "smj-intro-done" event, which does not fire until 5.4s. Gating
-    // on that left ScrollTrigger unmounted for the whole intro: scrolling early
-    // did nothing, and the [data-reveal] sections stayed visible until GSAP
-    // finally loaded and snapped them to opacity 0.
-    const idle =
-      typeof window.requestIdleCallback === "function"
-        ? window.requestIdleCallback(arm, { timeout: 1200 })
-        : window.setTimeout(arm, 200);
-
-    // Safety net: if idle never fires, the intro event still arms us.
-    window.addEventListener("smj-intro-done", arm, { once: true });
+    arm();
+    // A window widened past the breakpoint later still gets the effects.
+    query.addEventListener("change", arm);
 
     return () => {
-      if (typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idle as number);
-      } else {
-        window.clearTimeout(idle as number);
-      }
-      window.removeEventListener("smj-intro-done", arm);
+      query.removeEventListener("change", arm);
+      if (idle === undefined) return;
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
     };
   }, []);
 

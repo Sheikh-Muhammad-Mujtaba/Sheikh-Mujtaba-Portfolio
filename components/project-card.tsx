@@ -4,6 +4,7 @@ import { ArrowUpRight, Play } from "lucide-react";
 
 import styles from "../styles/project-grid.module.scss";
 import type { ProjectType } from "../utils/project-data";
+import { youTubeThumbnail } from "../utils/youtube";
 import { GitHubIcon } from "./social-icons";
 
 type ProjectCardProps = {
@@ -12,12 +13,6 @@ type ProjectCardProps = {
   priority?: boolean;
   hidden?: boolean;
 };
-
-/** `https://www.youtube.com/embed/<id>?...` → high-quality still for the card. */
-function youTubeThumbnail(embedUrl: string): string | undefined {
-  const id = /\/embed\/([\w-]{6,})/.exec(embedUrl)?.[1];
-  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : undefined;
-}
 
 /**
  * Compact project card. The title link is stretched over the whole card, so

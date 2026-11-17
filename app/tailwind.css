@@ -165,6 +165,28 @@
     transform: translateY(0);
   }
 
+  /* Scroll reveals (components/reveal-observer.tsx). Hidden only after JS has
+     marked on-screen content visible, so first paint never loses content. */
+  :where([data-reveal], [data-reveal-item], [data-experience-item]) {
+    transition:
+      opacity 0.8s var(--ease-premium) var(--reveal-delay, 0ms),
+      transform 0.8s var(--ease-premium) var(--reveal-delay, 0ms);
+  }
+
+  html.reveal-ready :where([data-reveal], [data-reveal-item]):not(.is-visible) {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+
+  html.reveal-ready [data-experience-item]:not(.is-visible) {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+
+  html.reveal-ready [data-experience-item][data-direction="right"]:not(.is-visible) {
+    transform: translate3d(40px, 0, 0);
+  }
+
   /* The skip link focuses <main>; a ring around the whole page is just noise. */
   main[tabindex="-1"]:focus {
     outline: none;

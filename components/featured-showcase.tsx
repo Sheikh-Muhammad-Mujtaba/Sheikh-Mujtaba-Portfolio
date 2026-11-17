@@ -1,190 +1,144 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Play } from "lucide-react";
 
 import styles from "../styles/featured-showcase.module.scss";
-import { gsap, useGSAP } from "../utils/gsap";
 import type { ProjectType } from "../utils/project-data";
+import { youTubeThumbnail } from "../utils/youtube";
+import { GitHubIcon } from "./social-icons";
+
+export type FeaturedProject = Pick<
+  ProjectType,
+  "slug" | "name" | "type" | "description" | "image" | "link" | "code" | "videoEmbedUrl"
+> & { stack: string[] };
 
 type FeaturedShowcaseProps = {
-  projects: ProjectType[];
+  projects: FeaturedProject[];
 };
 
+const MAX_CHIPS = 4;
+
+/**
+ * Featured projects as a horizontal gallery.
+ *
+ * Server-rendered and usable with no JavaScript: the track is a native
+ * scroll-snap carousel (swipe on phones, shift-scroll or keyboard elsewhere).
+ * On desktop with motion allowed, components/scroll-animations.tsx pins the
+ * section and turns vertical scrolling into horizontal travel — that code is
+ * only downloaded on desktop.
+ */
 export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const section = sectionRef.current;
-      if (!section || projects.length < 2) return;
-
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          isDesktop: "(min-width: 900px)",
-          // See note below: guarantees a matching condition on phones.
-          isMobile: "(max-width: 899px)",
-          reduce: "(prefers-reduced-motion: reduce)",
-        },
-        (ctx) => {
-          const { isDesktop, reduce } = ctx.conditions as {
-            isDesktop: boolean;
-            isMobile: boolean;
-            reduce: boolean;
-          };
-          // `isMobile` is not used below — it exists so that at least one
-          // condition always matches. gsap.matchMedia only invokes the callback
-          // when a condition is true, so with `isDesktop` + `reduce` alone a
-          // phone with no reduced-motion preference matched nothing and every
-          // animation in here silently never ran.
-          if (reduce) return;
-
-          const stage = section.querySelector<HTMLElement>("[data-fs-stage]");
-          const cards = gsap.utils.toArray<HTMLElement>("[data-fs-card]", section);
-          if (!stage || cards.length < 2) return;
-
-          stage.classList.add(styles.stageIsPinned);
-
-          const steps = cards.length - 1;
-          // Scroll distance spent on each card, as a fraction of the viewport.
-          // Phones get a shorter scrub so the pin does not feel like the page
-          // has frozen; the deck itself is identical.
-          const stepFraction = isDesktop ? 1 : 0.7;
-
-          // Stacked deck: every card fills the pinned stage. The first one is
-          // in place, the rest wait just below the clip edge and slide up over
-          // the card before them as the section scrubs.
-          gsap.set(cards, { force3D: true, willChange: "transform, opacity" });
-          gsap.set(cards[0], { yPercent: 0, scale: 1, opacity: 1 });
-          gsap.set(cards.slice(1), { yPercent: 105, scale: 1, opacity: 1 });
-
-          const setActive = (progress: number) => {
-            const active = Math.round(progress * steps);
-            cards.forEach((card, i) => {
-              card.toggleAttribute("inert", i !== active);
-              card.style.zIndex = String(i);
-            });
-          };
-          setActive(0);
-
-          const tl = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              // Explicit pixels rather than `+=N%`: a percentage end string is
-              // resolved against the trigger's own size, which made the whole
-              // pin collapse into roughly one viewport of scroll. Recomputed on
-              // refresh via invalidateOnRefresh below.
-              end: () =>
-                `+=${Math.round(window.innerHeight * stepFraction * steps)}`,
-              pin: true,
-              scrub: 1,
-              anticipatePin: 1,
-              snap: {
-                snapTo: 1 / steps,
-                duration: 0.4,
-                ease: "power2.inOut",
-              },
-              invalidateOnRefresh: true,
-            },
-            onUpdate() {
-              setActive(this.progress());
-            },
-          });
-
-          cards.forEach((card, i) => {
-            if (i === 0) return;
-            const label = i - 1;
-            // Outgoing card settles back a touch so the incoming one reads as
-            // sliding over the top of it rather than replacing it.
-            tl.to(
-              cards[i - 1],
-              { yPercent: -6, scale: 0.94, opacity: 0.45, duration: 1 },
-              label
-            ).to(card, { yPercent: 0, duration: 1 }, label);
-          });
-
-          return () => {
-            stage.classList.remove(styles.stageIsPinned);
-            cards.forEach((card) => {
-              card.removeAttribute("inert");
-              card.style.removeProperty("z-index");
-            });
-          };
-        }
-      );
-    },
-    { scope: sectionRef }
-  );
-
   if (projects.length === 0) return null;
 
+  const total = String(projects.length).padStart(2, "0");
+
   return (
-    <section
-      ref={sectionRef}
-      id="featured"
-      className={styles.showcase}
-      aria-label="Featured projects"
-    >
-      <div className={styles.heading}>
-        <p className={styles.kicker}>Selected Work</p>
-        <h2>Featured Projects</h2>
-        <p className={styles.sub}>Flagship builds — scroll to stack through the deck.</p>
-      </div>
-      <div className={styles.stage} data-fs-stage>
-        <div className={styles.deck}>
-          {projects.map((project) => (
-            <article key={project.slug} className={styles.card} data-fs-card>
-              <div className={styles.cardMedia}>
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  className={styles.cardImage}
-                  sizes="(max-width: 900px) 100vw, 48vw"
-                  {...(typeof project.image === "string"
-                    ? {}
-                    : { placeholder: "blur" as const })}
-                />
-              </div>
-              <div className={styles.cardInfo}>
-                <p className={styles.cardType}>{project.type}</p>
-                <h3>{project.name}</h3>
-                <p className={styles.cardDesc}>{project.description}</p>
-                <div className={styles.cardLinks}>
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={`Open site of ${project.name}`}
-                    >
-                      Open Site
-                    </a>
-                  )}
-                  {project.code && (
-                    <a
-                      href={project.code}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={`View code for ${project.name}`}
-                    >
-                      View Code
-                    </a>
-                  )}
-                  <a
-                    href={`/projects/${project.slug}`}
-                    className={styles.cardMore}
-                    title={`Read the ${project.name} project`}
-                  >
-                    Full Details
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
+    <section id="featured" className={styles.showcase} aria-labelledby="featured-heading" data-fs>
+      <div className={styles.inner}>
+        <div className={styles.header}>
+          <div>
+            <p className={styles.kicker}>Selected work</p>
+            <h2 id="featured-heading" className={styles.title}>
+              Featured Projects
+            </h2>
+          </div>
+          <div className={styles.meta}>
+            <p className={styles.counter} aria-hidden="true">
+              <span data-fs-current>01</span>
+              <span className={styles.counterTotal}>/ {total}</span>
+            </p>
+            <div className={styles.progress} aria-hidden="true">
+              <span data-fs-progress />
+            </div>
+            <p className={styles.hint}>
+              <span className={styles.hintDesktop}>Scroll to explore</span>
+              <span className={styles.hintMobile}>Swipe to explore</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Focusable so keyboard users can scroll the carousel with arrow keys. */}
+        <div
+          className={styles.viewport}
+          data-fs-viewport
+          role="region"
+          aria-label="Featured projects, scroll horizontally"
+          tabIndex={0}
+        >
+          <ol className={styles.track} data-fs-track>
+            {projects.map((project, index) => {
+              const thumbnail = project.videoEmbedUrl
+                ? youTubeThumbnail(project.videoEmbedUrl)
+                : undefined;
+              const titleId = `featured-${project.slug}`;
+
+              return (
+                <li key={project.slug} className={styles.slide} data-fs-card>
+                  <article className={styles.card} aria-labelledby={titleId}>
+                    <div className={styles.media}>
+                      <Image
+                        src={thumbnail ?? project.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 899px) 88vw, 560px"
+                        className={styles.image}
+                      />
+                      {thumbnail ? (
+                        <span className={styles.play} aria-hidden="true">
+                          <Play size={14} fill="currentColor" />
+                          Demo video
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div className={styles.content}>
+                      <p className={styles.index} aria-hidden="true">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <p className={styles.type}>{project.type}</p>
+                      <h3 id={titleId} className={styles.name}>
+                        {project.name}
+                      </h3>
+                      <p className={styles.description}>{project.description}</p>
+                      <ul className={styles.chips} aria-label="Technology">
+                        {project.stack.slice(0, MAX_CHIPS).map((tech) => (
+                          <li key={tech}>{tech}</li>
+                        ))}
+                      </ul>
+                      <div className={styles.actions}>
+                        <Link href={`/projects/${project.slug}`} className="btn-primary">
+                          Case study
+                          <ArrowRight size={16} aria-hidden="true" />
+                        </Link>
+                        {project.link ? (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.iconButton}
+                            aria-label={`Open the live ${project.name} site (opens in a new tab)`}
+                          >
+                            <ArrowUpRight size={18} aria-hidden="true" />
+                          </a>
+                        ) : null}
+                        {project.code ? (
+                          <a
+                            href={project.code}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.iconButton}
+                            aria-label={`View the ${project.name} source code on GitHub (opens in a new tab)`}
+                          >
+                            <GitHubIcon width={18} height={18} aria-hidden="true" />
+                          </a>
+                        ) : null}
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>

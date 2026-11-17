@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GitHubIcon, LinkedInIcon, LinktreeIcon, MediumIcon, XIcon } from "../components/social-icons";
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -14,9 +13,24 @@ import FeaturedShowcase from "../components/featured-showcase";
 import ScrollAnimationsLoader from "../components/scroll-animations-loader";
 import { HeroBackdrop, PortraitHud } from "../components/remotion/lazy";
 import SecurityConsole from "../components/security-console";
-import RoleLinks from "../components/role-links";
 import { projectsList } from "../utils/project-data";
+import { projectPages } from "../utils/project-details";
 import { blogPosts as sitePosts } from "../utils/blog-data";
+
+// Only the fields the gallery renders, so no write-up text ships to the client.
+const featuredProjects = projectPages
+  .filter((page) => page.featured)
+  .map(({ slug, name, type, description, image, link, code, videoEmbedUrl, detail }) => ({
+    slug,
+    name,
+    type,
+    description,
+    image,
+    link,
+    code,
+    videoEmbedUrl,
+    stack: detail.stack,
+  }));
 
 const postDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
@@ -290,7 +304,7 @@ export default function Homepage() {
             </ul>
           </section>
           <FeaturedShowcase
-            projects={projectsList.filter((project) => project.featured)}
+            projects={featuredProjects}
           />
           <section className={`${styles.projectContainer} pb-20`} id="projects">
             <div className={styles.projectTitleContainer} data-reveal>
@@ -304,100 +318,8 @@ export default function Homepage() {
             <ProjectGrid projects={projectsList} />
           </section>
 
-          {/* Quick Links Section */}
-          <section className={styles.quickLinks} data-reveal>
-            <h2 className="text-2xl font-bold mb-4">Want to Learn More?</h2>
-            <p className="text-slate-400 mb-8 max-w-xl mx-auto">
-              Explore detailed information about my services, background, or find answers to common questions.
-            </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/services" className="btn-primary">
-                View Services
-              </Link>
-              <Link
-                href="/about"
-                className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
-              >
-                About Me
-              </Link>
-              <Link
-                href="/faq"
-                className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
-              >
-                Read FAQ
-              </Link>
-              <Link
-                href="/blog"
-                className="px-6 py-3 border border-slate-500 hover:border-cyan-500 text-slate-300 rounded-lg font-medium transition-colors"
-              >
-                Engineering Notes
-              </Link>
-            </div>
-          </section>
           <ScrollAnimationsLoader />
         </main>
-        <footer>
-          <h2 className={styles.footerTitle}>What I Do</h2>
-          <RoleLinks className={`${styles.footerLinks} ${styles.mobileStack}`} />
-          <h2 className={styles.footerTitle}>Connect with Me</h2>
-          <ul className={`${styles.footerLinks} ${styles.mobileStack}`}>
-            <li>
-              <a
-                href="https://github.com/Sheikh-Muhammad-Mujtaba"
-                target="_blank"
-                rel="me noopener noreferrer"
-                title="Go to Mujtaba's GitHub"
-              >
-                GitHub
-                <GitHubIcon className={styles.socialIcon} width={20} height={20} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.linkedin.com/in/sheikhmujtaba/"
-                target="_blank"
-                rel="me noopener noreferrer"
-                title="Connect with Mujtaba on LinkedIn"
-              >
-                LinkedIn
-                <LinkedInIcon className={styles.socialIcon} width={20} height={20} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://linktr.ee/s.m.mujtabajaved"
-                target="_blank"
-                rel="me noopener noreferrer"
-                title="Check out Mujtaba's Linktree"
-              >
-                Linktree
-                <LinktreeIcon className={styles.socialIcon} width={20} height={20} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://x.com/Mujtaba_Javed_"
-                target="_blank"
-                rel="me noopener noreferrer"
-                title="Follow Mujtaba Javed on X"
-              >
-                X
-                <XIcon className={styles.socialIcon} width={18} height={18} />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://medium.com/@smujtabaja"
-                target="_blank"
-                rel="me noopener noreferrer"
-                title="Read Mujtaba's articles on Medium"
-              >
-                Medium
-                <MediumIcon className={styles.socialIcon} width={18} height={18} />
-              </a>
-            </li>
-          </ul>
-        </footer>
       </div>
     </div>
   );

@@ -14,15 +14,20 @@ const PortraitHudLayer = dynamic(() => import("./cyber-layers").then((m) => m.Po
   loading: () => null,
 });
 
+/** The animated layers are desktop-only: on phones their per-frame rendering
+ * was the second-largest source of main-thread blocking, for a decoration. */
+const DESKTOP = "(min-width: 900px)";
+
 /**
- * True once the page has loaded and the main thread is idle. The decorative
- * layers sit behind the intro overlay until then, so rendering them earlier
- * only competes with hydration.
+ * True once the page has loaded and the main thread is idle, on desktop only.
+ * The decorative layers sit behind the intro overlay until then, so rendering
+ * them earlier only competes with hydration.
  */
 function useIdleReady() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    if (!window.matchMedia(DESKTOP).matches) return;
     let idleId: number | undefined;
     const arm = () => {
       const go = () => setReady(true);
