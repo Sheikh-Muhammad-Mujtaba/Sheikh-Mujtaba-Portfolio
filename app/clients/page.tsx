@@ -136,9 +136,9 @@ function ServiceMatrix() {
           {clients.map((client) => (
             <tr key={client.slug}>
               <th scope="row">
-                <a href={`#${client.slug}`} className={styles.inlineLink}>
+                <Link href={`/clients/${client.slug}`} className={styles.inlineLink}>
                   {client.name}
-                </a>
+                </Link>
               </th>
               {serviceOrder.map((key) => (
                 <td key={key} aria-label={client.services.includes(key) ? "Yes" : "No"}>
@@ -183,14 +183,12 @@ function CaseStudy({ client }: { client: ClientCaseStudy }) {
       </ul>
 
       <div className={cardStyles.actions}>
+        <Link href={`/clients/${client.slug}`} className="btn-primary">
+          Read the case study
+        </Link>
         <a href={client.url} target="_blank" rel="noopener" className="btn-secondary">
-          Visit {client.name}
+          Visit site
         </a>
-        {client.projectSlug ? (
-          <Link href={`/#${client.projectSlug}`} className="btn-secondary">
-            See the project
-          </Link>
-        ) : null}
       </div>
     </article>
   );
@@ -207,7 +205,7 @@ export default function ClientsPage() {
         ]}
       />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset">
         <div className={styles.wrap}>
           <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/">Home</Link>

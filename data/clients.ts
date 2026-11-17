@@ -17,6 +17,15 @@ export const serviceLabels: Record<ServiceKey, string> = {
   it: "IT support & training",
 };
 
+/** Mid-sentence form of each service, with acronyms kept intact. */
+export const serviceNouns: Record<ServiceKey, string> = {
+  web: "web development",
+  erp: "ERP development",
+  ai: "AI integration and automation",
+  security: "infrastructure security",
+  it: "IT support and training",
+};
+
 /** What each service covers, linked to the role page that explains it. */
 export const serviceDetails: Record<ServiceKey, { text: string; href: string }> = {
   web: {
@@ -41,8 +50,51 @@ export const serviceDetails: Record<ServiceKey, { text: string; href: string }> 
   },
 };
 
+/** How each kind of engagement is delivered, shown on every case study page. */
+export const serviceApproach: Record<ServiceKey, string[]> = {
+  web: [
+    "Agree goals, audience and page structure before any design work.",
+    "Build with server rendering on Next.js and TypeScript, or the platform that fits the team.",
+    "Check technical SEO, structured data and Core Web Vitals before launch.",
+    "Ship with security headers, HTTPS and dependency audits as standard.",
+  ],
+  erp: [
+    "Map the business process and decide what stays standard ERPNext.",
+    "Build every change in a versioned custom app on a staging site.",
+    "Test with real users and realistic data volumes.",
+    "Deploy with documentation and a clean upgrade path.",
+  ],
+  ai: [
+    "Choose workflows where AI saves real time and errors are recoverable.",
+    "Connect agents to existing systems through least-privilege tools.",
+    "Require human approval for irreversible actions.",
+    "Measure outcomes and monitor the system after launch.",
+  ],
+  security: [
+    "Review access, exposed services and configuration.",
+    "Harden servers, hosting and credentials.",
+    "Patch and lock down anything exposed without need.",
+    "Add monitoring and backups so problems surface early.",
+  ],
+  it: [
+    "Diagnose problems on the actual systems, not by guesswork.",
+    "Fix, document and hand over.",
+    "Train staff on their tools and on safe security habits.",
+    "Stay available for ongoing support.",
+  ],
+};
+
+/** Blog guides that go deeper on each service. */
+export const serviceGuides: Record<ServiceKey, string[]> = {
+  web: [],
+  erp: ["erpnext-development", "erpnext-security"],
+  ai: ["agentic-ai-development", "ai-integration-in-business-workflows"],
+  security: ["ai-security", "llm-guardrails"],
+  it: ["ai-integration-in-business-workflows"],
+};
+
 export type ClientCaseStudy = {
-  /** Anchor id on the /clients page. */
+  /** URL segment: /clients/<slug>. */
   slug: string;
   name: string;
   url: string;
@@ -128,3 +180,7 @@ export const clients: ClientCaseStudy[] = [
     services: ["web"],
   },
 ];
+
+export function getClient(slug: string): ClientCaseStudy | undefined {
+  return clients.find((client) => client.slug === slug);
+}
