@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import Script from "next/script";
 import Header from "../../components/header";
 import { FaGithub, FaLinkedin, FaEnvelope, FaMedium, FaRobot, FaShieldAlt, FaCode } from "react-icons/fa";
@@ -577,9 +578,9 @@ export default function AboutPage() {
                   I&apos;m ready to help bring your vision to life.
                 </p>
                 <div className="flex gap-4 justify-center flex-wrap mb-8">
-                  <a href="/services" className="btn-primary">
+                  <Link href="/services" className="btn-primary">
                     View Services
-                  </a>
+                  </Link>
                   <a href="mailto:smujtabaja@gmail.com" className="btn-secondary">
                     Get in Touch
                   </a>
