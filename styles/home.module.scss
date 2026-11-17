@@ -53,10 +53,9 @@ $intro-offset: var(--intro-offset, 0s);
   overflow: hidden;
   color: $white;
   font-family: $font;
-  background:
-    radial-gradient(circle at 18% 14%, rgba(34, 211, 238, 0.13), transparent 30rem),
-    radial-gradient(circle at 82% 11%, rgba(214, 181, 109, 0.12), transparent 29rem),
-    linear-gradient(180deg, #020617 0%, #030712 48%, #020617 100%);
+  // Transparent so the body's fixed background runs on into the site footer
+  // without a seam where this container ends.
+  background: transparent;
 
   &::before {
     content: "";
@@ -934,7 +933,11 @@ $intro-offset: var(--intro-offset, 0s);
       font-size: 0.9rem;
       margin-top: 0.35rem;
     }
+  }
 
+  // Last section before the footer CTA: the CTA brings its own spacing.
+  .projectContainer {
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
   }
 
   // ─── QUICK LINKS ────────────────────────────

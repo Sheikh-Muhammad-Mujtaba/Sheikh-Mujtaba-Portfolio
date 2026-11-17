@@ -306,7 +306,7 @@ export default function Homepage() {
           <FeaturedShowcase
             projects={featuredProjects}
           />
-          <section className={`${styles.projectContainer} pb-20`} id="projects">
+          <section className={styles.projectContainer} id="projects">
             <div className={styles.projectTitleContainer} data-reveal>
               <p className={styles.sectionKicker}>Portfolio</p>
               <h2>My Projects</h2>

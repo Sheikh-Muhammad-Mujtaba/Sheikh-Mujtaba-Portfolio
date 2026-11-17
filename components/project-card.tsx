@@ -11,7 +11,6 @@ type ProjectCardProps = {
   project: ProjectType;
   /** Above-the-fold cards load eagerly. */
   priority?: boolean;
-  hidden?: boolean;
 };
 
 /**
@@ -19,13 +18,13 @@ type ProjectCardProps = {
  * the card is one large target that opens the project page, while the live
  * site and source links stay separately focusable above it.
  */
-export default function ProjectCard({ project, priority = false, hidden = false }: ProjectCardProps) {
+export default function ProjectCard({ project, priority = false }: ProjectCardProps) {
   const { slug, name, description, type, image, link, code, videoEmbedUrl } = project;
   const thumbnail = videoEmbedUrl ? youTubeThumbnail(videoEmbedUrl) : undefined;
   const titleId = `project-${slug}-title`;
 
   return (
-    <article className={styles.card} aria-labelledby={titleId} hidden={hidden}>
+    <article className={styles.card} aria-labelledby={titleId}>
       <div className={styles.media}>
         <Image
           src={thumbnail ?? image}

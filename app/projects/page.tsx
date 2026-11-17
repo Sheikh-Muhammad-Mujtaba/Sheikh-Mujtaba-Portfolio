@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import Header from "../../components/header";
+import ProjectCard from "../../components/project-card";
 import { BreadcrumbJsonLd } from "../../components/json-ld";
 import styles from "../../styles/blog.module.scss";
-import { projectPages, type ProjectPage } from "../../utils/project-details";
+import gridStyles from "../../styles/project-grid.module.scss";
+import { projectPages } from "../../utils/project-details";
 import { socialMetadata } from "../../utils/seo";
 import { authorName, ids, siteUrl } from "../../utils/site";
 
@@ -77,16 +79,8 @@ function ProjectsJsonLd() {
   );
 }
 
-function ProjectCard({ page }: { page: ProjectPage }) {
-  return (
-    <Link href={`/projects/${page.slug}`} className={styles.postCard}>
-      <p className={styles.eyebrow}>{page.type}</p>
-      <h3>{page.name}</h3>
-      <p className={styles.postCardExcerpt}>{page.description}</p>
-      <p className={styles.cardCta}>Read the project &rarr;</p>
-    </Link>
-  );
-}
+/** Cards in the first group load eagerly: they are above the fold. */
+const EAGER_IMAGES = 3;
 
 export default function ProjectsPage() {
   return (
@@ -117,7 +111,7 @@ export default function ProjectsPage() {
             </p>
           </header>
 
-          {groups.map((group) => {
+          {groups.map((group, groupIndex) => {
             const pages = projectPages.filter((page) => group.types.includes(page.type));
             if (pages.length === 0) return null;
             const headingId = `group-${group.types[0].toLowerCase().replace(/[^a-z]+/g, "-")}`;
@@ -130,9 +124,13 @@ export default function ProjectsPage() {
                 <p className={styles.indexLead} style={{ marginBottom: "1.5rem" }}>
                   {group.intro}
                 </p>
-                <div className={styles.postGrid}>
-                  {pages.map((page) => (
-                    <ProjectCard key={page.slug} page={page} />
+                <div className={gridStyles.grid}>
+                  {pages.map((page, index) => (
+                    <ProjectCard
+                      key={page.slug}
+                      project={page}
+                      priority={groupIndex === 0 && index < EAGER_IMAGES}
+                    />
                   ))}
                 </div>
               </section>

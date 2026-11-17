@@ -13,11 +13,32 @@
   padding: clamp(4.5rem, 10vh, 6.5rem) 0 clamp(2.5rem, 6vh, 4rem);
   overflow-x: clip;
 
+  // The section is pinned at `top top` for the whole horizontal scroll, so
+  // everything (nav clearance + header + card) must fit in one viewport.
+  // The card takes whatever height is left; content is clamped to fit it.
   &[data-fs-pinned] {
     display: flex;
     align-items: center;
-    min-height: 100vh;
-    padding-block: clamp(5.5rem, 11vh, 7rem) clamp(1.5rem, 4vh, 2.5rem);
+    height: 100vh;
+    height: 100svh;
+    padding-block: clamp(5.25rem, 10vh, 6.25rem) clamp(1rem, 3vh, 2rem);
+
+    .header {
+      margin-bottom: clamp(1rem, 2.5vh, 1.75rem);
+    }
+
+    .title {
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    }
+
+    .card {
+      height: clamp(360px, calc(100svh - 18rem), 540px);
+      min-height: 0;
+    }
+
+    .content {
+      overflow: hidden;
+    }
 
     .viewport {
       overflow: visible;
@@ -197,7 +218,7 @@
 
   @media (min-width: 900px) {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    min-height: clamp(420px, 60vh, 540px);
+    min-height: clamp(400px, 56vh, 520px);
   }
 }
 
@@ -260,8 +281,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  padding: clamp(1.35rem, 3vw, 2.4rem);
+  gap: clamp(0.6rem, 1.4vh, 0.85rem);
+  min-height: 0;
+  padding: clamp(1.35rem, 2.6vw, 2.25rem);
 }
 
 .index {
@@ -294,15 +316,32 @@
   padding-right: 3.5rem;
   color: $white;
   font-family: $font-heading;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.15rem);
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+// Clamped so long titles/descriptions never push the actions out of the card.
+.name,
+.description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.name {
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .description {
+  flex-shrink: 0;
   color: #a8b6c8;
   font-size: 0.95rem;
-  line-height: 1.7;
+  line-height: 1.65;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .chips {
@@ -326,9 +365,10 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  flex-shrink: 0;
   gap: 0.6rem;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
 
   :global(.btn-primary) {
     width: auto;
