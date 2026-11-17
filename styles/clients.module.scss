@@ -1,0 +1,84 @@
+@use "./variables.module.scss" as *;
+
+/* ─── /clients case-study cards ─────────────────────────────── */
+
+.grid {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  margin-block: clamp(2rem, 5vh, 3rem);
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.3rem, 3vw, 1.9rem);
+  border: 1px solid rgba(214, 181, 109, 0.28);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(214, 181, 109, 0.07), transparent 48%),
+    rgba(15, 23, 42, 0.5);
+  scroll-margin-top: 110px;
+
+  h3 {
+    margin: 1.1rem 0 0.4rem;
+    color: #ddbf82;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  p {
+    color: rgba(226, 232, 240, 0.92);
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+
+  ul {
+    display: grid;
+    gap: 0.5rem;
+    padding-left: 1.2rem;
+    list-style: disc;
+    color: $muted;
+    font-size: 0.92rem;
+    line-height: 1.6;
+
+    li::marker {
+      color: rgba(214, 181, 109, 0.75);
+    }
+  }
+}
+
+.sector {
+  color: $cyan;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin-top: 0.45rem;
+  color: #f8fafc;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.location {
+  margin-top: 0.25rem;
+  color: $muted;
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.4rem;
+}

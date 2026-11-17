@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Briefcase, CircleHelp, Menu, User, X } from "lucide-react";
+import { Briefcase, CircleHelp, Handshake, Menu, User, X } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "./social-icons";
 import { useIsScrolled } from "../utils/use-is-scrolled";
 import styles from "../styles/header.module.scss";
@@ -20,6 +20,7 @@ type HeaderProps = {
 const navItems = [
   { href: "/about", label: "About", icon: User },
   { href: "/services", label: "Services", icon: Briefcase },
+  { href: "/clients", label: "Clients", icon: Handshake },
   { href: "/faq", label: "FAQ", icon: CircleHelp },
 ];
 

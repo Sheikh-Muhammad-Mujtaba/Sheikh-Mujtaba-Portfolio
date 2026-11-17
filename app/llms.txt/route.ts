@@ -46,6 +46,8 @@ Canonical site: ${siteUrl}
 - [Home](${siteUrl}/): Overview, featured projects and shipped work.
 - [Services](${siteUrl}/services): Engagement types, scope and typical timelines.
 - [About](${siteUrl}/about): Background, stack and how I work.
+- [Clients & Partners](${siteUrl}/clients): Case studies of web, ERP, AI
+  automation and infrastructure security work for real clients.
 - [FAQ](${siteUrl}/faq): Common questions on AI agents, RAG and security work.
 - [Blog](${siteUrl}/blog): Long-form engineering guides.
 - [Full guide text](${siteUrl}/llms-full.txt): every guide in Markdown, for
