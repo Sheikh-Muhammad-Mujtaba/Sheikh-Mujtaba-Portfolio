@@ -188,7 +188,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         ]}
       />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset">
         <div className={styles.wrap}>
           <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/">Home</Link>

@@ -25,8 +25,10 @@
   --color-slate-200: #e2e8f0;
   --color-slate-300: #cbd5e1;
   --color-slate-400: #a8b6c8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
+  /* 500 and 600 are lifted from Tailwind's defaults so muted text passes WCAG AA
+     (4.5:1) on every surface the site uses, down to slate-800 cards. */
+  --color-slate-500: #8a97ab;
+  --color-slate-600: #7d8ba1;
   --color-slate-700: #334155;
   --color-slate-800: #1e293b;
   --color-slate-900: #0f172a;
@@ -102,7 +104,7 @@
     --border: rgba(255, 255, 255, 0.08);
     --text: #f8fafc;
     --muted: #a8b6c8;
-    --muted-deep: #77879e;
+    --muted-deep: #8593a8;
     --cyan: #22d3ee;
     --teal: #14b8a6;
     --gold: #d6b56d;
@@ -137,10 +139,35 @@
     outline-offset: 4px;
   }
 
-  a:focus-visible,
-  button:focus-visible {
-    outline: 2px solid rgba(34, 211, 238, 0.82);
-    outline-offset: 4px;
+  /* One visible focus ring for every interactive element, keyboard only. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Keyboard users can jump straight past the header (WCAG 2.4.1). */
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 10000;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--cyan);
+    color: var(--color-slate-950);
+    font-weight: 800;
+    transform: translateY(-160%);
+    transition: transform 0.2s ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  /* The skip link focuses <main>; a ring around the whole page is just noise. */
+  main[tabindex="-1"]:focus {
+    outline: none;
   }
 
   /* Selection */
@@ -241,6 +268,17 @@
   }
 
   /* Button styles */
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 46px;
+    text-align: center;
+    text-decoration: none;
+  }
+
   .btn-primary {
     background: linear-gradient(135deg, #22d3ee 0%, #14b8a6 100%);
     color: #020617;
@@ -275,13 +313,14 @@
   }
 
   /* Small-screen adjustments for global buttons to improve tap targets */
+  /* Full-width tap targets on small phones. Stays flex so icon + label sit on
+     one line (display: block here used to stack the icon above the text). */
   @media (max-width: 420px) {
     .btn-primary,
     .btn-secondary {
-      display: block;
+      display: flex;
       width: 100%;
       padding: 14px 16px;
-      text-align: center;
       font-size: 1rem;
     }
   }

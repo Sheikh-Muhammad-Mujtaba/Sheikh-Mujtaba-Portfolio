@@ -219,7 +219,7 @@ export default function AboutPage() {
     <>
       <PersonSchema />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset">
         {/* Hero Section */}
         <section className="section-padding relative overflow-hidden">
           {/* Animated background */}
@@ -285,7 +285,7 @@ export default function AboutPage() {
                     rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
-                    <FaGithub className="w-5 h-5" />
+                    <FaGithub className="w-5 h-5" aria-hidden="true" />
                     GitHub
                   </a>
                   <a
@@ -294,7 +294,7 @@ export default function AboutPage() {
                     rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
-                    <FaLinkedin className="w-5 h-5" />
+                    <FaLinkedin className="w-5 h-5" aria-hidden="true" />
                     LinkedIn
                   </a>
                   <a
@@ -303,7 +303,7 @@ export default function AboutPage() {
                     rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
-                    <FaMedium className="w-5 h-5" />
+                    <FaMedium className="w-5 h-5" aria-hidden="true" />
                     Medium
                   </a>
                   <a
@@ -312,14 +312,11 @@ export default function AboutPage() {
                     rel="me noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 glass rounded-xl transition-all duration-300 text-slate-300 hover:text-white hover:border-cyan-500/50"
                   >
-                    <FaXTwitter className="w-5 h-5" />
+                    <FaXTwitter className="w-5 h-5" aria-hidden="true" />
                     X
                   </a>
-                  <a
-                    href="mailto:smujtabaja@gmail.com"
-                    className="btn-primary flex items-center gap-2"
-                  >
-                    <FaEnvelope className="w-4 h-4" />
+                  <a href="mailto:smujtabaja@gmail.com" className="btn-primary">
+                    <FaEnvelope className="w-4 h-4" aria-hidden="true" />
                     Contact
                   </a>
                 </div>
@@ -603,17 +600,17 @@ export default function AboutPage() {
                     Get in Touch
                   </a>
                 </div>
-                <div className="flex items-center justify-center gap-6 text-sm text-slate-500">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full" />
+                <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-400">
+                  <span className="flex items-center gap-2 whitespace-nowrap">
+                    <span aria-hidden="true" className="w-2 h-2 bg-emerald-400 rounded-full" />
                     Pakistan Based
                   </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-cyan-400 rounded-full" />
+                  <span className="flex items-center gap-2 whitespace-nowrap">
+                    <span aria-hidden="true" className="w-2 h-2 bg-cyan-400 rounded-full" />
                     Global Clients
                   </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full" />
+                  <span className="flex items-center gap-2 whitespace-nowrap">
+                    <span aria-hidden="true" className="w-2 h-2 bg-purple-400 rounded-full" />
                     Remote Ready
                   </span>
                 </div>

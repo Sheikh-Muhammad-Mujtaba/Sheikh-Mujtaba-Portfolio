@@ -266,7 +266,7 @@ export default function ServicesPage() {
       <HowToSecureAISystems />
       <ServiceSchema />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset">
         {/* Hero Section */}
         <section className="section-padding text-center relative overflow-hidden">
           {/* Animated background elements */}

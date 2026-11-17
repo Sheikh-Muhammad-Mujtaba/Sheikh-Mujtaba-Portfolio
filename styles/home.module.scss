@@ -1,5 +1,9 @@
 @use "./variables.module.scss" as *;
 
+// Set on <html> by the inline script in app/layout.tsx while the intro plays, so
+// the hero entrance runs as the curtain lifts instead of hidden behind it.
+$intro-offset: var(--intro-offset, 0s);
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -169,15 +173,15 @@
         }
 
         > span:nth-child(1) :global(.titleLine) {
-          animation-delay: 0.42s;
+          animation-delay: calc(#{$intro-offset} + 0.42s);
         }
 
         > span:nth-child(2) :global(.titleLine) {
-          animation-delay: 0.56s;
+          animation-delay: calc(#{$intro-offset} + 0.56s);
         }
 
         > span:nth-child(3) :global(.titleLine) {
-          animation-delay: 0.7s;
+          animation-delay: calc(#{$intro-offset} + 0.7s);
         }
       }
 
@@ -192,7 +196,7 @@
         animation-name: revealUp, gradientShift !important;
         animation-duration: 0.95s, 10s !important;
         animation-timing-function: $ease-premium, ease-in-out !important;
-        animation-delay: 0.56s, 1.2s !important;
+        animation-delay: calc(#{$intro-offset} + 0.56s), 1.2s !important;
         animation-fill-mode: both, none !important;
         animation-iteration-count: 1, infinite !important;
       }
@@ -208,7 +212,7 @@
         animation-name: revealUp, gradientShift !important;
         animation-duration: 0.95s, 10s !important;
         animation-timing-function: $ease-premium, ease-in-out !important;
-        animation-delay: 0.56s, 1.2s !important;
+        animation-delay: calc(#{$intro-offset} + 0.56s), 1.2s !important;
         animation-fill-mode: both, none !important;
         animation-iteration-count: 1, infinite !important;
       }
@@ -361,7 +365,7 @@
       font-weight: 800;
       text-decoration: none;
       transition: transform 0.55s $ease-premium, box-shadow 0.55s $ease-premium, border-color 0.55s $ease-premium, background-color 0.55s $ease-premium;
-      animation: revealUp 0.9s $ease-premium 0.94s both;
+      animation: revealUp 0.9s $ease-premium calc(#{$intro-offset} + 0.94s) both;
 
       @media (max-width: 420px) {
         width: 100%;
@@ -411,7 +415,7 @@
       font-weight: 600;
       line-height: 1.6;
       letter-spacing: 0.03em;
-      animation: revealUp 0.9s $ease-premium 0.82s both;
+      animation: revealUp 0.9s $ease-premium calc(#{$intro-offset} + 0.82s) both;
 
       @media (min-width: 768px) {
         margin: 1.5rem 0 1.75rem;
@@ -931,12 +935,6 @@
       margin-top: 0.35rem;
     }
 
-    .projectListingsContainer {
-      display: grid;
-      gap: clamp(2rem, 5vw, 5rem);
-      width: 100%;
-      margin: 0 auto;
-    }
   }
 
   // ─── QUICK LINKS ────────────────────────────

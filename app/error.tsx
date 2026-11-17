@@ -20,7 +20,7 @@ export default function Error({
   return (
     <div className={styles.page}>
       <Header logoLink="/" />
-      <main className={styles.main}>
+      <main id="main" tabIndex={-1} className={styles.main}>
         <section className={styles.card} aria-labelledby="error-title">
           <span className={styles.signal} aria-hidden="true" />
           <span className={styles.badge}>Unexpected Error</span>

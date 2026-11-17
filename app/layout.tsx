@@ -35,6 +35,19 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = siteMetadata;
 
+/**
+ * Runs before first paint on every full page load (refresh, typed URL, link
+ * from another site). In-site navigation is client-side, so the root layout and
+ * this decision persist and the intro does not replay between pages. Skipped
+ * for visitors who prefer reduced motion.
+ */
+const introGate = [
+  "try{",
+  "document.documentElement.dataset.intro=",
+  'matchMedia("(prefers-reduced-motion: reduce)").matches?"skip":"play"',
+  '}catch(e){document.documentElement.dataset.intro="skip"}',
+].join("");
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -48,8 +61,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {  
   return (
-    <html lang="en" className={`${manrope.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      // Next.js disables the CSS smooth scroll during route changes when this is set.
+      data-scroll-behavior="smooth"
+      // The intro gate sets data-intro on <html> before React hydrates.
+      suppressHydrationWarning
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: introGate }} />
         <PersonJsonLd />
         <WebSiteJsonLd />
         <ProfessionalServiceJsonLd />
@@ -74,6 +95,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <IntroOverlay />
         {children}
         <DeferredChat />

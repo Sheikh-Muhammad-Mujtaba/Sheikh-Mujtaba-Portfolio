@@ -36,7 +36,7 @@ export default function FAQPage() {
       <FAQJsonLd />
       <BreadcrumbSchema />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset overflow-x-hidden">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset overflow-x-hidden">
         {/* Hero Section */}
         <section className="section-padding text-center relative overflow-hidden px-4">
           {/* Animated background elements */}

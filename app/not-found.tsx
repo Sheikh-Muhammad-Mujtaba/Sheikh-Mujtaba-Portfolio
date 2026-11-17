@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className={styles.page}>
       <Header logoLink="/" />
-      <main className={styles.main}>
+      <main id="main" tabIndex={-1} className={styles.main}>
         <section className={styles.card} aria-labelledby="not-found-title">
           <span className={styles.signal} aria-hidden="true" />
           <span className={styles.badge}>Page Not Found</span>

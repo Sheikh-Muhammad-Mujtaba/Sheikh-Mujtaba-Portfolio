@@ -92,6 +92,9 @@ export default function CyberPlayer({
           clickToPlay={false}
           doubleClickToFullscreen={false}
           spaceKeyToPlayOrPause={false}
+          // These layers are silent. Without this the player pre-creates
+          // <audio src="data:..."> tags, which the site CSP (rightly) blocks.
+          numberOfSharedAudioTags={0}
           acknowledgeRemotionLicense
           style={{ width: "100%", height: "100%", background: "transparent" }}
         />

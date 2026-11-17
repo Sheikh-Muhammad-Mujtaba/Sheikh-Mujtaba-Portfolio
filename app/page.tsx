@@ -9,7 +9,7 @@ import { socialMetadata } from "../utils/seo";
 import styles from "../styles/home.module.scss";
 
 import Header from "../components/header";
-import ProjectListing from "../components/project-listing";
+import ProjectGrid from "../components/project-grid";
 import FeaturedShowcase from "../components/featured-showcase";
 import ScrollAnimationsLoader from "../components/scroll-animations-loader";
 import { HeroBackdrop, PortraitHud } from "../components/remotion/lazy";
@@ -114,7 +114,7 @@ export default function Homepage() {
     <div className={styles.homeContainer}>
       <div>
         <Header logoLink="/" floating />
-        <main>
+        <main id="main" tabIndex={-1}>
           <section className={`${styles.hero} px-1`} data-hero>
             <HeroBackdrop className={styles.heroBackdrop} />
             <div className={styles.cta}>
@@ -301,11 +301,7 @@ export default function Homepage() {
               </p>
             </div>
 
-            <div className={styles.projectListingsContainer}>
-              {projectsList.map((project) => (
-                <ProjectListing key={project.slug} project={project} />
-              ))}
-            </div>
+            <ProjectGrid projects={projectsList} />
           </section>
 
           {/* Quick Links Section */}
