@@ -1,99 +1,68 @@
 "use client";
 
-
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "../styles/intro-overlay.module.scss";
-import { BreachIntro } from "./remotion/lazy";
 
+/** Must match the end of the `curtainLift` animation in intro-overlay.module.scss. */
+const INTRO_DURATION_MS = 1900;
+
+/**
+ * Brand reveal shown on every full page load, never on in-site navigation.
+ *
+ * Whether it plays is decided before first paint by the inline script in
+ * `app/layout.tsx`, which sets `<html data-intro="play" | "skip">`. The overlay
+ * is server-rendered and CSS-driven, so it is visible from the very first frame
+ * and still clears itself if JavaScript never runs. This component only removes
+ * it from the DOM afterwards.
+ */
 export default function IntroOverlay() {
-  const overlayRef = useRef<HTMLDivElement | null>(null);
-  const logoRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(true);
 
-  /**
-   * `phase`:
-   *  "visible"  — overlay is in the DOM + animating
-   *  "done"     — animation finished → remove from DOM entirely
-   */
-  const [phase, setPhase] = useState<"visible" | "done">("visible");
-
-
-  /* ── Once visible: compute logo travel target & set removal timer ───── */
   useEffect(() => {
-    if (phase !== "visible") return;
+    // When skipped, `html[data-intro="skip"]` already hides it with CSS.
+    if (document.documentElement.dataset.intro !== "play") return;
 
-    const overlay = overlayRef.current;
-    const logo = logoRef.current;
-    if (!overlay || !logo) return;
+    const timer = window.setTimeout(() => {
+      setMounted(false);
+      document.documentElement.dataset.intro = "done";
+      window.dispatchEvent(new Event("smj-intro-done"));
+    }, INTRO_DURATION_MS);
 
-    /* Calculate translation so the animated logo lands exactly on the
-       real header logo after the travel phase. */
-    const computeTarget = () => {
-      const headerLogo = document.querySelector<HTMLElement>('[data-header-logo="true"]');
-      const logoRect = logo.getBoundingClientRect();
-      const headerRect = headerLogo?.getBoundingClientRect();
+    return () => window.clearTimeout(timer);
+  }, []);
 
-      if (!headerRect || logoRect.width === 0 || logoRect.height === 0) return;
-
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const targetX = headerRect.left + headerRect.width / 2;
-      const targetY = headerRect.top + headerRect.height / 2;
-
-      overlay.style.setProperty("--intro-logo-x", `${targetX - centerX}px`);
-      overlay.style.setProperty("--intro-logo-y", `${targetY - centerY}px`);
-      overlay.style.setProperty(
-        "--intro-logo-scale",
-        `${headerRect.width / logoRect.width}`
-      );
-    };
-
-    computeTarget();
-    window.addEventListener("resize", computeTarget);
-
-    /*
-     * Total overlay CSS animation = 4 s hold + 1.2 s fade = 5.2 s.
-     * We unmount at 5.4 s (200 ms buffer) so the DOM element is
-     * fully gone before the chat widget ever needs to be interacted with.
-     */
-    const removeTimer = window.setTimeout(() => {
-      setPhase("done");
-      try {
-        window.dispatchEvent(new Event("smj-intro-done"));
-      } catch {}
-    }, 5400);
-
-    return () => {
-      window.removeEventListener("resize", computeTarget);
-      window.clearTimeout(removeTimer);
-    };
-  }, [phase]);
-
-  /* ── Nothing to render after animation done ──── */
-  if (phase === "done") {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
-    <div
-      ref={overlayRef}
-      className={styles.introOverlay}
-      aria-hidden="true"
-      aria-live="off"
-    >
-      <div className={styles.overlayBackground} />
-      <BreachIntro className={styles.cyberLayer} />
-      <div ref={logoRef} className={styles.premiumLogoWrapper}>
-        <Image
-          src="/Logo.avif"
-          alt=""
-          fill
-          className={styles.premiumLogo}
-          priority
-          quality={100}
-          sizes="(max-width: 640px) 96px, (max-width: 1024px) 130px, 160px"
-        />
+    <div className={styles.overlay} aria-hidden="true">
+      <div className={styles.stage}>
+        <div className={styles.mark}>
+          <svg className={styles.ring} viewBox="0 0 120 120" focusable="false">
+            <defs>
+              <linearGradient id="intro-ring" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#d6b56d" />
+                <stop offset="55%" stopColor="#22d3ee" />
+                <stop offset="100%" stopColor="#d6b56d" />
+              </linearGradient>
+            </defs>
+            <circle className={styles.ringTrack} cx="60" cy="60" r="56" />
+            <circle className={styles.ringStroke} cx="60" cy="60" r="56" />
+          </svg>
+          <Image
+            src="/Logo.avif"
+            alt=""
+            width={112}
+            height={112}
+            className={styles.logo}
+            priority
+          />
+        </div>
+
+        <p className={styles.name}>Sheikh Mujtaba</p>
+        <p className={styles.title}>AI Security Engineer &amp; AI Developer</p>
+        <span className={styles.progress} />
       </div>
     </div>
   );

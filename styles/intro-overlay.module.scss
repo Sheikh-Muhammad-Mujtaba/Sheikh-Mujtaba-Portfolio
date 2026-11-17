@@ -1,189 +1,193 @@
 @use "./variables.module.scss" as *;
 
-/* ─── Intro Overlay ────────────────────────────────────────────────────────── */
-.introOverlay {
-  /* CSS custom-property fallbacks (overridden by JS once header rect is known) */
-  --intro-logo-x: 0px;
-  --intro-logo-y: 0px;
-  --intro-logo-scale: 0.3;
+/*
+ * Brand reveal — one 2s CSS timeline, no JavaScript needed to run or end it.
+ *
+ *   0.00s  logo settles in, ring starts drawing
+ *   0.30s  name, then title, fade up; hairline starts filling
+ *   1.20s  content lifts and fades
+ *   1.25s  ring and hairline complete; curtain lifts upward (ends 1.85s)
+ *
+ * Keep INTRO_DURATION_MS in components/intro-overlay.tsx and the
+ * --intro-offset value in app/layout.tsx in step with these timings.
+ */
 
+$gold: #d6b56d;
+$serif: var(--font-instrument-serif), Georgia, serif;
+
+.overlay {
   position: fixed;
   inset: 0;
-  /*
-   * IMPORTANT z-index strategy
-   * ─────────────────────────────────────────────────────────────────
-   * Overlay sits at 1000 while visible so it covers the page.
-   * The CSS animation drops it to visibility:hidden + pointer-events:none
-   * after ~6 s so the chat widget (z-40 / z-[60]) is NEVER blocked.
-   * The chat widget must NOT use a z-index higher than 1000 while the
-   * overlay is still fading — that battle is won by timing, not by
-   * ever-escalating z-index races.
-   * ─────────────────────────────────────────────────────────────────
-   */
   z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* CRITICAL — pointer-events blocked while visible, gone after exit */
-  pointer-events: all;
-
+  display: grid;
+  place-items: center;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 42%, rgba(34, 211, 238, 0.1), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 70%, rgba(214, 181, 109, 0.07), transparent 70%),
+    #020617;
+  pointer-events: all;
+  animation: curtainLift 0.6s cubic-bezier(0.76, 0, 0.24, 1) 1.25s forwards;
+}
 
-  /* ── Step 1: full-opacity hold for 4 s, then 1.2 s fade + collapse ── */
-  animation: overlayExit 1.2s $ease-premium 4s forwards;
+// Decided before first paint by the inline script in app/layout.tsx.
+:global(html[data-intro="skip"]) .overlay,
+:global(html[data-intro="done"]) .overlay {
+  display: none;
+}
 
-  /* ── Background layer ─────────────────────────────────────────────── */
-  .overlayBackground {
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
+  text-align: center;
+  animation: stageOut 0.3s $ease-premium 1.2s forwards;
+}
+
+.mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(104px, 22vw, 136px);
+  aspect-ratio: 1;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack,
+.ringStroke {
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.ringTrack {
+  stroke: rgba(148, 163, 184, 0.14);
+}
+
+.ringStroke {
+  stroke: url(#intro-ring);
+  stroke-linecap: round;
+  // Circumference of r=56 is ~351.9.
+  stroke-dasharray: 352;
+  stroke-dashoffset: 352;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.45));
+  animation: ringDraw 1.05s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+}
+
+.logo {
+  width: 78%;
+  height: 78%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 18px 50px rgba(0, 0, 0, 0.55),
+    0 0 46px rgba(34, 211, 238, 0.16);
+  animation: logoIn 0.7s $ease-premium both;
+}
+
+.name {
+  margin-top: clamp(1.4rem, 4vh, 2rem);
+  color: #f8fafc;
+  font-family: $serif;
+  font-size: clamp(1.9rem, 6vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  animation: textIn 0.7s $ease-premium 0.3s both;
+}
+
+.title {
+  margin-top: 0.7rem;
+  color: $gold;
+  font-size: clamp(0.62rem, 1.8vw, 0.74rem);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  animation: textIn 0.7s $ease-premium 0.42s both;
+}
+
+.progress {
+  position: relative;
+  width: clamp(120px, 30vw, 168px);
+  height: 1px;
+  margin-top: clamp(1.4rem, 4vh, 1.9rem);
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.16);
+  animation: textIn 0.5s $ease-premium 0.42s both;
+
+  &::after {
+    content: "";
     position: absolute;
     inset: 0;
-    z-index: 0;
-    background:
-      radial-gradient(ellipse at 40% 35%, rgba(34, 211, 238, 0.14) 0%, transparent 55%),
-      radial-gradient(ellipse at 68% 65%, rgba(214, 181, 109, 0.10) 0%, transparent 50%),
-      #020617;
-    /* Fades out 0.4 s before the overlay wrapper, so the logo lands
-       against the transparent real page rather than a black screen */
-    animation: backgroundExit 0.8s $ease-premium 3.8s forwards;
-  }
-
-  /* ── Remotion boot-sequence layer (components/remotion) ───────────── */
-  .cyberLayer {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    animation: backgroundExit 0.8s $ease-premium 3.8s forwards;
-  }
-
-  /* ── Logo circle wrapper ──────────────────────────────────────────── */
-  .premiumLogoWrapper {
-    position: relative;
-    width: clamp(80px, 18vw, 160px);
-    height: clamp(80px, 18vw, 160px);
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08), transparent 70%);
-    box-shadow:
-      inset -2px -2px 8px rgba(0, 0, 0, 0.45),
-      inset 2px 2px 8px rgba(255, 255, 255, 0.06),
-      0 0 60px rgba(34, 211, 238, 0.22),
-      0 20px 60px rgba(0, 0, 0, 0.5);
-    will-change: transform, opacity, filter;
-    transform-origin: center center;
-    /*
-     * Phase 1  0 → 15%   — fade + blur in from below       (~0.6 s)
-     * Phase 2  15% → 75% — hold centre, visible             (~2.4 s)
-     * Phase 3  75% → 100% — travel to header-logo position  (~1 s)
-     * Total:  4 s  (perfectly matches the overlayExit delay)
-     */
-    animation: logoTravel 4s linear forwards;
-
-    /* Ambient glow ring */
-    &::before {
-      content: "";
-      position: absolute;
-      width: 160%;
-      height: 160%;
-      border-radius: 50%;
-      background: radial-gradient(circle at center, rgba(34, 211, 238, 0.18), transparent 65%);
-      z-index: -1;
-      animation: glowPulse 2.4s ease-in-out 0.6s infinite alternate;
-    }
-
-    .premiumLogo {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.28));
-    }
+    background: linear-gradient(90deg, $gold, #22d3ee);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: progressFill 0.95s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
   }
 }
 
-/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+/* ─── Keyframes ────────────────────────────────────────────── */
 
-@keyframes logoTravel {
-  0% {
-    opacity: 1;
-    filter: blur(6px) brightness(0.8);
-    transform: translate3d(0, -100vh, 0) scale(0.9);
-    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
-  }
-
-  20% {
-    opacity: 1;
-    filter: blur(0) brightness(1);
-    transform: translate3d(0, 0, 0) scale(1.05, 0.95); /* squash on impact */
-    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ease-out (bounce up) */
-  }
-
-  32% {
-    transform: translate3d(0, -12vh, 0) scale(1, 1);
-    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
-  }
-
-  42% {
-    transform: translate3d(0, 0, 0) scale(1.02, 0.98); /* slight squash */
-    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ease-out (bounce up) */
-  }
-
-  48% {
-    transform: translate3d(0, -3vh, 0) scale(1, 1);
-    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53); /* ease-in (gravity) */
-  }
-
-  52% {
-    transform: translate3d(0, 0, 0) scale(1, 1);
-    /* Rest and wait */
-  }
-
-  72% {
-    opacity: 1;
-    filter: blur(0) brightness(1);
-    transform: translate3d(0, 0, 0) scale(1);
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* smooth ease for final travel */
-  }
-
-  100% {
+@keyframes logoIn {
+  from {
     opacity: 0;
-    filter: blur(6px) brightness(0.5);
-    transform: translate3d(var(--intro-logo-x), var(--intro-logo-y), 0)
-      scale(var(--intro-logo-scale));
+    filter: blur(8px);
+    transform: scale(0.9);
   }
 }
 
-@keyframes glowPulse {
-  from { opacity: 0.5; transform: scale(0.95); }
-  to   { opacity: 1;   transform: scale(1.05); }
+@keyframes ringDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-@keyframes backgroundExit {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+@keyframes textIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
 }
 
-@keyframes overlayExit {
-  0%   { opacity: 1; visibility: visible; pointer-events: all; }
-  99%  { opacity: 0; visibility: visible; pointer-events: none; }
-  100% { opacity: 0; visibility: hidden;  pointer-events: none; }
+@keyframes progressFill {
+  to {
+    transform: scaleX(1);
+  }
 }
 
-/* ─── Reduced-motion: skip the show gracefully ────────────────────────── */
+@keyframes stageOut {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0) scale(0.98);
+  }
+}
+
+@keyframes curtainLift {
+  0% {
+    clip-path: inset(0 0 0 0);
+  }
+  99% {
+    clip-path: inset(0 0 100% 0);
+    visibility: visible;
+    pointer-events: none;
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+// Belt and braces: the inline script already skips the intro for these users.
 @media (prefers-reduced-motion: reduce) {
-  .introOverlay {
-    animation: overlayExit 0.01s linear 0.5s forwards;
-
-    .premiumLogoWrapper {
-      animation: none;
-    }
-
-    .overlayBackground {
-      animation: none;
-    }
+  .overlay {
+    display: none;
   }
 }

@@ -14,11 +14,6 @@ const PortraitHudLayer = dynamic(() => import("./cyber-layers").then((m) => m.Po
   loading: () => null,
 });
 
-export const BreachIntro = dynamic(() => import("./cyber-layers").then((m) => m.BreachIntroLayer), {
-  ssr: false,
-  loading: () => null,
-});
-
 /**
  * True once the page has loaded and the main thread is idle. The decorative
  * layers sit behind the intro overlay until then, so rendering them earlier

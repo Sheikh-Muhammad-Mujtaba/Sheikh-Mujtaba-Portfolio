@@ -3,3 +3,11 @@
   color: #050b14;
   background-color: #0ea5e9;
 }
+
+/* Brand intro (components/intro-overlay.tsx): while it plays, and after, the
+   homepage hero entrance waits for the curtain. Kept on "done" so delays never
+   change mid-animation. */
+html[data-intro="play"],
+html[data-intro="done"] {
+  --intro-offset: 1.15s;
+}
