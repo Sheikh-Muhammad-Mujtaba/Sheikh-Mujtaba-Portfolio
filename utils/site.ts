@@ -2,7 +2,7 @@
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://sheikhmujtaba.me";
 
-export const siteName = "Sheikh Mujtaba — AI Developer & Security Engineer";
+export const siteName = "Sheikh Mujtaba - AI Security Engineer & AI Developer";
 
 export const authorName = "Sheikh Mujtaba";
 

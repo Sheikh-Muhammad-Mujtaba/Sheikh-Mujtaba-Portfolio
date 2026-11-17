@@ -14,18 +14,20 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: "/favicon.ico",
-        sizes: "48x48",
+        sizes: "16x16 32x32 48x48",
         type: "image/x-icon",
       },
       {
-        src: "/Logo.avif",
+        src: "/icon-192.png",
         sizes: "192x192",
         type: "image/png",
+        purpose: "any",
       },
       {
-        src: "/Logo.avif",
+        src: "/icon-512.png",
         sizes: "512x512",
         type: "image/png",
+        purpose: "any",
       },
     ],
     categories: ["portfolio", "technology", "business"],

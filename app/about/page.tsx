@@ -12,6 +12,7 @@ import {
   authorSameAs,
   ids,
 } from "../../utils/site";
+import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
   title: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer",
@@ -32,11 +33,12 @@ export const metadata: Metadata = {
     "FastAPI developer",
     "hire AI developer",
   ],
-  openGraph: {
+  ...socialMetadata({
+    url: "https://sheikhmujtaba.me/about",
     title: "About Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer",
     description: "AI Security Engineer and AI Developer: AI red teaming, secure agentic AI and RAG pipelines.",
     type: "profile",
-  },
+  }),
   alternates: {
     canonical: "https://sheikhmujtaba.me/about",
   },

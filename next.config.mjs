@@ -59,17 +59,10 @@ const nextConfig = {
           },
         ],
       },
-      {
-        // Same treatment for anything served straight out of /public that is an
-        // asset rather than a page.
-        source: "/:path*.(avif|webp|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|otf|mp4|webm)",
-        headers: [
-          {
-            key: "X-Robots-Tag",
-            value: "noindex, noimageindex",
-          },
-        ],
-      },
+      // Files in /public (favicon, icons, profile photo, project screenshots)
+      // are deliberately NOT noindexed: a noindexed favicon risks being skipped
+      // for the search-result icon, and `noimageindex` kept the profile photo
+      // out of Google Images for name searches.
       {
         source: "/(.*)",
         headers: [

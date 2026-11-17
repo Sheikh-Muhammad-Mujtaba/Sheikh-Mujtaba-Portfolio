@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { socialMetadata } from "../utils/seo";
+
 const siteUrl = "https://sheikhmujtaba.me";
 
 export const siteMetadata: Metadata = {
@@ -64,40 +66,12 @@ export const siteMetadata: Metadata = {
     },
   },
 
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteUrl,
-    siteName: "Sheikh Mujtaba Portfolio",
-    title: "Sheikh Mujtaba | AI Developer & Security Engineer",
+  ...socialMetadata({
+    url: `${siteUrl}/`,
+    title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer & AI Developer",
     description:
-      "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture.",
-    images: [
-      {
-        // Use the dynamic Open Graph image route which generates the image server-side
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Sheikh Mujtaba - AI Developer & Security Engineer",
-      },
-      {
-        url: "/Logo.avif",
-        width: 500,
-        height: 500,
-        alt: "Mujtaba Logo",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Sheikh Mujtaba | AI Developer & Security Engineer",
-    description:
-      "AI Developer and Security Engineer specializing in Agentic AI systems, RAG pipelines, and secure-by-design architecture.",
-    site: "@Mujtaba_Javed_",
-    creator: "@Mujtaba_Javed_",
-    images: ["/opengraph-image"],
-  },
+      "AI Security Engineer and AI Developer: AI red teaming, prompt injection testing, secure AI agents, RAG pipelines and ERPNext automation.",
+  }),
 
   // Search Console: set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to the real token.
   // The literal placeholder used to be published as a meta tag.

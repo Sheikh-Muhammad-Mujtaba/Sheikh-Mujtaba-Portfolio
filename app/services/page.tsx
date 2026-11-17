@@ -5,6 +5,7 @@ import Header from "../../components/header";
 import { HowToBuildAIAgents, HowToSecureAISystems } from "../../components/howto-schema";
 import { FaRobot, FaDatabase, FaShieldAlt, FaCode, FaArrowRight, FaCheck } from "react-icons/fa";
 import { ids } from "../../utils/site";
+import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
   title: "Services - AI Development & Security Engineering | Sheikh Mujtaba",
@@ -22,11 +23,12 @@ export const metadata: Metadata = {
     "AI consulting",
     "Next.js development services",
   ],
-  openGraph: {
+  ...socialMetadata({
+    url: "https://sheikhmujtaba.me/services",
     title: "AI Development & Security Engineering Services",
-    description: "AI agent development, RAG pipelines and security engineering, scoped to your project with clear timelines",
-    type: "website",
-  },
+    description:
+      "AI agent development, RAG pipelines and security engineering, scoped to your project with clear timelines",
+  }),
   alternates: {
     canonical: "https://sheikhmujtaba.me/services",
   },

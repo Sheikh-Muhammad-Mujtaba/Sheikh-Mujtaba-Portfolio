@@ -107,7 +107,7 @@ export function ProfessionalServiceJsonLd() {
       name: "Worldwide",
     },
     priceRange: "$$",
-    image: `${siteUrl}/opengraph-image.png`,
+    image: `${siteUrl}/opengraph-image`,
     address: {
       "@type": "PostalAddress",
       addressCountry: "PK",

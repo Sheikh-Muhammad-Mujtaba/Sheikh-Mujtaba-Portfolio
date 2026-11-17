@@ -4,6 +4,8 @@ import { GitHubIcon, LinkedInIcon, LinktreeIcon, MediumIcon, XIcon } from "../co
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
+import { socialMetadata } from "../utils/seo";
+
 import styles from "../styles/home.module.scss";
 
 import Header from "../components/header";
@@ -72,31 +74,12 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteUrl,
-    siteName: "Sheikh Mujtaba - AI Security Engineer & AI Developer",
+  ...socialMetadata({
+    url: `${siteUrl}/`,
     title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer & AI Developer",
-    description: "AI Security Engineer and AI Developer: AI red teaming, prompt injection testing, secure AI agents, RAG pipelines and ERPNext automation.",
-    images: [
-      {
-        url: `${siteUrl}/opengraph-image`,
-        width: 1200,
-        height: 630,
-        alt: "Sheikh Mujtaba (Mujtaba Javed) - AI Security Engineer & AI Developer",
-        type: "image/png",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sheikh Mujtaba (Mujtaba Javed) | AI Security Engineer",
-    description: "AI red teaming, prompt injection testing and secure AI agents, RAG pipelines and ERPNext automation.",
-    images: [`${siteUrl}/opengraph-image`],
-    site: "@Mujtaba_Javed_",
-    creator: "@Mujtaba_Javed_",
-  },
+    description:
+      "AI Security Engineer and AI Developer: AI red teaming, prompt injection testing, secure AI agents, RAG pipelines and ERPNext automation.",
+  }),
   alternates: {
     canonical: siteUrl,
   },

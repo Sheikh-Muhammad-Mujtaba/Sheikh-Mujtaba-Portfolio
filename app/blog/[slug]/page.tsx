@@ -16,6 +16,7 @@ import {
   type BlogPost,
 } from "../../../utils/blog-data";
 import { authorAlternateNames, authorJobTitle, authorRef, ids, siteUrl, topicFor } from "../../../utils/site";
+import { socialMetadata } from "../../../utils/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -41,21 +42,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: post.keywords,
     authors: [{ name: "Sheikh Mujtaba", url: `${siteUrl}/about` }],
     alternates: { canonical: url },
-    openGraph: {
-      type: "article",
+    ...socialMetadata({
       url,
       title: post.title,
       description: post.description,
-      publishedTime: post.published,
-      modifiedTime: post.updated,
-      authors: ["Sheikh Mujtaba"],
-      tags: post.keywords,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.description,
-    },
+      image: {
+        url: `${url}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: post.title,
+      },
+      article: {
+        publishedTime: post.published,
+        modifiedTime: post.updated,
+        authors: [`${siteUrl}/about`],
+        tags: post.keywords,
+      },
+    }),
   };
 }
 
@@ -124,7 +128,7 @@ function ArticleJsonLd({ post }: { post: BlogPost }) {
       "@type": "SpeakableSpecification",
       cssSelector: ["[data-speakable]"],
     },
-    image: `${siteUrl}/opengraph-image`,
+    image: `${url}/opengraph-image`,
   };
 
   const faq = {

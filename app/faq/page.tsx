@@ -3,6 +3,7 @@ import Link from "next/link";
 import FAQSection, { FAQJsonLd } from "../../components/faq-section";
 import { BreadcrumbSchema } from "../../components/howto-schema";
 import Header from "../../components/header";
+import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
   title: "FAQ - AI Development & Security Engineering | Sheikh Mujtaba",
@@ -19,11 +20,11 @@ export const metadata: Metadata = {
     "multi-agent systems",
     "AI security questions",
   ],
-  openGraph: {
+  ...socialMetadata({
+    url: "https://sheikhmujtaba.me/faq",
     title: "FAQ - AI Development & Security Engineering",
     description: "Common questions about Agentic AI, RAG pipelines, and AI development services",
-    type: "website",
-  },
+  }),
   alternates: {
     canonical: "https://sheikhmujtaba.me/faq",
   },

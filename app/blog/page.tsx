@@ -6,6 +6,7 @@ import { BreadcrumbJsonLd } from "../../components/json-ld";
 import styles from "../../styles/blog.module.scss";
 import { blogPosts, leadAnswer } from "../../utils/blog-data";
 import { authorRef, ids, siteUrl } from "../../utils/site";
+import { socialMetadata } from "../../utils/seo";
 
 export const metadata: Metadata = {
   title:
@@ -20,13 +21,12 @@ export const metadata: Metadata = {
     "AI automation blog",
     "Sheikh Mujtaba blog",
   ],
-  openGraph: {
-    type: "website",
+  ...socialMetadata({
     url: `${siteUrl}/blog`,
-    title: "Engineering Notes — ERPNext, Agentic AI & AI Security",
+    title: "Engineering Notes - ERPNext, Agentic AI & AI Security",
     description:
       "Long-form guides on ERPNext development, agentic AI architecture, AI security and business workflow automation.",
-  },
+  }),
   alternates: {
     canonical: `${siteUrl}/blog`,
   },
