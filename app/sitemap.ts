@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
+import { clients } from "../data/clients";
 import { blogPosts } from "../utils/blog-data";
+import { projectPages } from "../utils/project-details";
 import { rolePages } from "../utils/role-data";
 import { siteUrl } from "../utils/site";
 
@@ -31,6 +33,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const caseStudies: MetadataRoute.Sitemap = clients.map((client) => ({
+    url: `${siteUrl}/clients/${client.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const projects: MetadataRoute.Sitemap = projectPages.map((page) => ({
+    url: `${siteUrl}/projects/${page.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   return [
     {
       url: `${siteUrl}/`,
@@ -46,6 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/projects`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
@@ -69,6 +91,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...roles,
+    ...caseStudies,
+    ...projects,
     ...posts,
   ];
 }

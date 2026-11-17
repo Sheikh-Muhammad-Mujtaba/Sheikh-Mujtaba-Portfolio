@@ -175,9 +175,9 @@ export default function FeaturedShowcase({ projects }: FeaturedShowcaseProps) {
                     </a>
                   )}
                   <a
-                    href={`#${project.slug}`}
+                    href={`/projects/${project.slug}`}
                     className={styles.cardMore}
-                    title={`Jump to full details for ${project.name}`}
+                    title={`Read the ${project.name} project`}
                   >
                     Full Details
                   </a>

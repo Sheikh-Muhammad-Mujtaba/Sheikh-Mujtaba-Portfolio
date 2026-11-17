@@ -46,6 +46,8 @@ Canonical site: ${siteUrl}
 - [Home](${siteUrl}/): Overview, featured projects and shipped work.
 - [Services](${siteUrl}/services): Engagement types, scope and typical timelines.
 - [About](${siteUrl}/about): Background, stack and how I work.
+- [Projects](${siteUrl}/projects): Every project with a write-up of what was
+  built, how and why.
 - [Clients & Partners](${siteUrl}/clients): Case studies of web, ERP, AI
   automation and infrastructure security work for real clients.
 - [FAQ](${siteUrl}/faq): Common questions on AI agents, RAG and security work.

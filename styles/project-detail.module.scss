@@ -1,0 +1,46 @@
+@use "./variables.module.scss" as *;
+
+/* ─── /projects/[slug] ──────────────────────────────────────── */
+
+.media {
+  max-width: 860px;
+  margin: 0 0 clamp(2rem, 5vh, 2.8rem);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.stack {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.5rem !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+
+  li {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: 999px;
+    color: #e2e8f0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+
+    &::marker {
+      content: "";
+    }
+  }
+}

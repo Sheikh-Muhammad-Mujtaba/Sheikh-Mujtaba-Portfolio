@@ -120,7 +120,7 @@ function ProjectEvidence({ projects }: { projects: ProjectType[] }) {
       <h2 id="projects-heading">Work that backs this up</h2>
       <div className={styles.relatedGrid}>
         {projects.map((project) => (
-          <Link key={project.slug} href={`/#${project.slug}`} className={styles.relatedCard}>
+          <Link key={project.slug} href={`/projects/${project.slug}`} className={styles.relatedCard}>
             <strong>{project.name}</strong>
             <span>{project.description}</span>
           </Link>
@@ -171,7 +171,7 @@ export default async function RolePageRoute({ params }: PageProps) {
         ]}
       />
       <Header logoLink="/" floating />
-      <main className="min-h-screen text-white header-offset">
+      <main id="main" tabIndex={-1} className="min-h-screen text-white header-offset">
         <div className={styles.wrap}>
           <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/">Home</Link>
